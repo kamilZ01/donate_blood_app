@@ -1,3 +1,4 @@
+import 'package:donate_blood/Screens/HomeUserPage/home_page_screen.dart';
 import 'package:donate_blood/Screens/Login/components/background.dart';
 import 'package:donate_blood/Screens/Signup/signup_screen.dart';
 import 'package:donate_blood/components/already_have_an_account_check.dart';
@@ -38,7 +39,16 @@ class Body extends StatelessWidget {
             ),
             RoundedButton(
               text: "LOGIN",
-              press: () {},
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return HomePageScreen();
+                    },
+                  ),
+                );
+              },
             ),
             SizedBox(height: size.height * 0.02),
             AlreadyHaveAnAccountCheck(
