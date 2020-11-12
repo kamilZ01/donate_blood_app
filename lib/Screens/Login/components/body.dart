@@ -24,7 +24,7 @@ class Body extends StatelessWidget {
               "LOGIN",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            Positioned(
+            Container(
               child: Image.asset(
                 "assets/icons/login2.png",
                 width: size.width * 0.5,

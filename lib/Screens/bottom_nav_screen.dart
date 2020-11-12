@@ -1,4 +1,5 @@
 import 'package:donate_blood/Screens/HomeUserPage/components/home_screen.dart';
+import 'package:donate_blood/Screens/ProfileDetails/profile_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavScreen extends StatefulWidget {
@@ -9,9 +10,9 @@ class BottomNavScreen extends StatefulWidget {
 class _BottomNavScreenState extends State<BottomNavScreen> {
   final List _screens = [
     HomeScreen(),
-    Scaffold(),
-    Scaffold(),
-    Scaffold(),
+    Container(),
+    Container(),
+    ProfilePage(),
   ];
   int _currentIndex = 0;
   @override

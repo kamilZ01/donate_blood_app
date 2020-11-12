@@ -25,7 +25,7 @@ class Body extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Positioned(
+            Container(
               child: Image.asset(
                 "assets/icons/sign.png",
                 height: size.height * 0.3,

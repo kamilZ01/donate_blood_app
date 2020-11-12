@@ -41,7 +41,7 @@ class Body extends StatelessWidget {
               ),
             ),
             SizedBox(height: size.height * 0.05),
-            Positioned(
+            Container(
               child: Image.asset("assets/images/heart.png",
                   width: size.width * 0.8),
             ),
