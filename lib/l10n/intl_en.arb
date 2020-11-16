@@ -1,0 +1,16 @@
+{
+  "@@locale": "en",
+  "appTitle": "Donate Blood",
+  "userNotFound": "No user found for that email.",
+  "wrongPassword": "Wrong password provided for that user.",
+  "userDisabled": "The user corresponding to the given email has been disabled",
+  "loginError": "There was an undefined login problem.",
+  "weakPassword": "The password provided is too weak.",
+  "emailAlreadyUser": "The account already exists for that email.",
+  "changedEmail": "Successful changed email",
+  "notChangedEmail": "Email can't be changed. Error: {error}",
+  "changedPassword": "Successful changed password",
+  "notChangedPassword": "Password can't be changed. Error: {error}",
+  "userDeleted": "Successful user deleted.",
+  "notUserDeleted": "User can't be delete. Error: {error}"
+}
