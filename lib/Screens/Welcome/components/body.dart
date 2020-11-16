@@ -3,6 +3,7 @@ import 'package:donate_blood/Screens/Signup/signup_screen.dart';
 import 'package:donate_blood/Screens/Welcome/components/background.dart';
 import 'package:donate_blood/components/rounded_button.dart';
 import 'package:donate_blood/constants.dart';
+import 'package:donate_blood/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,11 +22,11 @@ class Body extends StatelessWidget {
                 style: DefaultTextStyle.of(context).style,
                 children: <TextSpan>[
                   TextSpan(
-                      text: 'DONATE \n',
+                      text: S.of(context).donate,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 35)),
                   TextSpan(
-                    text: 'BLOOD \n',
+                    text: S.of(context).blood,
                     style: TextStyle(
                       color: Colors.red,
                       fontStyle: FontStyle.italic,
@@ -34,7 +35,7 @@ class Body extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: 'SAVE LIVES',
+                    text: S.of(context).saveLives,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 31),
                   ),
                 ],
@@ -47,7 +48,7 @@ class Body extends StatelessWidget {
             ),
             SizedBox(height: size.height * 0.05),
             RoundedButton(
-              text: "LOGIN",
+              text: S.of(context).login,
               press: () {
                 Navigator.push(
                   context,
@@ -60,7 +61,7 @@ class Body extends StatelessWidget {
               },
             ),
             RoundedButton(
-              text: "SIGN UP",
+              text: S.of(context).signUp,
               color: kPrimaryLightColor,
               textColor: Colors.black,
               press: () {

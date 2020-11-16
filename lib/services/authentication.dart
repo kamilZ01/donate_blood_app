@@ -24,7 +24,12 @@ abstract class BaseAuth {
 }
 
 class Auth implements BaseAuth {
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  static Auth _auth;
+  static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  Auth._internal();
+
+  factory Auth() => _auth ?? Auth._internal();
 
   @override
   Future<String> signIn(String email, String password) async {
@@ -43,8 +48,11 @@ class Auth implements BaseAuth {
         case 'user-disabled':
           return S.current.wrongPassword;
           break;
+        case 'invalid-email':
+          return S.current.invalidEmail;
+          break;
         default:
-          return S.current.loginError;
+          return S.current.loginError(e.message);
       }
     }
     return result.user.uid;
@@ -68,6 +76,15 @@ class Auth implements BaseAuth {
           break;
         case 'email-already-user':
           return S.current.emailAlreadyUser;
+          break;
+        case 'invalid-email':
+          return S.current.invalidEmail;
+          break;
+        case 'operation-not-allowed':
+          return S.current.operationNotAllowed;
+          break;
+        default:
+          return S.current.loginError(e.message);
       }
     }
     return result.user.uid;

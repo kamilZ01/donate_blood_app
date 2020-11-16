@@ -45,6 +45,56 @@ class S {
     );
   }
 
+  /// `DONATE \n`
+  String get donate {
+    return Intl.message(
+      'DONATE \n',
+      name: 'donate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `BLOOD\n`
+  String get blood {
+    return Intl.message(
+      'BLOOD\n',
+      name: 'blood',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SAVE LIVES`
+  String get saveLives {
+    return Intl.message(
+      'SAVE LIVES',
+      name: 'saveLives',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `LOGIN`
+  String get login {
+    return Intl.message(
+      'LOGIN',
+      name: 'login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SIGN UP`
+  String get signUp {
+    return Intl.message(
+      'SIGN UP',
+      name: 'signUp',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No user found for that email.`
   String get userNotFound {
     return Intl.message(
@@ -65,23 +115,43 @@ class S {
     );
   }
 
-  /// `The user corresponding to the given email has been disabled`
+  /// `The user corresponding to the given email has been disabled.`
   String get userDisabled {
     return Intl.message(
-      'The user corresponding to the given email has been disabled',
+      'The user corresponding to the given email has been disabled.',
       name: 'userDisabled',
       desc: '',
       args: [],
     );
   }
 
-  /// `There was an undefined login problem.`
-  String get loginError {
+  /// `The email address is not valid.`
+  String get invalidEmail {
     return Intl.message(
-      'There was an undefined login problem.',
-      name: 'loginError',
+      'The email address is not valid.',
+      name: 'invalidEmail',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `There was an undefined login problem. Error: {error}`
+  String loginError(Object error) {
+    return Intl.message(
+      'There was an undefined login problem. Error: $error',
+      name: 'loginError',
+      desc: '',
+      args: [error],
+    );
+  }
+
+  /// `There was an undefined register problem. Error: {error}`
+  String registerError(Object error) {
+    return Intl.message(
+      'There was an undefined register problem. Error: $error',
+      name: 'registerError',
+      desc: '',
+      args: [error],
     );
   }
 
@@ -100,6 +170,16 @@ class S {
     return Intl.message(
       'The account already exists for that email.',
       name: 'emailAlreadyUser',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The operation not allowed.`
+  String get operationNotAllowed {
+    return Intl.message(
+      'The operation not allowed.',
+      name: 'operationNotAllowed',
       desc: '',
       args: [],
     );
