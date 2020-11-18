@@ -1,3 +1,4 @@
+import 'package:donate_blood/Screens/Events/list_view_events.dart';
 import 'package:donate_blood/Screens/HomeUserPage/components/home_screen.dart';
 import 'package:donate_blood/Screens/ProfileDetails/profile_details_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   final List _screens = [
     HomeScreen(),
     Container(),
-    Container(),
+    ListViewEvents(),
     ProfilePage(),
   ];
   int _currentIndex = 0;
