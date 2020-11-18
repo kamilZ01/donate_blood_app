@@ -10,9 +10,6 @@ class ProfilePage extends StatelessWidget {
   bool showPassword = false;
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -132,7 +129,7 @@ class ProfilePage extends StatelessWidget {
                               "E-mail", "jan_kowalski@gmail.com", false),
                           buildTextField("Phone", "123-456-789", false),
                           SizedBox(
-                            height: 10,
+                            height: 5,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -176,7 +173,7 @@ class ProfilePage extends StatelessWidget {
                             ],
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 5,
                           ),
                         ],
                       ),

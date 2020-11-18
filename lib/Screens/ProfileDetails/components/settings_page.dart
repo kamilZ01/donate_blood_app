@@ -86,7 +86,8 @@ class _SettingsPageState extends State<SettingsPage> {
               child: RaisedButton(
                 padding: EdgeInsets.symmetric(horizontal: 40),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 onPressed: () {},
                 color: Colors.red,
                 child: Text("SIGN OUT",
@@ -165,6 +166,7 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             IconButton(
               icon: icona,
+              onPressed: () {},
             ),
             Text(
               title,

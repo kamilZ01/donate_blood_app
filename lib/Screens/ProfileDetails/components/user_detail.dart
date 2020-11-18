@@ -13,30 +13,29 @@ class UserDetail extends StatelessWidget {
         top: 10,
         bottom: 10,
       ),
-      height: MediaQuery.of(context).size.height * 0.19,
+      height: 130,
       width: MediaQuery.of(context).size.width * 0.8,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: Colors.black,
+            color: Colors.grey,
             offset: Offset(0, 0),
-            blurRadius: 10.0,
+            blurRadius: 8.0,
           ),
         ],
         border: Border.all(
-          color: Colors.black,
+          color: Colors.grey,
         ),
       ),
       child: Center(
         child: Container(
           padding: EdgeInsets.all(20),
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
-                "Jan Kowalski",
+                "Welcome  , Jan Kowalski",
                 style: TextStyle(
                   fontSize: 22,
                 ),
