@@ -19,15 +19,17 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static m0(error) => "There was an undefined login problem. Error: ${error}";
+  static m0(title) => "${title} can\'t be empty";
 
-  static m1(error) => "Email can\'t be changed. Error: ${error}";
+  static m1(error) => "There was an undefined login problem. Error: ${error}";
 
-  static m2(error) => "Password can\'t be changed. Error: ${error}";
+  static m2(error) => "Email can\'t be changed. Error: ${error}";
 
-  static m3(error) => "User can\'t be delete. Error: ${error}";
+  static m3(error) => "Password can\'t be changed. Error: ${error}";
 
-  static m4(error) => "There was an undefined register problem. Error: ${error}";
+  static m4(error) => "User can\'t be delete. Error: ${error}";
+
+  static m5(error) => "There was an undefined register problem. Error: ${error}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -36,15 +38,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "changedEmail" : MessageLookupByLibrary.simpleMessage("Successful changed email"),
     "changedPassword" : MessageLookupByLibrary.simpleMessage("Successful changed password"),
     "donate" : MessageLookupByLibrary.simpleMessage("DONATE \n"),
+    "email" : MessageLookupByLibrary.simpleMessage("Your email"),
     "emailAlreadyUser" : MessageLookupByLibrary.simpleMessage("The account already exists for that email."),
+    "inputEmpty" : m0,
     "invalidEmail" : MessageLookupByLibrary.simpleMessage("The email address is not valid."),
     "login" : MessageLookupByLibrary.simpleMessage("LOGIN"),
-    "loginError" : m0,
-    "notChangedEmail" : m1,
-    "notChangedPassword" : m2,
-    "notUserDeleted" : m3,
+    "loginError" : m1,
+    "notChangedEmail" : m2,
+    "notChangedPassword" : m3,
+    "notUserDeleted" : m4,
     "operationNotAllowed" : MessageLookupByLibrary.simpleMessage("The operation not allowed."),
-    "registerError" : m4,
+    "password" : MessageLookupByLibrary.simpleMessage("Password"),
+    "passwordEmpty" : MessageLookupByLibrary.simpleMessage("Password can\'t be empty"),
+    "registerError" : m5,
     "saveLives" : MessageLookupByLibrary.simpleMessage("SAVE LIVES"),
     "signUp" : MessageLookupByLibrary.simpleMessage("SIGN UP"),
     "userDeleted" : MessageLookupByLibrary.simpleMessage("Successful user deleted."),

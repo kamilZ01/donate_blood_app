@@ -1,4 +1,6 @@
+import 'package:donate_blood/Screens/Welcome/welcome_screen.dart';
 import 'package:donate_blood/constants.dart';
+import 'package:donate_blood/services/authentication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -88,7 +90,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Auth().signOut().then((value) => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => WelcomeScreen()))
+                      });
+                },
                 color: Colors.red,
                 child: Text("SIGN OUT",
                     style: TextStyle(

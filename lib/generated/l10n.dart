@@ -95,6 +95,46 @@ class S {
     );
   }
 
+  /// `Password`
+  String get password {
+    return Intl.message(
+      'Password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your email`
+  String get email {
+    return Intl.message(
+      'Your email',
+      name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password can't be empty`
+  String get passwordEmpty {
+    return Intl.message(
+      'Password can\'t be empty',
+      name: 'passwordEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{title} can't be empty`
+  String inputEmpty(Object title) {
+    return Intl.message(
+      '$title can\'t be empty',
+      name: 'inputEmpty',
+      desc: '',
+      args: [title],
+    );
+  }
+
   /// `No user found for that email.`
   String get userNotFound {
     return Intl.message(
