@@ -25,7 +25,7 @@ class UserInformation extends StatelessWidget {
         return new ListView(
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
-          children: snapshot.data.documents.map((DocumentSnapshot document) {
+          children: snapshot.data.docs.map((DocumentSnapshot document) {
             return Container(
               padding: EdgeInsets.all(10.0),
               decoration: BoxDecoration(

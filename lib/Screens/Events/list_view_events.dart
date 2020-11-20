@@ -87,15 +87,17 @@ class _ListViewEventsState extends State<ListViewEvents> {
                         descList[index]);
                   },
                   child: Container(
-                    width: 140,
+                    //width: 140,
                     margin: EdgeInsets.only(
                       left: 10,
                       right: 10,
+                      bottom: 10,
                     ),
                     child: Card(
                       elevation: 5,
+                      margin: EdgeInsets.all(5.0),
                       child: Padding(
-                        padding: const EdgeInsets.all(5.0),
+                        padding: const EdgeInsets.all(0.0),
                         child: Column(
                           children: <Widget>[
                             Wrap(
@@ -105,11 +107,12 @@ class _ListViewEventsState extends State<ListViewEvents> {
                                     Container(
                                       width: 100,
                                       height: 100,
+                                      padding: EdgeInsets.all(10),
                                       child:
                                           Image.asset('assets/icons/event.png'),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.all(10.0),
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,

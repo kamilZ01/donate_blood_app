@@ -105,6 +105,26 @@ class S {
     );
   }
 
+  /// `Confirm password`
+  String get confirmPassword {
+    return Intl.message(
+      'Confirm password',
+      name: 'confirmPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The passwords entered are different.`
+  String get differentPassword {
+    return Intl.message(
+      'The passwords entered are different.',
+      name: 'differentPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Your email`
   String get email {
     return Intl.message(
@@ -150,6 +170,36 @@ class S {
     return Intl.message(
       'Wrong password provided for that user.',
       name: 'wrongPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dismiss`
+  String get dismiss {
+    return Intl.message(
+      'Dismiss',
+      name: 'dismiss',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verify your account`
+  String get verifyEmailTitle {
+    return Intl.message(
+      'Verify your account',
+      name: 'verifyEmailTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Link to verify account has been sent to your email`
+  String get verifyEmailContent {
+    return Intl.message(
+      'Link to verify account has been sent to your email',
+      name: 'verifyEmailContent',
       desc: '',
       args: [],
     );

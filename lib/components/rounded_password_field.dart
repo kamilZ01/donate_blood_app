@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 
 class RoundedPasswordField extends StatefulWidget {
   final ValueChanged<String> onChanged;
+  final String hintText;
 
-  RoundedPasswordField(this.onChanged);
+  RoundedPasswordField(this.onChanged, this.hintText);
 
   @override
   _RoundedPasswordFieldState createState() => _RoundedPasswordFieldState();
@@ -16,15 +17,18 @@ class RoundedPasswordField extends StatefulWidget {
 class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
   bool _passwordVisible = false;
 
+  //IconData _iconPasswordVisible;
+
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextFormField(
+        keyboardType: TextInputType.visiblePassword,
         textAlignVertical: TextAlignVertical.center,
         obscureText: !_passwordVisible,
         onChanged: widget.onChanged,
         decoration: InputDecoration(
-          hintText: S.current.password,
+          hintText: widget.hintText,
           border: InputBorder.none,
           icon: Icon(
             Icons.lock,
@@ -32,10 +36,9 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
           ),
           suffixIcon: IconButton(
             splashRadius: 1,
-            icon: Icon(
-              Icons.visibility,
-              color: kPrimaryColor
-            ),
+            icon: _passwordVisible
+                ? Icon(Icons.visibility_off, color: kPrimaryColor)
+                : Icon(Icons.visibility, color: kPrimaryColor),
             onPressed: () {
               setState(() {
                 _passwordVisible = !_passwordVisible;

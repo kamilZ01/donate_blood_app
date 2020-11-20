@@ -37,6 +37,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "blood" : MessageLookupByLibrary.simpleMessage("BLOOD\n"),
     "changedEmail" : MessageLookupByLibrary.simpleMessage("Successful changed email"),
     "changedPassword" : MessageLookupByLibrary.simpleMessage("Successful changed password"),
+    "confirmPassword" : MessageLookupByLibrary.simpleMessage("Confirm password"),
+    "differentPassword" : MessageLookupByLibrary.simpleMessage("The passwords entered are different."),
+    "dismiss" : MessageLookupByLibrary.simpleMessage("Dismiss"),
     "donate" : MessageLookupByLibrary.simpleMessage("DONATE \n"),
     "email" : MessageLookupByLibrary.simpleMessage("Your email"),
     "emailAlreadyUser" : MessageLookupByLibrary.simpleMessage("The account already exists for that email."),
@@ -56,6 +59,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "userDeleted" : MessageLookupByLibrary.simpleMessage("Successful user deleted."),
     "userDisabled" : MessageLookupByLibrary.simpleMessage("The user corresponding to the given email has been disabled."),
     "userNotFound" : MessageLookupByLibrary.simpleMessage("No user found for that email."),
+    "verifyEmailContent" : MessageLookupByLibrary.simpleMessage("Link to verify account has been sent to your email"),
+    "verifyEmailTitle" : MessageLookupByLibrary.simpleMessage("Verify your account"),
     "weakPassword" : MessageLookupByLibrary.simpleMessage("The password provided is too weak."),
     "wrongPassword" : MessageLookupByLibrary.simpleMessage("Wrong password provided for that user.")
   };

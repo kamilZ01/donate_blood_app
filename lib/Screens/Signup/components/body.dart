@@ -1,3 +1,4 @@
+/*
 import 'package:donate_blood/Screens/Login/login_screen.dart';
 import 'package:donate_blood/Screens/Signup/components/background.dart';
 import 'package:donate_blood/Screens/Signup/components/or_divider.dart';
@@ -80,3 +81,4 @@ class Body extends StatelessWidget {
     );
   }
 }
+*/

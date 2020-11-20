@@ -16,14 +16,14 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _scaffoldKey = new GlobalKey<ScaffoldState>();
+  //final _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
 
   String _email;
   String _password;
   String _errorMessage = '';
 
-  // Check if form is valid before perform login or signup
+  // Check if form is valid before perform login
   bool _validateAndSave() {
     final form = _formKey.currentState;
     if (form.validate()) {
@@ -66,74 +66,76 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      key: _scaffoldKey,
+      //key: _scaffoldKey,
       body: Background(
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  S.current.login,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  child: Image.asset(
-                    "assets/icons/login.webp",
-                    width: size.width * 0.5,
+            child: AutofillGroup(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    S.current.login,
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                ),
-                RoundedInputField(
-                  hintText: S.current.email,
-                  onChanged: (value) {
-                    _email = value;
-                  },
-                ),
-                RoundedPasswordField(
-                  (value) {
+                  Container(
+                    child: Image.asset(
+                      "assets/icons/login.webp",
+                      width: size.width * 0.5,
+                    ),
+                  ),
+                  RoundedInputField(
+                    hintText: S.current.email,
+                    onChanged: (value) {
+                      _email = value;
+                    },
+                  ),
+                  RoundedPasswordField((value) {
                     _password = value;
-                  },
-                ),
-                RoundedButton(
-                  text: S.current.login,
-                  press: () {
-                    _validateAndSubmit().then((value) => {
-                          if (value)
-                            {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return HomePageScreen();
-                                  },
-                                ),
-                              )
-                            }
-                          else
-                            {
-                              if (_errorMessage.length > 0)
-                                _scaffoldKey.currentState
-                                    .showSnackBar(_errorMessageWidget()),
-                            }
-                        });
-                  },
-                ),
-                //_showErrorMessage(),
-                SizedBox(height: size.height * 0.02),
-                AlreadyHaveAnAccountCheck(
-                  press: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return SignUpScreen();
-                        },
-                      ),
-                    );
-                  },
-                )
-              ],
+                  }, S.current.password),
+
+                  RoundedButton(
+                    text: S.current.login,
+                    press: () {
+                      _validateAndSubmit().then((value) => {
+                            if (value)
+                              {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return HomePageScreen();
+                                    },
+                                  ),
+                                )
+                              }
+                            else
+                              {
+                                if (_errorMessage.length > 0)
+                                  //
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(_errorMessageWidget()),
+                              }
+                          });
+                    },
+                  ),
+                  //_showErrorMessage(),
+                  SizedBox(height: size.height * 0.02),
+                  AlreadyHaveAnAccountCheck(
+                    press: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return SignUpScreen();
+                          },
+                        ),
+                      );
+                    },
+                  )
+                ],
+              ),
             ),
           ),
         ),
