@@ -35,7 +35,7 @@ class UserDetail extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(
-                "Welcome  , Jan Kowalski",
+                "Welcome, Jan Kowalski",
                 style: TextStyle(
                   fontSize: 22,
                 ),
