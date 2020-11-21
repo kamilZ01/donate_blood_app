@@ -27,6 +27,7 @@ class Auth implements BaseAuth {
   static Auth _auth;
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+
   Auth._internal();
 
   factory Auth() => _auth ?? Auth._internal();

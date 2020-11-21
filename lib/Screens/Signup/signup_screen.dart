@@ -1,5 +1,4 @@
 import 'package:donate_blood/Screens/Login/login_screen.dart';
-import 'package:donate_blood/Screens/Signup/components/body.dart';
 import 'package:donate_blood/components/already_have_an_account_check.dart';
 import 'package:donate_blood/components/rounded_button.dart';
 import 'package:donate_blood/components/rounded_input_field.dart';
@@ -166,8 +165,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text(S.current.verifyEmailTitle),
-          content: new Text(S.current.verifyEmailContent),
+          title: new Text(S.current.verifyEmailDialogTitle),
+          content: new Text(S.current.verifyEmailDialogTitle),
           actions: <Widget>[
             new FlatButton(
               child: new Text(S.current.dismiss),

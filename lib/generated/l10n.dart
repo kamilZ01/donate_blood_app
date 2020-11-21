@@ -105,6 +105,16 @@ class S {
     );
   }
 
+  /// `FORGET PASSWORD`
+  String get forgetPassword {
+    return Intl.message(
+      'FORGET PASSWORD',
+      name: 'forgetPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Confirm password`
   String get confirmPassword {
     return Intl.message(
@@ -120,6 +130,36 @@ class S {
     return Intl.message(
       'The passwords entered are different.',
       name: 'differentPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forget password?`
+  String get forgetPasswordAsk {
+    return Intl.message(
+      'Forget password?',
+      name: 'forgetPasswordAsk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check the mailbox`
+  String get openEmailApp {
+    return Intl.message(
+      'Check the mailbox',
+      name: 'openEmailApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No mail apps installed`
+  String get noMailApp {
+    return Intl.message(
+      'No mail apps installed',
+      name: 'noMailApp',
       desc: '',
       args: [],
     );
@@ -186,20 +226,40 @@ class S {
   }
 
   /// `Verify your account`
-  String get verifyEmailTitle {
+  String get verifyEmailDialogTitle {
     return Intl.message(
       'Verify your account',
-      name: 'verifyEmailTitle',
+      name: 'verifyEmailDialogTitle',
       desc: '',
       args: [],
     );
   }
 
   /// `Link to verify account has been sent to your email`
-  String get verifyEmailContent {
+  String get verifyEmailDialogContent {
     return Intl.message(
       'Link to verify account has been sent to your email',
-      name: 'verifyEmailContent',
+      name: 'verifyEmailDialogContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forgot your password`
+  String get passwordResetEmailDialogTitle {
+    return Intl.message(
+      'Forgot your password',
+      name: 'passwordResetEmailDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We have sent you a reset password link on your registered email address`
+  String get passwordResetEmailDialogContent {
+    return Intl.message(
+      'We have sent you a reset password link on your registered email address',
+      name: 'passwordResetEmailDialogContent',
       desc: '',
       args: [],
     );

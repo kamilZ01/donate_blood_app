@@ -1,4 +1,3 @@
-import 'package:asset_cache/asset_cache.dart';
 import 'package:donate_blood/Screens/HomeUserPage/home_page_screen.dart';
 import 'package:donate_blood/Screens/Signup/signup_screen.dart';
 import 'package:donate_blood/components/already_have_an_account_check.dart';
@@ -7,9 +6,12 @@ import 'package:donate_blood/components/rounded_input_field.dart';
 import 'package:donate_blood/components/rounded_password_field.dart';
 import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/services/authentication.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../constants.dart';
 import 'components/background.dart';
+import 'components/forgot_password_page.dart';
 
 class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
@@ -94,6 +96,30 @@ class _LoginScreenState extends State<LoginScreen> {
                   RoundedPasswordField((value) {
                     _password = value;
                   }, S.current.password),
+                  Container(
+                    margin: EdgeInsets.all(4.0),
+                    width: size.width * 0.75,
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ForgotPasswordPage();
+                            },
+                          ),
+                        );
+                      },
+                      child: Text(
+                        S.current.forgetPasswordAsk,
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
 
                   RoundedButton(
                     text: S.current.login,
