@@ -2,7 +2,7 @@ import 'package:donate_blood/Screens/HomeUserPage/home_page_screen.dart';
 import 'package:donate_blood/Screens/Signup/signup_screen.dart';
 import 'package:donate_blood/components/already_have_an_account_check.dart';
 import 'package:donate_blood/components/rounded_button.dart';
-import 'package:donate_blood/components/rounded_input_field.dart';
+import 'package:donate_blood/components/rounded_emial_field.dart';
 import 'package:donate_blood/components/rounded_password_field.dart';
 import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/services/authentication.dart';
@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: size.width * 0.5,
                     ),
                   ),
-                  RoundedInputField(
+                  RoundedEmailField(
                     hintText: S.current.email,
                     onChanged: (value) {
                       _email = value;
@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     margin: EdgeInsets.all(4.0),
                     width: size.width * 0.75,
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(

@@ -46,7 +46,14 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
             },
           ),
         ),
-        validator: (value) => value.isEmpty ? S.current.passwordEmpty : null,
+        validator: (value) {
+          if (value.isEmpty) return S.current.passwordEmpty;
+
+          if (value.length < 8) {
+            return 'Password should contain min 8 characters';
+          }
+          return null;
+        },
       ),
     );
   }

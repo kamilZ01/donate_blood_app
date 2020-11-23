@@ -1,7 +1,7 @@
 import 'package:donate_blood/Screens/Login/login_screen.dart';
 import 'package:donate_blood/components/already_have_an_account_check.dart';
 import 'package:donate_blood/components/rounded_button.dart';
-import 'package:donate_blood/components/rounded_input_field.dart';
+import 'package:donate_blood/components/rounded_emial_field.dart';
 import 'package:donate_blood/components/rounded_password_field.dart';
 import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/services/authentication.dart';
@@ -85,7 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 SizedBox(height: size.height * 0.02),
-                RoundedInputField(
+                RoundedEmailField(
                   hintText: S.current.email,
                   onChanged: (value) {
                     _email = value;

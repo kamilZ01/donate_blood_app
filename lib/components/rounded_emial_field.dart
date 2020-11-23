@@ -3,12 +3,12 @@ import 'package:donate_blood/constants.dart';
 import 'package:donate_blood/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
-class RoundedInputField extends StatelessWidget {
+class RoundedEmailField extends StatelessWidget {
   final String hintText;
   final IconData icon;
   final ValueChanged<String> onChanged;
 
-  const RoundedInputField({
+  const RoundedEmailField({
     Key key,
     this.hintText,
     this.icon = Icons.person,
@@ -28,8 +28,17 @@ class RoundedInputField extends StatelessWidget {
             ),
             hintText: hintText,
             border: InputBorder.none),
-        validator: (value) =>
-            value.isEmpty ? S.current.inputEmpty(hintText) : null,
+        validator: (value) {
+          if (value.isEmpty) return S.current.inputEmpty(hintText);
+
+          if (!RegExp(
+                  r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+              .hasMatch(value)) {
+            return 'Please enter a valid email Address';
+          }
+
+          return null;
+        },
       ),
     );
   }

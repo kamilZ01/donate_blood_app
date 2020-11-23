@@ -1,6 +1,6 @@
 import 'package:donate_blood/Screens/Login/login_screen.dart';
 import 'package:donate_blood/components/rounded_button.dart';
-import 'package:donate_blood/components/rounded_input_field.dart';
+import 'package:donate_blood/components/rounded_emial_field.dart';
 import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/services/authentication.dart';
 import 'package:flutter/cupertino.dart';
@@ -56,7 +56,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     width: size.width * 0.5,
                   ),
                 ),
-                RoundedInputField(
+                RoundedEmailField(
                   hintText: S.current.email,
                   onChanged: (value) {
                     _email = value;
