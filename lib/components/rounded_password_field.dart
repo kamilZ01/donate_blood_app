@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 class RoundedPasswordField extends StatefulWidget {
   final ValueChanged<String> onChanged;
   final String hintText;
+  bool signUpForm;
 
-  RoundedPasswordField(this.onChanged, this.hintText);
+  RoundedPasswordField(this.onChanged, this.hintText, this.signUpForm);
 
   @override
   _RoundedPasswordFieldState createState() => _RoundedPasswordFieldState();
@@ -49,8 +50,10 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
         validator: (value) {
           if (value.isEmpty) return S.current.passwordEmpty;
 
-          if (value.length < 8) {
-            return 'Password should contain min 8 characters';
+          if (widget.signUpForm) {
+            if (value.length < 8) {
+              return 'Password should contain min 8 characters';
+            }
           }
           return null;
         },

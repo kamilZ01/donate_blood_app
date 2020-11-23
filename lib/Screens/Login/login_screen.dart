@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   RoundedPasswordField((value) {
                     _password = value;
-                  }, S.current.password),
+                  }, S.current.password, false),
                   Container(
                     margin: EdgeInsets.all(4.0),
                     width: size.width * 0.75,

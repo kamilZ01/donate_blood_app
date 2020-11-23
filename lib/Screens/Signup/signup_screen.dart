@@ -93,10 +93,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 RoundedPasswordField((value) {
                   _password = value;
-                }, S.current.password),
+                }, S.current.password, true),
                 RoundedPasswordField((value) {
                   _confirmPassword = value;
-                }, S.current.confirmPassword),
+                }, S.current.confirmPassword, true),
                 RoundedButton(
                   text: S.current.signUp,
                   press: () {

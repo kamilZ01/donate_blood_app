@@ -10,7 +10,8 @@ class UserInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     Query users = FirebaseFirestore.instance
         .collection('posts')
-        .orderBy('created', descending: true);
+        .orderBy('created', descending: true)
+        .limitToLast(3);
     return StreamBuilder<QuerySnapshot>(
       stream: users.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
