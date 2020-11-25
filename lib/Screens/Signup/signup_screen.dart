@@ -1,7 +1,7 @@
 import 'package:donate_blood/Screens/Login/login_screen.dart';
 import 'package:donate_blood/components/already_have_an_account_check.dart';
 import 'package:donate_blood/components/rounded_button.dart';
-import 'package:donate_blood/components/rounded_emial_field.dart';
+import 'package:donate_blood/components/rounded_email_field.dart';
 import 'package:donate_blood/components/rounded_password_field.dart';
 import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/services/authentication.dart';
@@ -31,7 +31,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (form.validate() && _password == _confirmPassword) {
       _email = _email.trim();
       return true;
-    } else {
+    } else if(form.validate()) {
       _errorMessage = S.current.differentPassword;
     }
     return false;
@@ -98,7 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   _confirmPassword = value;
                 }, S.current.confirmPassword, true),
                 RoundedButton(
-                  text: S.current.signUp,
+                  text: S.current.signUp.toUpperCase(),
                   press: () {
                     _validateAndSubmit().then((value) => {
                           if (!value)

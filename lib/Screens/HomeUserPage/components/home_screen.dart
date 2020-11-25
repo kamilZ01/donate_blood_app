@@ -3,6 +3,7 @@ import 'package:donate_blood/Screens/HomeUserPage/components/data.dart';
 import 'package:donate_blood/Screens/HomeUserPage/components/user_information.dart';
 import 'package:donate_blood/Screens/ProfileDetails/components/user_detail.dart';
 import 'package:donate_blood/components/header_curved_container.dart';
+import 'package:donate_blood/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -13,10 +14,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  ScrollController controller = new ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        controller: controller,
         child: Column(
           children: <Widget>[
             CustomPaint(
@@ -46,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       left: 25,
                     ),
                     child: Text(
-                      "Recent donations",
+                      S.current.recentDonations,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -55,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                UserInformation(),
+                UserInformation(controller),
                 Column(
                   children: [
                     Align(
@@ -65,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           left: 25,
                         ),
                         child: Text(
-                          "Your badges",
+                          S.current.yourBadges,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
@@ -138,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             Row(
                                               children: <Widget>[
                                                 Text(
-                                                  'Read more',
+                                                  S.current.readMore,
                                                   style: TextStyle(
                                                     fontFamily: 'Avenir',
                                                     fontSize: 18,

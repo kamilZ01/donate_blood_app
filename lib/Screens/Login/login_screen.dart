@@ -2,7 +2,7 @@ import 'package:donate_blood/Screens/HomeUserPage/home_page_screen.dart';
 import 'package:donate_blood/Screens/Signup/signup_screen.dart';
 import 'package:donate_blood/components/already_have_an_account_check.dart';
 import 'package:donate_blood/components/rounded_button.dart';
-import 'package:donate_blood/components/rounded_emial_field.dart';
+import 'package:donate_blood/components/rounded_email_field.dart';
 import 'package:donate_blood/components/rounded_password_field.dart';
 import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/services/authentication.dart';
@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
 
                   RoundedButton(
-                    text: S.current.login,
+                    text: S.current.login.toUpperCase(),
                     press: () {
                       _validateAndSubmit().then((value) => {
                             if (value)
@@ -136,12 +136,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 )
                               }
-                            else
+                            else if (_errorMessage.length > 0)
                               {
-                                if (_errorMessage.length > 0)
-                                  //
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(_errorMessageWidget()),
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(_errorMessageWidget()),
                               }
                           });
                     },

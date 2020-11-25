@@ -22,11 +22,11 @@ class Body extends StatelessWidget {
                 style: DefaultTextStyle.of(context).style,
                 children: <TextSpan>[
                   TextSpan(
-                      text: S.of(context).donate,
+                      text: S.of(context).donate.toUpperCase() + "\n",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 35)),
                   TextSpan(
-                    text: S.of(context).blood,
+                    text: S.of(context).blood.toUpperCase() + "\n",
                     style: TextStyle(
                       color: Colors.red,
                       fontStyle: FontStyle.italic,
@@ -35,7 +35,7 @@ class Body extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: S.of(context).saveLives,
+                    text: S.of(context).saveLives.toUpperCase(),
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 31),
                   ),
                 ],
@@ -48,7 +48,7 @@ class Body extends StatelessWidget {
             ),
             SizedBox(height: size.height * 0.05),
             RoundedButton(
-              text: S.of(context).login,
+              text: S.of(context).login.toUpperCase(),
               press: () {
                 Navigator.push(
                   context,
@@ -61,7 +61,7 @@ class Body extends StatelessWidget {
               },
             ),
             RoundedButton(
-              text: S.of(context).signUp,
+              text: S.of(context).signUp.toUpperCase(),
               color: kPrimaryLightColor,
               textColor: Colors.black,
               press: () {

@@ -45,50 +45,50 @@ class S {
     );
   }
 
-  /// `DONATE \n`
+  /// `Donate`
   String get donate {
     return Intl.message(
-      'DONATE \n',
+      'Donate',
       name: 'donate',
       desc: '',
       args: [],
     );
   }
 
-  /// `BLOOD\n`
+  /// `Blood`
   String get blood {
     return Intl.message(
-      'BLOOD\n',
+      'Blood',
       name: 'blood',
       desc: '',
       args: [],
     );
   }
 
-  /// `SAVE LIVES`
+  /// `Save lives`
   String get saveLives {
     return Intl.message(
-      'SAVE LIVES',
+      'Save lives',
       name: 'saveLives',
       desc: '',
       args: [],
     );
   }
 
-  /// `LOGIN`
+  /// `Login`
   String get login {
     return Intl.message(
-      'LOGIN',
+      'Login',
       name: 'login',
       desc: '',
       args: [],
     );
   }
 
-  /// `SIGN UP`
+  /// `Sign Up`
   String get signUp {
     return Intl.message(
-      'SIGN UP',
+      'Sign Up',
       name: 'signUp',
       desc: '',
       args: [],
@@ -392,6 +392,126 @@ class S {
       name: 'notUserDeleted',
       desc: '',
       args: [error],
+    );
+  }
+
+  /// `Please choose one`
+  String get pleaseChooseOne {
+    return Intl.message(
+      'Please choose one',
+      name: 'pleaseChooseOne',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter {value}`
+  String pleaseEnterValue(Object value) {
+    return Intl.message(
+      'Please enter $value',
+      name: 'pleaseEnterValue',
+      desc: '',
+      args: [value],
+    );
+  }
+
+  /// `Full Name`
+  String get fullName {
+    return Intl.message(
+      'Full Name',
+      name: 'fullName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone`
+  String get phone {
+    return Intl.message(
+      'Phone',
+      name: 'phone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Blood type`
+  String get bloodType {
+    return Intl.message(
+      'Blood type',
+      name: 'bloodType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Loading...`
+  String get loading {
+    return Intl.message(
+      'Loading...',
+      name: 'loading',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recent donations`
+  String get recentDonations {
+    return Intl.message(
+      'Recent donations',
+      name: 'recentDonations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your badges`
+  String get yourBadges {
+    return Intl.message(
+      'Your badges',
+      name: 'yourBadges',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Read more`
+  String get readMore {
+    return Intl.message(
+      'Read more',
+      name: 'readMore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Something went wrong`
+  String get somethingWentWrong {
+    return Intl.message(
+      'Something went wrong',
+      name: 'somethingWentWrong',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount`
+  String get amount {
+    return Intl.message(
+      'Amount',
+      name: 'amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date`
+  String get date {
+    return Intl.message(
+      'Date',
+      name: 'date',
+      desc: '',
+      args: [],
     );
   }
 }

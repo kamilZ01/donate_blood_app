@@ -1,4 +1,3 @@
-import 'package:donate_blood/Screens/Login/login_screen.dart';
 import 'package:donate_blood/components/text_field_container.dart';
 import 'package:donate_blood/constants.dart';
 import 'package:donate_blood/generated/l10n.dart';
@@ -7,7 +6,7 @@ import 'package:flutter/material.dart';
 class RoundedPasswordField extends StatefulWidget {
   final ValueChanged<String> onChanged;
   final String hintText;
-  bool signUpForm;
+  final bool signUpForm;
 
   RoundedPasswordField(this.onChanged, this.hintText, this.signUpForm);
 

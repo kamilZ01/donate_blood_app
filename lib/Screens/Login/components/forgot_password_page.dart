@@ -1,6 +1,6 @@
 import 'package:donate_blood/Screens/Login/login_screen.dart';
 import 'package:donate_blood/components/rounded_button.dart';
-import 'package:donate_blood/components/rounded_emial_field.dart';
+import 'package:donate_blood/components/rounded_email_field.dart';
 import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/services/authentication.dart';
 import 'package:flutter/cupertino.dart';

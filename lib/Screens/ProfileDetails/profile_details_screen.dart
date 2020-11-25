@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donate_blood/Screens/HomeUserPage/home_page_screen.dart';
 import 'package:donate_blood/Screens/ProfileDetails/components/settings_page.dart';
 import 'package:donate_blood/components/header_curved_container.dart';
 import 'package:donate_blood/constants.dart';
+import 'package:donate_blood/generated/l10n.dart';
+import 'package:donate_blood/services/authentication.dart';
+import 'package:donate_blood/services/user_data.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -161,61 +165,69 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         child: Column(
                           children: [
-                            buildTextField("Full Name", "Jan Kowalski", false),
-                            buildTextField(
-                                "E-mail", "jan_kowalski@gmail.com", true),
-                            buildTextField("Phone", "123-456-789", false),
-                            DropDownFormField(
-                              filled: false,
-                              titleText: "Blood type",
-                              hintText: "Please choose one",
-                              value: _myActivity,
-                              onSaved: (value) {
-                                setState(() {
-                                  _myActivity = value;
-                                });
+                            FutureBuilder(
+                              future: UserData().getUserData(),
+                              builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                if(snapshot.connectionState == ConnectionState.done){
+                                  _myActivity = snapshot.data.exists ? snapshot.data.data()["bloodGroup"] : _myActivity;
+                                  return Column(
+                                    children: [
+                                      buildTextField(S.current.fullName, snapshot.data.exists ? snapshot.data.data()["fullName"] : '', false),
+                                      buildTextField("E-mail", Auth().getCurrentUser().email, true),
+                                      buildTextField(S.current.phone, snapshot.data.exists ? snapshot.data.data()["phoneNumber"] : '', false),
+                                      DropDownFormField(
+                                        contentPadding: EdgeInsets.zero,
+                                        filled: false,
+                                        titleText: S.current.bloodType,
+                                        hintText: S.current.pleaseChooseOne,
+                                        value: _myActivity,
+                                        onSaved: (value) {
+                                          setState(() {
+                                            _myActivity = value;
+                                          });
+                                        },
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _myActivity = value;
+                                          });
+                                        },
+                                        dataSource: UserData().getBloodGroups(),
+                                        textField: "display",
+                                        valueField: "value",
+                                      ),
+                                    ],
+                                  );
+                                } else if(snapshot.connectionState == ConnectionState.none) {
+                                  return Column(
+                                    children: [
+                                      buildTextField(S.current.fullName, S.current.loading, false),
+                                      buildTextField("E-mail", S.current.loading, true),
+                                      buildTextField(S.current.phone, S.current.loading, false),
+                                      DropDownFormField(
+                                        contentPadding: EdgeInsets.zero,
+                                        filled: false,
+                                        titleText: S.current.bloodType,
+                                        hintText: S.current.pleaseChooseOne,
+                                        value: _myActivity,
+                                        onSaved: (value) {
+                                          setState(() {
+                                            _myActivity = value;
+                                          });
+                                        },
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _myActivity = value;
+                                          });
+                                        },
+                                        dataSource: UserData().getBloodGroups(),
+                                        textField: "display",
+                                        valueField: "value",
+                                      ),
+                                    ],
+                                  );
+                                }
+                                return CircularProgressIndicator();
                               },
-                              onChanged: (value) {
-                                setState(() {
-                                  _myActivity = value;
-                                });
-                              },
-                              dataSource: [
-                                {
-                                  "display": "AB+",
-                                  "value": "AB+",
-                                },
-                                {
-                                  "display": "AB-",
-                                  "value": "AB-",
-                                },
-                                {
-                                  "display": "A+",
-                                  "value": "A+",
-                                },
-                                {
-                                  "display": "A-",
-                                  "value": "A-",
-                                },
-                                {
-                                  "display": "B+",
-                                  "value": "B+",
-                                },
-                                {
-                                  "display": "B-",
-                                  "value": "B-",
-                                },
-                                {
-                                  "display": "0+",
-                                  "value": "0+",
-                                },
-                                {
-                                  "display": "0-",
-                                  "value": "0-",
-                                },
-                              ],
-                              textField: "display",
-                              valueField: "value",
                             ),
                             SizedBox(
                               height: 5,
@@ -290,15 +302,14 @@ class _ProfilePageState extends State<ProfilePage> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),
       child: TextFormField(
+        initialValue: placeholder,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(bottom: 3),
           labelText: labelText,
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          hintText: placeholder,
+          hintText: S.current.pleaseEnterValue(labelText.toLowerCase()),
           hintStyle: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
+            color: Colors.grey.shade500,
           ),
         ),
         validator: (value) {

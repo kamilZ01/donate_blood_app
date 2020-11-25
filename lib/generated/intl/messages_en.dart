@@ -29,25 +29,32 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m4(error) => "User can\'t be delete. Error: ${error}";
 
-  static m5(error) => "There was an undefined register problem. Error: ${error}";
+  static m5(value) => "Please enter ${value}";
+
+  static m6(error) => "There was an undefined register problem. Error: ${error}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "amount" : MessageLookupByLibrary.simpleMessage("Amount"),
     "appTitle" : MessageLookupByLibrary.simpleMessage("Donate Blood"),
-    "blood" : MessageLookupByLibrary.simpleMessage("BLOOD\n"),
+    "blood" : MessageLookupByLibrary.simpleMessage("Blood"),
+    "bloodType" : MessageLookupByLibrary.simpleMessage("Blood type"),
     "changedEmail" : MessageLookupByLibrary.simpleMessage("Successful changed email"),
     "changedPassword" : MessageLookupByLibrary.simpleMessage("Successful changed password"),
     "confirmPassword" : MessageLookupByLibrary.simpleMessage("Confirm password"),
+    "date" : MessageLookupByLibrary.simpleMessage("Date"),
     "differentPassword" : MessageLookupByLibrary.simpleMessage("The passwords entered are different."),
     "dismiss" : MessageLookupByLibrary.simpleMessage("Dismiss"),
-    "donate" : MessageLookupByLibrary.simpleMessage("DONATE \n"),
+    "donate" : MessageLookupByLibrary.simpleMessage("Donate"),
     "email" : MessageLookupByLibrary.simpleMessage("Your email"),
     "emailAlreadyUser" : MessageLookupByLibrary.simpleMessage("The account already exists for that email."),
     "forgetPassword" : MessageLookupByLibrary.simpleMessage("FORGET PASSWORD"),
     "forgetPasswordAsk" : MessageLookupByLibrary.simpleMessage("Forget password?"),
+    "fullName" : MessageLookupByLibrary.simpleMessage("Full Name"),
     "inputEmpty" : m0,
     "invalidEmail" : MessageLookupByLibrary.simpleMessage("The email address is not valid."),
-    "login" : MessageLookupByLibrary.simpleMessage("LOGIN"),
+    "loading" : MessageLookupByLibrary.simpleMessage("Loading..."),
+    "login" : MessageLookupByLibrary.simpleMessage("Login"),
     "loginError" : m1,
     "noMailApp" : MessageLookupByLibrary.simpleMessage("No mail apps installed"),
     "notChangedEmail" : m2,
@@ -59,15 +66,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordEmpty" : MessageLookupByLibrary.simpleMessage("Password can\'t be empty"),
     "passwordResetEmailDialogContent" : MessageLookupByLibrary.simpleMessage("We have sent you a reset password link on your registered email address"),
     "passwordResetEmailDialogTitle" : MessageLookupByLibrary.simpleMessage("Forgot your password"),
-    "registerError" : m5,
-    "saveLives" : MessageLookupByLibrary.simpleMessage("SAVE LIVES"),
-    "signUp" : MessageLookupByLibrary.simpleMessage("SIGN UP"),
+    "phone" : MessageLookupByLibrary.simpleMessage("Phone"),
+    "pleaseChooseOne" : MessageLookupByLibrary.simpleMessage("Please choose one"),
+    "pleaseEnterValue" : m5,
+    "readMore" : MessageLookupByLibrary.simpleMessage("Read more"),
+    "recentDonations" : MessageLookupByLibrary.simpleMessage("Recent donations"),
+    "registerError" : m6,
+    "saveLives" : MessageLookupByLibrary.simpleMessage("Save lives"),
+    "signUp" : MessageLookupByLibrary.simpleMessage("Sign Up"),
+    "somethingWentWrong" : MessageLookupByLibrary.simpleMessage("Something went wrong"),
     "userDeleted" : MessageLookupByLibrary.simpleMessage("Successful user deleted."),
     "userDisabled" : MessageLookupByLibrary.simpleMessage("The user corresponding to the given email has been disabled."),
     "userNotFound" : MessageLookupByLibrary.simpleMessage("No user found for that email."),
     "verifyEmailDialogContent" : MessageLookupByLibrary.simpleMessage("Link to verify account has been sent to your email"),
     "verifyEmailDialogTitle" : MessageLookupByLibrary.simpleMessage("Verify your account"),
     "weakPassword" : MessageLookupByLibrary.simpleMessage("The password provided is too weak."),
-    "wrongPassword" : MessageLookupByLibrary.simpleMessage("Wrong password provided for that user.")
+    "wrongPassword" : MessageLookupByLibrary.simpleMessage("Wrong password provided for that user."),
+    "yourBadges" : MessageLookupByLibrary.simpleMessage("Your badges")
   };
 }

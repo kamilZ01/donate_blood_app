@@ -1,11 +1,11 @@
 {
   "@@locale": "en",
   "appTitle": "Donate Blood",
-  "donate" : "DONATE \n",
-  "blood": "BLOOD\n",
-  "saveLives": "SAVE LIVES",
-  "login": "LOGIN",
-  "signUp": "SIGN UP",
+  "donate" : "Donate",
+  "blood": "Blood",
+  "saveLives": "Save lives",
+  "login": "Login",
+  "signUp": "Sign Up",
   "password": "Password",
   "forgetPassword": "FORGET PASSWORD",
   "confirmPassword": "Confirm password",
@@ -35,6 +35,18 @@
   "changedPassword": "Successful changed password",
   "notChangedPassword": "Password can't be changed. Error: {error}",
   "userDeleted": "Successful user deleted.",
-  "notUserDeleted": "User can't be delete. Error: {error}"
+  "notUserDeleted": "User can't be delete. Error: {error}",
+  "pleaseChooseOne": "Please choose one",
+  "pleaseEnterValue": "Please enter {value}",
+  "fullName" : "Full Name",
+  "phone": "Phone",
+  "bloodType": "Blood type",
+  "loading": "Loading...",
+  "recentDonations": "Recent donations",
+  "yourBadges": "Your badges",
+  "readMore": "Read more",
+  "somethingWentWrong": "Something went wrong",
+  "amount": "Amount",
+  "date": "Date"
 }
 
