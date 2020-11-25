@@ -11,13 +11,12 @@ class UserData {
 
   factory UserData() => _userData ?? UserData._internal();
 
-  Future<DocumentSnapshot> getUserData() async {
-    return await users.doc(Auth().getCurrentUser().uid).get();
+  Stream<DocumentSnapshot> getUserData() {
+    return users.doc(Auth().getCurrentUser().uid).snapshots();
   }
 
   Query getUserDonors() {
-    return donations
-        .where('userId', isEqualTo: Auth().getCurrentUser().uid);
+    return donations.where('userId', isEqualTo: Auth().getCurrentUser().uid);
   }
 
   List getBloodGroups() {

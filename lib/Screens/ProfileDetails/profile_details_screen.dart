@@ -165,16 +165,32 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         child: Column(
                           children: [
-                            FutureBuilder(
-                              future: UserData().getUserData(),
-                              builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                                if(snapshot.connectionState == ConnectionState.done){
-                                  _myActivity = snapshot.data.exists ? snapshot.data.data()["bloodGroup"] : _myActivity;
+                            StreamBuilder<DocumentSnapshot>(
+                              stream: UserData().getUserData(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.active) {
+                                  _myActivity = snapshot.data.exists
+                                      ? snapshot.data.data()["bloodGroup"]
+                                      : _myActivity;
                                   return Column(
                                     children: [
-                                      buildTextField(S.current.fullName, snapshot.data.exists ? snapshot.data.data()["fullName"] : '', false),
-                                      buildTextField("E-mail", Auth().getCurrentUser().email, true),
-                                      buildTextField(S.current.phone, snapshot.data.exists ? snapshot.data.data()["phoneNumber"] : '', false),
+                                      buildTextField(
+                                          S.current.fullName,
+                                          snapshot.data.exists
+                                              ? snapshot.data.data()["fullName"]
+                                              : '',
+                                          false),
+                                      buildTextField("E-mail",
+                                          Auth().getCurrentUser().email, true),
+                                      buildTextField(
+                                          S.current.phone,
+                                          snapshot.data.exists
+                                              ? snapshot.data
+                                                  .data()["phoneNumber"]
+                                              : '',
+                                          false),
                                       DropDownFormField(
                                         contentPadding: EdgeInsets.zero,
                                         filled: false,
@@ -197,12 +213,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                     ],
                                   );
-                                } else if(snapshot.connectionState == ConnectionState.none) {
+                                } else if (snapshot.connectionState ==
+                                    ConnectionState.none) {
                                   return Column(
                                     children: [
-                                      buildTextField(S.current.fullName, S.current.loading, false),
-                                      buildTextField("E-mail", S.current.loading, true),
-                                      buildTextField(S.current.phone, S.current.loading, false),
+                                      buildTextField(S.current.fullName,
+                                          S.current.loading, false),
+                                      buildTextField(
+                                          "E-mail", S.current.loading, true),
+                                      buildTextField(S.current.phone,
+                                          S.current.loading, false),
                                       DropDownFormField(
                                         contentPadding: EdgeInsets.zero,
                                         filled: false,
@@ -226,7 +246,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ],
                                   );
                                 }
-                                return CircularProgressIndicator();
+                                return Container();
                               },
                             ),
                             SizedBox(
