@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donate_blood/components/header_curved_container.dart';
 import 'package:donate_blood/constants.dart';
+import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/services/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,13 +14,20 @@ class ListViewEvents extends StatefulWidget {
 
 class _ListViewEventsState extends State<ListViewEvents> {
   Stream<DocumentSnapshot> _userData;
-
+  String eventType;
+  String location;
+  String typeDonation;
+  DateTime dateTime;
+  TimeOfDay timeOfDay;
   @override
   void initState() {
     super.initState();
     _userData = context.read<Repository>().getUserData();
+    // timeOfDay == null;
+    // eventType = '';
+    // location = '';
+    // typeDonation = '';
   }
-
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   //add more form field
@@ -34,38 +42,125 @@ class _ListViewEventsState extends State<ListViewEvents> {
             return AlertDialog(
               content: Form(
                   key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextFormField(
-                        controller: _textEditingController,
-                        validator: (value) {
-                          return value.isNotEmpty ? null : "Invalid Field";
-                        },
-                        decoration:
-                            InputDecoration(hintText: "Enter Some Text"),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Choice Box"),
-                          Checkbox(
-                              value: isChecked,
-                              onChanged: (checked) {
-                                setState(() {
-                                  isChecked = checked;
-                                });
-                              })
-                        ],
-                      )
-                    ],
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        buildTextForm("Event Type", eventType, (value) {
+                          eventType = value;
+                        }, (value) {
+                          eventType = value.trim();
+                        }),
+                        buildTextForm("Place", location, (value) {
+                          location = value;
+                        }, (value) {
+                          location = value.trim();
+                        }),
+                        buildTextForm("Donation Type", typeDonation, (value) {
+                          typeDonation = value;
+                        }, (value) {
+                          typeDonation = value.trim();
+                        }),
+                        Text(dateTime == null
+                            ? 'Nothing has been picked yet'
+                            : dateTime.toString()),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Expanded(
+                              flex: 4,
+                              child: InkWell(
+                                onTap: () {
+                                  showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(2000),
+                                          lastDate: DateTime(2200))
+                                      .then((date) {
+                                    setState(() {
+                                      dateTime = date;
+                                    });
+                                  });
+                                },
+                                child: new InputDecorator(
+                                  decoration: new InputDecoration(
+                                    labelText: "Date",
+                                  ),
+                                  // baseStyle: valueStyle,
+                                  child: new Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      new Text(dateTime == null
+                                          ? 'Select date'
+                                          : convertDate(dateTime)),
+                                      new Icon(Icons.arrow_drop_down,
+                                          color: Theme.of(context).brightness ==
+                                                  Brightness.light
+                                              ? Colors.grey.shade700
+                                              : Colors.white70),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: InkWell(
+                                onTap: () {
+                                  showTimePicker(
+                                    context: context,
+                                    initialTime: TimeOfDay.now(),
+                                  ).then((time) {
+                                    setState(() {
+                                      timeOfDay = time;
+                                    });
+                                  });
+                                },
+                                child: new InputDecorator(
+                                  decoration: new InputDecoration(
+                                    labelText: "Time",
+                                  ),
+                                  // baseStyle: valueStyle,
+                                  child: new Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      new Text(timeOfDay == null
+                                          ? 'Select time'
+                                          : timeOfDay.format(context)),
+                                      new Icon(Icons.arrow_drop_down,
+                                          color: Theme.of(context).brightness ==
+                                                  Brightness.light
+                                              ? Colors.grey.shade700
+                                              : Colors.white70),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(timeOfDay == null
+                            ? 'Time has been picked yet'
+                            : timeOfDay.toString()),
+                      ],
+                    ),
                   )),
               actions: <Widget>[
                 TextButton(
                   child: Text('Okay'),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
-                      // Do something like updating SharedPreferences or User Settings etc.
+                      _formKey.currentState.save();
+                      context
+                          .read<Repository>()
+                          .addEvent(eventType, location, typeDonation);
                       Navigator.of(context).pop();
                     }
                   },
@@ -74,6 +169,29 @@ class _ListViewEventsState extends State<ListViewEvents> {
             );
           });
         });
+  }
+
+  Widget buildTextForm(String label, String fieldValue,
+      ValueChanged<String> onChanged, ValueChanged<String> onSaved) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10.0),
+      child: TextFormField(
+        validator: (value) {
+          return value.isEmpty ? "Invalid Field" : null;
+        },
+        onChanged: onChanged,
+        onSaved: onSaved,
+        decoration: InputDecoration(
+          // contentPadding: EdgeInsets.only(bottom: 2),
+          labelText: label,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          hintText: S.current.enterSomeText,
+          hintStyle: TextStyle(
+            fontSize: 12,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -233,6 +351,8 @@ class _ListViewEventsState extends State<ListViewEvents> {
                 child: Icon(Icons.add),
                 onPressed: () async {
                   await showInformationDialog(context);
+                  dateTime = null;
+                  timeOfDay = null;
                 },
                 backgroundColor: Colors.red,
               );
@@ -250,5 +370,11 @@ String convertTimeStamp(Timestamp timestamp) {
   DateTime myDateTime = timestamp.toDate();
   var newFormat = DateFormat("dd/MM/yyyy - HH:mm");
   String updatedDt = newFormat.format(myDateTime);
+  return updatedDt;
+}
+
+String convertDate(DateTime dateTime) {
+  var newFormat = DateFormat("dd/MM/yyyy");
+  String updatedDt = newFormat.format(dateTime);
   return updatedDt;
 }

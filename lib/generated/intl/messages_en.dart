@@ -48,6 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "donate" : MessageLookupByLibrary.simpleMessage("Donate"),
     "email" : MessageLookupByLibrary.simpleMessage("Your email"),
     "emailAlreadyUser" : MessageLookupByLibrary.simpleMessage("The account already exists for that email."),
+    "enterSomeText" : MessageLookupByLibrary.simpleMessage("Enter Some Text"),
     "forgetPassword" : MessageLookupByLibrary.simpleMessage("FORGET PASSWORD"),
     "forgetPasswordAsk" : MessageLookupByLibrary.simpleMessage("Forget password?"),
     "fullName" : MessageLookupByLibrary.simpleMessage("Full Name"),
