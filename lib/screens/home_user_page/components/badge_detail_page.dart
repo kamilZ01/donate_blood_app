@@ -1,6 +1,6 @@
-import 'package:donate_blood/Screens/HomeUserPage/components/data.dart';
 import 'package:donate_blood/constants.dart';
 import 'package:flutter/material.dart';
+import 'data.dart';
 
 class DetailPage extends StatelessWidget {
   final BadgesInfo badgesInfo;

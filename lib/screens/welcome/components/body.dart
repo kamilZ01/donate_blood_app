@@ -1,6 +1,6 @@
 import 'package:donate_blood/Screens/Login/login_screen.dart';
 import 'package:donate_blood/Screens/Signup/signup_screen.dart';
-import 'package:donate_blood/Screens/Welcome/components/background.dart';
+import 'package:donate_blood/components/background.dart';
 import 'package:donate_blood/components/rounded_button.dart';
 import 'package:donate_blood/constants.dart';
 import 'package:donate_blood/generated/l10n.dart';

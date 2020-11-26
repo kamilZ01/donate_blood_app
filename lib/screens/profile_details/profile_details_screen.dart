@@ -1,14 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:donate_blood/Screens/HomeUserPage/home_page_screen.dart';
-import 'package:donate_blood/Screens/ProfileDetails/components/settings_page.dart';
 import 'package:donate_blood/components/header_curved_container.dart';
 import 'package:donate_blood/constants.dart';
 import 'package:donate_blood/generated/l10n.dart';
+import 'package:donate_blood/screens/home_user_page/home_page_screen.dart';
 import 'package:donate_blood/services/authentication.dart';
-import 'package:donate_blood/services/user_data.dart';
+import 'package:donate_blood/services/repository.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'components/settings_page.dart';
 
 // ignore: must_be_immutable
 class ProfilePage extends StatefulWidget {
@@ -23,12 +25,16 @@ class _ProfilePageState extends State<ProfilePage> {
   String _myActivityResult;
   String _name;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  Stream<DocumentSnapshot> _userData;
+  List<dynamic> _bloodGroups;
 
   @override
   void initState() {
     super.initState();
     _myActivity = '';
     _myActivityResult = '';
+    _userData = context.read<Repository>().getUserData();
+    _bloodGroups = context.read<Repository>().getBloodGroups();
   }
 
   _saveForm() {
@@ -166,7 +172,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Column(
                           children: [
                             StreamBuilder<DocumentSnapshot>(
-                              stream: UserData().getUserData(),
+                              stream: _userData,
                               builder: (BuildContext context,
                                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                                 if (snapshot.connectionState ==
@@ -207,7 +213,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             _myActivity = value;
                                           });
                                         },
-                                        dataSource: UserData().getBloodGroups(),
+                                        dataSource: _bloodGroups,
                                         textField: "display",
                                         valueField: "value",
                                       ),
@@ -239,7 +245,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             _myActivity = value;
                                           });
                                         },
-                                        dataSource: UserData().getBloodGroups(),
+                                        dataSource: _bloodGroups,
                                         textField: "display",
                                         valueField: "value",
                                       ),

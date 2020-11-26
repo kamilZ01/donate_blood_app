@@ -1,16 +1,16 @@
-import 'package:donate_blood/Screens/HomeUserPage/home_page_screen.dart';
-import 'package:donate_blood/Screens/Signup/signup_screen.dart';
 import 'package:donate_blood/components/already_have_an_account_check.dart';
 import 'package:donate_blood/components/rounded_button.dart';
 import 'package:donate_blood/components/rounded_email_field.dart';
 import 'package:donate_blood/components/rounded_password_field.dart';
 import 'package:donate_blood/generated/l10n.dart';
+import 'package:donate_blood/screens/home_user_page/home_page_screen.dart';
+import 'package:donate_blood/screens/signup/signup_screen.dart';
 import 'package:donate_blood/services/authentication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../constants.dart';
-import 'components/background.dart';
+import 'package:donate_blood/constants.dart';
+import 'package:donate_blood/components/background.dart';
 import 'components/forgot_password_page.dart';
 
 class LoginScreen extends StatefulWidget {

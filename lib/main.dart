@@ -1,7 +1,9 @@
-import 'package:donate_blood/Screens/HomeUserPage/home_page_screen.dart';
-import 'package:donate_blood/Screens/Welcome/welcome_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donate_blood/constants.dart';
+import 'package:donate_blood/screens/home_user_page/home_page_screen.dart';
+import 'package:donate_blood/screens/welcome/welcome_screen.dart';
 import 'package:donate_blood/services/authentication.dart';
+import 'package:donate_blood/services/repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -9,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 
 import 'generated/l10n.dart';
 
@@ -28,23 +31,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User user = Auth().getCurrentUser();
-    return MaterialApp(
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        S.delegate,
-      ],
-      supportedLocales: S.delegate.supportedLocales,
-      debugShowCheckedModeBanner: false,
-      title: "Donate Blood",
-      theme: ThemeData(
-        primaryColor: kPrimaryColor,
-        scaffoldBackgroundColor: Colors.white,
+    return Provider<Repository>(
+      create: (_) => Repository(FirebaseFirestore.instance),
+      child: MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          S.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        debugShowCheckedModeBanner: false,
+        title: "Donate Blood",
+        theme: ThemeData(
+          primaryColor: kPrimaryColor,
+          scaffoldBackgroundColor: Colors.white,
+        ),
+        home: (user != null && user.uid.isNotEmpty)
+            ? HomePageScreen()
+            : WelcomeScreen(),
       ),
-      home: (user != null && user.uid.isNotEmpty)
-          ? HomePageScreen()
-          : WelcomeScreen(),
     );
   }
 }

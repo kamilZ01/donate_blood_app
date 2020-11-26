@@ -7,7 +7,7 @@ import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/services/authentication.dart';
 import 'package:flutter/material.dart';
 
-import 'components/background.dart';
+import 'package:donate_blood/components/background.dart';
 import 'components/or_divider.dart';
 import 'components/social_icons.dart';
 

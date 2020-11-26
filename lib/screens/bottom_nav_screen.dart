@@ -1,7 +1,8 @@
-import 'package:donate_blood/Screens/Events/list_view_events.dart';
-import 'package:donate_blood/Screens/HomeUserPage/components/home_screen.dart';
-import 'package:donate_blood/Screens/ProfileDetails/profile_details_screen.dart';
+import 'package:donate_blood/screens/profile_details/profile_details_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'events/list_view_events.dart';
+import 'home_user_page/components/home_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
   @override
@@ -35,7 +36,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
             .map((key, value) => MapEntry(
                   key,
                   BottomNavigationBarItem(
-                    title: Text(''),
+                    label: '',
                     icon: Container(
                       padding: const EdgeInsets.symmetric(
                         vertical: 6.0,

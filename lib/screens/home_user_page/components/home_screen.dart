@@ -1,12 +1,13 @@
-import 'package:donate_blood/Screens/HomeUserPage/components/badge_detail_page.dart';
-import 'package:donate_blood/Screens/HomeUserPage/components/data.dart';
-import 'package:donate_blood/Screens/HomeUserPage/components/user_information.dart';
-import 'package:donate_blood/Screens/ProfileDetails/components/user_detail.dart';
 import 'package:donate_blood/components/header_curved_container.dart';
 import 'package:donate_blood/generated/l10n.dart';
+import 'package:donate_blood/screens/home_user_page/components/user_information.dart';
+import 'package:donate_blood/screens/profile_details/components/user_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+
+import 'badge_detail_page.dart';
+import 'data.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -14,6 +15,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   ScrollController controller = new ScrollController();
   @override
   Widget build(BuildContext context) {
@@ -181,4 +189,5 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
 }

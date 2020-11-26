@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 
-import 'background.dart';
+import 'package:donate_blood/components/background.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   @override

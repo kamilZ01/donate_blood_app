@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donate_blood/components/header_curved_container.dart';
 import 'package:donate_blood/constants.dart';
-import 'package:donate_blood/services/user_data.dart';
+import 'package:donate_blood/services/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class ListViewEvents extends StatefulWidget {
   @override
@@ -11,6 +12,15 @@ class ListViewEvents extends StatefulWidget {
 }
 
 class _ListViewEventsState extends State<ListViewEvents> {
+  Stream<DocumentSnapshot> _userData;
+
+  @override
+  void initState() {
+    super.initState();
+    _userData = context.read<Repository>().getUserData();
+  }
+
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   //add more form field
   Future<void> showInformationDialog(BuildContext context) async {
@@ -213,7 +223,7 @@ class _ListViewEventsState extends State<ListViewEvents> {
         },
       ),
       floatingActionButton: StreamBuilder<DocumentSnapshot>(
-        stream: UserData().getUserData(),
+        stream: _userData,
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
