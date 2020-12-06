@@ -25,12 +25,13 @@ class Repository {
   // }
 
   Future<void> addEvent(
-      String eventType, String location, String typeDonation) {
+      String eventType, String location, String typeDonation, DateTime date) {
     return events
         .add({
           'eventType': eventType,
           'location': location,
-          'typeDonation': typeDonation
+          'typeDonation': typeDonation,
+          'date': date
         })
         .then((value) => print("events added"))
         .catchError((error) => print("Failed to add event: $error"));

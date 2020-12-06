@@ -19,14 +19,12 @@ class _ListViewEventsState extends State<ListViewEvents> {
   String typeDonation;
   DateTime dateTime;
   TimeOfDay timeOfDay;
+  String message;
   @override
   void initState() {
     super.initState();
     _userData = context.read<Repository>().getUserData();
-    // timeOfDay == null;
-    // eventType = '';
-    // location = '';
-    // typeDonation = '';
+    message = '';
   }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -35,132 +33,55 @@ class _ListViewEventsState extends State<ListViewEvents> {
     return await showDialog(
         context: context,
         builder: (context) {
-          final TextEditingController _textEditingController =
-              TextEditingController();
-          bool isChecked = false;
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
               content: Form(
-                  key: _formKey,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        buildTextForm("Event Type", eventType, (value) {
-                          eventType = value;
-                        }, (value) {
-                          eventType = value.trim();
-                        }),
-                        buildTextForm("Place", location, (value) {
-                          location = value;
-                        }, (value) {
-                          location = value.trim();
-                        }),
-                        buildTextForm("Donation Type", typeDonation, (value) {
-                          typeDonation = value;
-                        }, (value) {
-                          typeDonation = value.trim();
-                        }),
-                        Text(dateTime == null
-                            ? 'Nothing has been picked yet'
-                            : dateTime.toString()),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Expanded(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      buildTextForm("Event Type", eventType, (value) {
+                        eventType = value;
+                      }, (value) {
+                        eventType = value.trim();
+                      }),
+                      buildTextForm("Place", location, (value) {
+                        location = value;
+                      }, (value) {
+                        location = value.trim();
+                      }),
+                      buildTextForm("Donation Type", typeDonation, (value) {
+                        typeDonation = value;
+                      }, (value) {
+                        typeDonation = value.trim();
+                      }),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
                               flex: 4,
-                              child: InkWell(
-                                onTap: () {
-                                  showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime(2000),
-                                          lastDate: DateTime(2200))
-                                      .then((date) {
-                                    setState(() {
-                                      dateTime = date;
-                                    });
-                                  });
-                                },
-                                child: new InputDecorator(
-                                  decoration: new InputDecoration(
-                                    labelText: "Date",
-                                  ),
-                                  // baseStyle: valueStyle,
-                                  child: new Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      new Text(dateTime == null
-                                          ? 'Select date'
-                                          : convertDate(dateTime)),
-                                      new Icon(Icons.arrow_drop_down,
-                                          color: Theme.of(context).brightness ==
-                                                  Brightness.light
-                                              ? Colors.grey.shade700
-                                              : Colors.white70),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            Expanded(
+                              child: selectEventDateTime(context, setState,
+                                  "date", "Date", "Select date")),
+                          SizedBox(width: 10.0),
+                          Expanded(
                               flex: 3,
-                              child: InkWell(
-                                onTap: () {
-                                  showTimePicker(
-                                    context: context,
-                                    initialTime: TimeOfDay.now(),
-                                  ).then((time) {
-                                    setState(() {
-                                      timeOfDay = time;
-                                    });
-                                  });
-                                },
-                                child: new InputDecorator(
-                                  decoration: new InputDecoration(
-                                    labelText: "Time",
-                                  ),
-                                  // baseStyle: valueStyle,
-                                  child: new Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      new Text(timeOfDay == null
-                                          ? 'Select time'
-                                          : timeOfDay.format(context)),
-                                      new Icon(Icons.arrow_drop_down,
-                                          color: Theme.of(context).brightness ==
-                                                  Brightness.light
-                                              ? Colors.grey.shade700
-                                              : Colors.white70),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(timeOfDay == null
-                            ? 'Time has been picked yet'
-                            : timeOfDay.toString()),
-                      ],
-                    ),
-                  )),
+                              child: selectEventDateTime(context, setState,
+                                  "time", "Time", "Select time")),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               actions: <Widget>[
                 TextButton(
-                  child: Text('Okay'),
+                  child: Text('Add event'),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
-                      context
-                          .read<Repository>()
-                          .addEvent(eventType, location, typeDonation);
+                      context.read<Repository>().addEvent(
+                          eventType, location, typeDonation, getEventDate());
                       Navigator.of(context).pop();
                     }
                   },
@@ -169,6 +90,52 @@ class _ListViewEventsState extends State<ListViewEvents> {
             );
           });
         });
+  }
+
+  InkWell selectEventDateTime(BuildContext context, StateSetter setState,
+      String typePicker, String label, String hintText) {
+    return InkWell(
+      onTap: () {
+        typePicker == "date"
+            ? showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2200))
+                .then((date) {
+                setState(() {
+                  dateTime = date;
+                });
+              })
+            : showTimePicker(
+                context: context,
+                initialTime: TimeOfDay.now(),
+              ).then((time) {
+                setState(() {
+                  timeOfDay = time;
+                });
+              });
+      },
+      child: new InputDecorator(
+        decoration: new InputDecoration(
+          labelText: label,
+        ),
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            typePicker == "date"
+                ? new Text(dateTime == null ? hintText : convertDate(dateTime))
+                : new Text(
+                    timeOfDay == null ? hintText : timeOfDay.format(context)),
+            new Icon(Icons.keyboard_arrow_down_outlined,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Colors.grey.shade700
+                    : Colors.white70),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget buildTextForm(String label, String fieldValue,
@@ -229,7 +196,6 @@ class _ListViewEventsState extends State<ListViewEvents> {
                     top: 65,
                     bottom: 55,
                   ),
-                  // padding: EdgeInsets.all(70.0),
                   child: Text(
                     "Upcoming Events",
                     style: TextStyle(
@@ -261,9 +227,8 @@ class _ListViewEventsState extends State<ListViewEvents> {
                         child: Column(
                           children: [
                             new ListTile(
-                              leading: CircleAvatar(
-                                child: Image.asset('assets/icons/event.png'),
-                                backgroundColor: Colors.white,
+                              leading: Image.asset(
+                                'assets/icons/event.png',
                               ),
                               title: new Text(
                                 document.data()['eventType'],
@@ -310,8 +275,9 @@ class _ListViewEventsState extends State<ListViewEvents> {
                                         document.data()['typeDonation'],
                                         style: document
                                                     .data()['typeDonation']
-                                                    .toString() ==
-                                                'Urgent'
+                                                    .toString()
+                                                    .toLowerCase() ==
+                                                'urgent'
                                             ? new TextStyle(
                                                 color: kPrimaryColor,
                                                 fontSize: 15.0,
@@ -321,8 +287,6 @@ class _ListViewEventsState extends State<ListViewEvents> {
                                       ),
                                     ],
                                   ),
-                                  // new Text("Date: " +
-                                  //     convertTimeStamp(document.data()['created'])),
                                   Divider(
                                     thickness: 3,
                                   ),
@@ -363,6 +327,11 @@ class _ListViewEventsState extends State<ListViewEvents> {
         },
       ),
     );
+  }
+
+  DateTime getEventDate() {
+    return new DateTime(dateTime.year, dateTime.month, dateTime.day,
+        timeOfDay.hour, timeOfDay.minute);
   }
 }
 
