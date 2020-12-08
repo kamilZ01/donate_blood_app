@@ -1,3 +1,4 @@
+import 'package:donate_blood/Screens/donations_collections//donations_collections.dart';
 import 'package:donate_blood/screens/profile_details/profile_details_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class BottomNavScreen extends StatefulWidget {
 class _BottomNavScreenState extends State<BottomNavScreen> {
   final List _screens = [
     HomeScreen(),
-    Container(),
+    DonationsCollections(),
     ListViewEvents(),
     ProfilePage(),
   ];

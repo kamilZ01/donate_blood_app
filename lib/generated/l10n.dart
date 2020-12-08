@@ -524,6 +524,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Donor`
+  String get donor {
+    return Intl.message(
+      'Donor',
+      name: 'donor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Collections`
+  String get collections {
+    return Intl.message(
+      'Collections',
+      name: 'collections',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome`
+  String get welcome {
+    return Intl.message(
+      'Welcome',
+      name: 'welcome',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recent collections`
+  String get recentCollections {
+    return Intl.message(
+      'Recent collections',
+      name: 'recentCollections',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

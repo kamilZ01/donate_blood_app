@@ -6,6 +6,8 @@ class Repository {
   final FirebaseFirestore _firestore;
 
   CollectionReference events = FirebaseFirestore.instance.collection('events');
+  CollectionReference donations =
+      FirebaseFirestore.instance.collection('donations');
 
   Stream<DocumentSnapshot> getUserData() {
     return _firestore
@@ -14,15 +16,15 @@ class Repository {
         .snapshots();
   }
 
-  Query getUserDonors() {
-    return _firestore
-        .collection('donations')
-        .where('userId', isEqualTo: Auth().getCurrentUser().uid);
+  Query getUserDonations() {
+    return _firestore.collection('donations').where('userId',
+        isEqualTo: _firestore.doc('/users/' + Auth().getCurrentUser().uid));
   }
 
-  // CollectionReference getEventsCollection() {
-  //   return events = FirebaseFirestore.instance.collection('events');
-  // }
+  Query getNurseCollections() {
+    return _firestore.collection('donations').where('nurseId',
+        isEqualTo: _firestore.doc('/users/' + Auth().getCurrentUser().uid));
+  }
 
   Future<void> addEvent(
       String eventType, String location, String typeDonation, DateTime date) {
@@ -35,6 +37,13 @@ class Repository {
         })
         .then((value) => print("events added"))
         .catchError((error) => print("Failed to add event: $error"));
+  }
+
+  Future<void> addDonations(String user, String donationType, int amount) {
+    return donations
+        .add({'userId': user, 'donationType': donationType, 'amount': amount})
+        .then((value) => print("donation added"))
+        .catchError((error) => print("Failed to add donations: $error"));
   }
 
   List getBloodGroups() {

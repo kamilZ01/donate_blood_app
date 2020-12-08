@@ -48,6 +48,10 @@
   "somethingWentWrong": "Something went wrong",
   "amount": "Amount",
   "date": "Date",
-  "enterSomeText": "Enter Some Text"
+  "enterSomeText": "Enter Some Text",
+  "donor": "Donor",
+  "collections": "Collections",
+  "welcome": "Welcome",
+  "recentCollections": "Recent collections"
 }
 
