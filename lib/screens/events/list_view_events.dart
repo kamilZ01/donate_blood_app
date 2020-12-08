@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:donate_blood/components/build_text_form.dart';
 import 'package:donate_blood/components/header_curved_container.dart';
 import 'package:donate_blood/constants.dart';
-import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/services/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -41,17 +41,17 @@ class _ListViewEventsState extends State<ListViewEvents> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      buildTextForm("Event Type", eventType, (value) {
+                      BuildTextForm("Event Type", eventType, (value) {
                         eventType = value;
                       }, (value) {
                         eventType = value.trim();
                       }),
-                      buildTextForm("Place", location, (value) {
+                      BuildTextForm("Place", location, (value) {
                         location = value;
                       }, (value) {
                         location = value.trim();
                       }),
-                      buildTextForm("Donation Type", typeDonation, (value) {
+                      BuildTextForm("Donation Type", typeDonation, (value) {
                         typeDonation = value;
                       }, (value) {
                         typeDonation = value.trim();
@@ -133,29 +133,6 @@ class _ListViewEventsState extends State<ListViewEvents> {
                     ? Colors.grey.shade700
                     : Colors.white70),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildTextForm(String label, String fieldValue,
-      ValueChanged<String> onChanged, ValueChanged<String> onSaved) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
-      child: TextFormField(
-        validator: (value) {
-          return value.isEmpty ? "Invalid Field" : null;
-        },
-        onChanged: onChanged,
-        onSaved: onSaved,
-        decoration: InputDecoration(
-          // contentPadding: EdgeInsets.only(bottom: 2),
-          labelText: label,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          hintText: S.current.enterSomeText,
-          hintStyle: TextStyle(
-            fontSize: 12,
-          ),
         ),
       ),
     );
@@ -309,7 +286,6 @@ class _ListViewEventsState extends State<ListViewEvents> {
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
-            // Map isN = snapshot.data.data();
             if (snapshot.data.exists && snapshot.data.data()['isNurse'])
               return FloatingActionButton(
                 child: Icon(Icons.add),

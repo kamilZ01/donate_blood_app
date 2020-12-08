@@ -21,6 +21,8 @@ class _DonationsCollectionsState extends State<DonationsCollections> {
     _userData = context.read<Repository>().getUserData();
   }
 
+  ScrollController scrollController = new ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -61,8 +63,11 @@ class _DonationsCollectionsState extends State<DonationsCollections> {
                       height: 20,
                     ),
                     snapshot.data.data()['isNurse']
-                        ? NurseBloodCollections()
-                        : UserDonations(),
+                        ? Expanded(
+                            child:
+                                NurseBloodCollections(false, scrollController))
+                        : Expanded(
+                            child: UserDonations(false, scrollController)),
                   ],
                 ),
                 floatingActionButton: snapshot.data.data()['isNurse']

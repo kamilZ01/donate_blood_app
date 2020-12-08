@@ -9,6 +9,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class NurseBloodCollections extends StatefulWidget {
+  final bool setLimit;
+  final ScrollController controller;
+
+  NurseBloodCollections(this.setLimit, this.controller);
+
   @override
   _NurseBloodCollectionsState createState() => _NurseBloodCollectionsState();
 }
@@ -28,7 +33,12 @@ class _NurseBloodCollectionsState extends State<NurseBloodCollections> {
       child: Column(
         children: [
           StreamBuilder<QuerySnapshot>(
-            stream: _nurseCollections.snapshots(),
+            stream: widget.setLimit
+                ? _nurseCollections
+                    .orderBy('donationDate', descending: false)
+                    .limitToLast(3)
+                    .snapshots()
+                : _nurseCollections.snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
@@ -39,7 +49,7 @@ class _NurseBloodCollectionsState extends State<NurseBloodCollections> {
                 return CircularProgressIndicator();
               }
               return new ListView(
-                // controller: widget.controller,
+                controller: widget.controller,
                 shrinkWrap: true,
                 padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
                 children: snapshot.data.size == 0
@@ -49,10 +59,7 @@ class _NurseBloodCollectionsState extends State<NurseBloodCollections> {
                     : snapshot.data.docs.map(
                         (DocumentSnapshot document) {
                           return Container(
-                            padding: EdgeInsets.all(10.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
+                            padding: EdgeInsets.all(4.0),
                             margin: EdgeInsets.only(
                               left: 20,
                               right: 20,
@@ -110,13 +117,12 @@ class _NurseBloodCollectionsState extends State<NurseBloodCollections> {
                                             return Text("Donor: " +
                                                 user.data.data()['fullName']);
                                           }
-                                          return Text("Loading...");
+                                          return Text(S.current.loading);
                                         },
                                       ),
                                       Divider(
                                         thickness: 3,
                                       ),
-                                      // new Text(formatTime(document.data()['created'])),
                                     ],
                                   ),
                                 ),
