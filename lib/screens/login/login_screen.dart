@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    S.current.login,
+                    S.current.login.toUpperCase(),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Container(

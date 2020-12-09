@@ -21,29 +21,29 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   bool showPassword = false;
 
-  String _myActivity;
-  String _myActivityResult;
-  String _name;
+  String _fullName;
+  String _email;
+  String _phone;
+  String _bloodGroup;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Stream<DocumentSnapshot> _userData;
-  List<dynamic> _bloodGroups;
+  List _bloodGroupsList;
 
   @override
   void initState() {
     super.initState();
-    _myActivity = '';
-    _myActivityResult = '';
+    _fullName = S.current.loading;
+    _email = S.current.loading;
+    _phone = S.current.loading;
+    _bloodGroup = '';
     _userData = context.read<Repository>().getUserData();
-    _bloodGroups = context.read<Repository>().getBloodGroups();
+    _bloodGroupsList = context.read<Repository>().getBloodGroups();
   }
 
   _saveForm() {
     var form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-      setState(() {
-        _myActivityResult = _myActivity;
-      });
     }
   }
 
@@ -97,7 +97,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
-                    "Edit Profile",
+                    S.current.editProfile,
                     style: TextStyle(
                       fontSize: 30,
                       letterSpacing: 1.5,
@@ -177,135 +177,80 @@ class _ProfilePageState extends State<ProfilePage> {
                                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.active) {
-                                  _myActivity = snapshot.data.exists
-                                      ? snapshot.data.data()["bloodGroup"]
-                                      : _myActivity;
+                                  _fullName = snapshot.data.exists
+                                      ? snapshot.data.data()["fullName"]
+                                      : '';
+                                  _phone = snapshot.data.exists
+                                      ? snapshot.data.data()["phoneNumber"]
+                                      : '';
+                                  _email = Auth().getCurrentUser().email;
                                   return Column(
                                     children: [
                                       buildTextField(
-                                          S.current.fullName,
-                                          snapshot.data.exists
-                                              ? snapshot.data.data()["fullName"]
-                                              : '',
-                                          false),
-                                      buildTextField("E-mail",
-                                          Auth().getCurrentUser().email, true),
+                                          S.current.fullName, _fullName, false),
+                                      buildTextField("E-mail", _email, true),
                                       buildTextField(
-                                          S.current.phone,
-                                          snapshot.data.exists
-                                              ? snapshot.data
-                                                  .data()["phoneNumber"]
-                                              : '',
-                                          false),
+                                          S.current.phone, _phone, false),
                                       DropDownFormField(
                                         contentPadding: EdgeInsets.zero,
                                         filled: false,
                                         titleText: S.current.bloodType,
-                                        hintText: S.current.pleaseChooseOne,
-                                        value: _myActivity,
-                                        onSaved: (value) {
-                                          setState(() {
-                                            _myActivity = value;
-                                          });
-                                        },
+                                        hintText: snapshot.data.exists &&
+                                                snapshot.data
+                                                    .data()['bloodGroup']
+                                                    .toString()
+                                                    .isNotEmpty
+                                            ? snapshot.data
+                                                .data()["bloodGroup"]
+                                                .toString()
+                                            : S.current.pleaseChooseOne,
+                                        value: _bloodGroup,
                                         onChanged: (value) {
                                           setState(() {
-                                            _myActivity = value;
+                                            _bloodGroup = value;
                                           });
                                         },
-                                        dataSource: _bloodGroups,
-                                        textField: "display",
-                                        valueField: "value",
-                                      ),
-                                    ],
-                                  );
-                                } else if (snapshot.connectionState ==
-                                    ConnectionState.none) {
-                                  return Column(
-                                    children: [
-                                      buildTextField(S.current.fullName,
-                                          S.current.loading, false),
-                                      buildTextField(
-                                          "E-mail", S.current.loading, true),
-                                      buildTextField(S.current.phone,
-                                          S.current.loading, false),
-                                      DropDownFormField(
-                                        contentPadding: EdgeInsets.zero,
-                                        filled: false,
-                                        titleText: S.current.bloodType,
-                                        hintText: S.current.pleaseChooseOne,
-                                        value: _myActivity,
                                         onSaved: (value) {
                                           setState(() {
-                                            _myActivity = value;
+                                            _bloodGroup = value;
                                           });
                                         },
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _myActivity = value;
-                                          });
-                                        },
-                                        dataSource: _bloodGroups,
+                                        dataSource: _bloodGroupsList,
                                         textField: "display",
                                         valueField: "value",
                                       ),
                                     ],
                                   );
                                 }
-                                return Container();
+                                return CircularProgressIndicator();
                               },
                             ),
                             SizedBox(
                               height: 5,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                OutlineButton(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 50,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  highlightedBorderColor: Colors.white,
-                                  onPressed: () {},
-                                  child: Text(
-                                    "CANCEL",
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      letterSpacing: 2.2,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                RaisedButton(
-                                  onPressed: () {
-                                    if (!_formKey.currentState.validate()) {
-                                      return;
-                                    }
+                            RaisedButton(
+                              onPressed: () {
+                                if (!_formKey.currentState.validate()) {
+                                  return;
+                                }
 
-                                    _formKey.currentState.save();
-
-                                    print(_name);
-                                  },
-                                  color: kPrimaryColor,
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 50,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Text(
-                                    "SAVE",
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      letterSpacing: 2.2,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                _formKey.currentState.save();
+                              },
+                              color: kPrimaryColor,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 50,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Text(
+                                "SAVE",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  letterSpacing: 2.2,
+                                  color: Colors.white,
                                 ),
-                              ],
+                              ),
                             ),
                             SizedBox(
                               height: 5,
@@ -324,11 +269,11 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget buildTextField(String labelText, String placeholder, bool isEmail) {
+  Widget buildTextField(String labelText, String fieldValue, bool isEmail) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),
       child: TextFormField(
-        initialValue: placeholder,
+        initialValue: fieldValue,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(bottom: 3),
           labelText: labelText,
@@ -352,8 +297,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
           return null;
         },
-        onSaved: (String value) {
-          _name = value;
+        onChanged: (String value) {
+          fieldValue = value;
         },
       ),
     );

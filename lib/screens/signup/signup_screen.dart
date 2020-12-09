@@ -1,5 +1,6 @@
 import 'package:donate_blood/Screens/Login/login_screen.dart';
 import 'package:donate_blood/components/already_have_an_account_check.dart';
+import 'package:donate_blood/components/email_sent_dialog.dart';
 import 'package:donate_blood/components/rounded_button.dart';
 import 'package:donate_blood/components/rounded_email_field.dart';
 import 'package:donate_blood/components/rounded_password_field.dart';
@@ -49,7 +50,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
       await Auth().sendEmailVerification();
       if (Auth().getCurrentUser() != null &&
           Auth().getCurrentUser().uid == signUpResult) {
-        _showVerifyEmailSentDialog();
+        showDialog<void>(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            return EmailSentDialog(
+                S.current.verifyEmailDialogTitle,
+                S.current.verifyEmailDialogContent);
+          },
+        );
         return true;
       } else {
         _errorMessage = signUpResult;
@@ -73,7 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  S.current.signUp,
+                  S.current.signUp.toUpperCase(),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -159,7 +167,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _showVerifyEmailSentDialog() {
+ /* void _showVerifyEmailSentDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -180,5 +188,5 @@ class _SignUpScreenState extends State<SignUpScreen> {
         );
       },
     );
-  }
+  }*/
 }

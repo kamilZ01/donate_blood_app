@@ -48,6 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dismiss" : MessageLookupByLibrary.simpleMessage("Dismiss"),
     "donate" : MessageLookupByLibrary.simpleMessage("Donate"),
     "donor" : MessageLookupByLibrary.simpleMessage("Donor"),
+    "editProfile" : MessageLookupByLibrary.simpleMessage("Edit Profile"),
     "email" : MessageLookupByLibrary.simpleMessage("Your email"),
     "emailAlreadyUser" : MessageLookupByLibrary.simpleMessage("The account already exists for that email."),
     "enterSomeText" : MessageLookupByLibrary.simpleMessage("Enter Some Text"),

@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User user = Auth().getCurrentUser();
+    
     return Provider<Repository>(
       create: (_) => Repository(FirebaseFirestore.instance),
       child: MaterialApp(

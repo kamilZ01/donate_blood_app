@@ -1,11 +1,10 @@
-import 'package:donate_blood/Screens/Login/login_screen.dart';
+import 'package:donate_blood/components/email_sent_dialog.dart';
 import 'package:donate_blood/components/rounded_button.dart';
 import 'package:donate_blood/components/rounded_email_field.dart';
 import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/services/authentication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:open_mail_app/open_mail_app.dart';
 
 import 'package:donate_blood/components/background.dart';
 
@@ -66,7 +65,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     text: S.current.forgetPassword,
                     press: () {
                       if (_validateAndSubmit()) {
-                        _showPasswordResetEmailSentDialog();
+                        showDialog<void>(
+                          context: context,
+                          builder: (BuildContext dialogContext) {
+                            return EmailSentDialog(
+                                S.current.passwordResetEmailDialogTitle,
+                                S.current.passwordResetEmailDialogContent);
+                          },
+                        );
                       }
                     }),
               ],
@@ -74,74 +80,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           ),
         ),
       ),
-    );
-  }
-
-  void _showPasswordResetEmailSentDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text(S.current.passwordResetEmailDialogTitle),
-          content: new Text(S.current.passwordResetEmailDialogContent),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Text(S.current.dismiss),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return LoginScreen();
-                }));
-              },
-            ),
-            new FlatButton(
-              child: new Text(S.current.openEmailApp),
-              onPressed: () async {
-                var result = await OpenMailApp.openMailApp();
-                // If no mail apps found, show error
-                if (!result.didOpen && !result.canOpen) {
-                  showNoMailAppsDialog(context);
-                } else if (!result.didOpen && result.canOpen) {
-                  showDialog(
-                    context: context,
-                    builder: (_) {
-                      return MailAppPickerDialog(
-                        mailApps: result.options,
-                      );
-                    },
-                  );
-                } else {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return LoginScreen();
-                  }));
-                }
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
-
-  void showNoMailAppsDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(S.current.openEmailApp),
-          content: Text(S.current.noMailApp),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("OK"),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return LoginScreen();
-                }));
-              },
-            )
-          ],
-        );
-      },
     );
   }
 }
