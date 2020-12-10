@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
     return Provider<Repository>(
       create: (_) => Repository(FirebaseFirestore.instance),
       child: MaterialApp(
+        builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

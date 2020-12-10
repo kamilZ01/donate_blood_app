@@ -5,10 +5,6 @@ class Repository {
   Repository(this._firestore) : assert(_firestore != null);
   final FirebaseFirestore _firestore;
 
-  CollectionReference events = FirebaseFirestore.instance.collection('events');
-  CollectionReference donations =
-      FirebaseFirestore.instance.collection('donations');
-
   Stream<DocumentSnapshot> getUserData() {
     return _firestore
         .collection('users')
@@ -28,7 +24,8 @@ class Repository {
 
   Future<void> addEvent(
       String eventType, String location, String typeDonation, DateTime date) {
-    return events
+    return _firestore
+        .collection('events')
         .add({
           'eventType': eventType,
           'location': location,
@@ -39,11 +36,41 @@ class Repository {
         .catchError((error) => print("Failed to add event: $error"));
   }
 
-  Future<void> addDonations(String user, String donationType, int amount) {
-    return donations
-        .add({'userId': user, 'donationType': donationType, 'amount': amount})
+  Future<void> addDonation(String user, String nurse, String donationType,
+      int amount, DateTime date) {
+    return _firestore
+        .collection('donations')
+        .add({
+          'amount': amount,
+          'userId': _firestore.doc('/users/' + user),
+          'nurseId': _firestore.doc('/users/' + nurse),
+          'donationType': donationType,
+          'donationDate': date
+        })
         .then((value) => print("donation added"))
-        .catchError((error) => print("Failed to add donations: $error"));
+        .catchError((error) => print("Failed to add donation: $error"));
+  }
+
+  Future<String> updateUser(String fullName, DateTime dateOfBirth, String phoneNumber, String bloodGroup) async {
+/*    Map<String,dynamic> fields = HashMap<String,dynamic>();
+    if(fullName.isNotEmpty)
+      fields.addAll({'fullName':fullName.trim()});
+    if( phoneNumber.isNotEmpty)
+      fields.addAll({'phoneNumber': phoneNumber.trim()});
+    if(bloodGroup.isNotEmpty)
+      fields.addAll({'bloodGroup':bloodGroup.trim()});*/
+
+    return await _firestore
+        .collection('users')
+        .doc(Auth().getCurrentUser().uid)
+        .update({
+          'fullName': fullName,
+          'dateOfBirth': dateOfBirth,
+          'phoneNumber': phoneNumber,
+          'bloodGroup': bloodGroup
+        })
+        .then((value) => "User data has been successfully updated.")
+        .catchError((error) => "User data has not been updated. Error: $error");
   }
 
   List getBloodGroups() {

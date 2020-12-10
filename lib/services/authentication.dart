@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:donate_blood/generated/l10n.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -14,7 +16,7 @@ abstract class BaseAuth {
 
   Future<bool> isEmailVerified();
 
-  Future<String> changeEmail(String email);
+  Future<String> changeEmail(String email, String currentPassword);
 
   Future<String> changePassword(String password);
 
@@ -26,7 +28,6 @@ abstract class BaseAuth {
 class Auth implements BaseAuth {
   static Auth _auth;
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
 
   Auth._internal();
 
@@ -107,13 +108,36 @@ class Auth implements BaseAuth {
   }
 
   @override
-  Future<String> changeEmail(String email) async {
-    await _firebaseAuth.currentUser.updateEmail(email).then((_) {
-      return S.current.changedEmail;
-    }).catchError((e) {
-      return S.current.notChangedEmail(e.toString());
-    });
-    return null;
+  Future<String> changeEmail(String email, String currentPassword) async {
+    try {
+      await _firebaseAuth.currentUser
+          .reauthenticateWithCredential(EmailAuthProvider.credential(
+              email: _firebaseAuth.currentUser.email,
+              password: currentPassword))
+          .then((value) async => {
+                await _firebaseAuth.currentUser
+                    .updateEmail(email)
+                    .then((_) async {
+                  await Auth().sendEmailVerification();
+                  await Auth().signOut();
+                })
+              });
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
+    return S.current.changedEmail;
+    /*return _firebaseAuth.currentUser
+        .reauthenticateWithCredential(EmailAuthProvider.credential(
+            email: _firebaseAuth.currentUser.email, password: currentPassword))
+        .then((value) async {
+      return await _firebaseAuth.currentUser.updateEmail(email).then((_) async {
+        await Auth().sendEmailVerification();
+        await Auth().signOut();
+        return S.current.changedEmail;
+      }).catchError((e) {
+        return S.current.notChangedEmail(e.toString());
+      });
+    });*/
   }
 
   @override

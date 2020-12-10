@@ -1,5 +1,6 @@
 import 'package:donate_blood/Screens/Welcome/welcome_screen.dart';
 import 'package:donate_blood/constants.dart';
+import 'package:donate_blood/screens/profile_details/components/change_email_page.dart';
 import 'package:donate_blood/services/authentication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -54,13 +55,13 @@ class _SettingsPageState extends State<SettingsPage> {
               height: 15,
               thickness: 2,
             ),
+            buildAccountOptionRow(context, "Change email", Icon(Icons.email), ChangeEmailPage()),
             buildAccountOptionRow(
-                context, "Change password", Icon(Icons.vpn_key)),
+                context, "Change password", Icon(Icons.vpn_key), ChangeEmailPage()),
             buildAccountOptionRow(
-                context, "Language", Icon(Icons.language_outlined)),
-            buildAccountOptionRow(context, "Privacy and security",
-                Icon(Icons.lock_outline_rounded)),
-            buildAccountOptionRow(context, "About", Icon(Icons.info)),
+                context, "Language", Icon(Icons.language_outlined), ChangeEmailPage()),
+            //buildAccountOptionRow(context, "Privacy and security", Icon(Icons.lock_outline_rounded)),
+            //buildAccountOptionRow(context, "About", Icon(Icons.info)),
             SizedBox(
               height: 20,
             ),
@@ -137,10 +138,13 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   GestureDetector buildAccountOptionRow(
-      BuildContext context, String title, Icon icona) {
+      BuildContext context, String title, Icon icon, StatefulWidget widget) {
     return GestureDetector(
       onTap: () {
-        showDialog(
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return widget;
+        }));
+        /*showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
@@ -166,7 +170,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ],
             );
           },
-        );
+        );*/
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 0.1),
@@ -174,7 +178,7 @@ class _SettingsPageState extends State<SettingsPage> {
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              icon: icona,
+              icon: icon,
               onPressed: () {},
             ),
             Text(
