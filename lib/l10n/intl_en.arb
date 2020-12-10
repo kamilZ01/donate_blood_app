@@ -53,6 +53,16 @@
   "collections": "Collections",
   "welcome": "Welcome",
   "recentCollections": "Recent collections",
-  "editProfile": "Edit Profile"
+  "editProfile": "Edit Profile",
+  "information": "Information",
+  "nextDonation": "Next donation",
+  "lastDonation": "Last donation",
+  "typeOfDonation": "Type of donation",
+  "totalDonated": "Total donated",
+  "nextBadgeFor": "Next badge for",
+  "wholeBlood": "Whole blood",
+  "plasma": "Plasma",
+  "platelets": "Platelets",
+  "days": "days"
 }
 

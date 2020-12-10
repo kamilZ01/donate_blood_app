@@ -574,6 +574,106 @@ class S {
       args: [],
     );
   }
+
+  /// `Information`
+  String get information {
+    return Intl.message(
+      'Information',
+      name: 'information',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next donation`
+  String get nextDonation {
+    return Intl.message(
+      'Next donation',
+      name: 'nextDonation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last donation`
+  String get lastDonation {
+    return Intl.message(
+      'Last donation',
+      name: 'lastDonation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type of donation`
+  String get typeOfDonation {
+    return Intl.message(
+      'Type of donation',
+      name: 'typeOfDonation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total donated`
+  String get totalDonated {
+    return Intl.message(
+      'Total donated',
+      name: 'totalDonated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next badge for`
+  String get nextBadgeFor {
+    return Intl.message(
+      'Next badge for',
+      name: 'nextBadgeFor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Whole blood`
+  String get wholeBlood {
+    return Intl.message(
+      'Whole blood',
+      name: 'wholeBlood',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Plasma`
+  String get plasma {
+    return Intl.message(
+      'Plasma',
+      name: 'plasma',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Platelets`
+  String get platelets {
+    return Intl.message(
+      'Platelets',
+      name: 'platelets',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `days`
+  String get days {
+    return Intl.message(
+      'days',
+      name: 'days',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
