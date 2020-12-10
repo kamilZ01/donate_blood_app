@@ -238,7 +238,7 @@ class _ListViewEventsState extends State<ListViewEvents> {
                                       Icon(Icons.date_range_outlined),
                                       new Text(
                                         convertTimeStamp(
-                                            document.data()['date']),
+                                            document.data()['date'], true),
                                         style: new TextStyle(
                                           fontSize: 15.0,
                                         ),
@@ -311,9 +311,10 @@ class _ListViewEventsState extends State<ListViewEvents> {
   }
 }
 
-String convertTimeStamp(Timestamp timestamp) {
+String convertTimeStamp(Timestamp timestamp, bool isEvent) {
   DateTime myDateTime = timestamp.toDate();
-  var newFormat = DateFormat("dd/MM/yyyy - HH:mm");
+  var newFormat =
+      isEvent ? DateFormat("dd/MM/yyyy - HH:mm") : DateFormat("dd/MM/yyyy");
   String updatedDt = newFormat.format(myDateTime);
   return updatedDt;
 }

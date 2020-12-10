@@ -33,8 +33,8 @@ class _UserDonationsState extends State<UserDonations> {
       child: StreamBuilder<QuerySnapshot>(
         stream: widget.setLimit
             ? _userDonations
-                .orderBy('donationDate', descending: false)
-                .limitToLast(2)
+                .orderBy('donationDate', descending: true)
+                .limit(2)
                 .snapshots()
             : _userDonations.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

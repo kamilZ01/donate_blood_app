@@ -20,16 +20,27 @@ class UserDetail extends StatefulWidget {
 
 class _UserDetailState extends State<UserDetail> {
   Stream<DocumentSnapshot> _userData;
-  Stream<QuerySnapshot> _userDonors;
+  Stream<QuerySnapshot> _userDonations;
   Stream<QuerySnapshot> _nurseCollections;
+  int totalAmountOfBloodDonated;
+  Timestamp lastDonation;
+  String typeOfLastDonation;
+  var newFormat = DateFormat("dd/MM/yyyy");
 
   @override
   void initState() {
     super.initState();
     _userData = context.read<Repository>().getUserData();
-    _userDonors = context.read<Repository>().getUserDonations().snapshots();
+    _userDonations = context
+        .read<Repository>()
+        .getUserDonations()
+        .orderBy('donationDate', descending: true)
+        .snapshots();
     _nurseCollections =
         context.read<Repository>().getNurseCollections().snapshots();
+    totalAmountOfBloodDonated = 0;
+    // lastDonation = '2020-01-01 10:10:10+05:30';
+    typeOfLastDonation = "N/A";
   }
 
   @override
@@ -127,7 +138,7 @@ class _UserDetailState extends State<UserDetail> {
                               StreamBuilder<QuerySnapshot>(
                                 stream: snapshot.data.data()['isNurse']
                                     ? _nurseCollections
-                                    : _userDonors,
+                                    : _userDonations,
                                 builder: (BuildContext context,
                                     AsyncSnapshot<QuerySnapshot> snapshot) {
                                   if (snapshot.hasError) {
@@ -135,6 +146,17 @@ class _UserDetailState extends State<UserDetail> {
                                   }
                                   if (snapshot.connectionState ==
                                       ConnectionState.active) {
+                                    if (snapshot.hasData) {
+                                      totalAmountOfBloodDonated = 0;
+                                      lastDonation = snapshot
+                                          .data.docs.first['donationDate'];
+                                      typeOfLastDonation = snapshot
+                                          .data.docs.first['donationType'];
+                                      snapshot.data.docs.forEach((element) {
+                                        totalAmountOfBloodDonated +=
+                                            element.data()['amount'];
+                                      });
+                                    }
                                     return Text(
                                       snapshot.hasData
                                           ? snapshot.data.size.toString() + 'x'
@@ -189,30 +211,471 @@ class _UserDetailState extends State<UserDetail> {
             ),
             snapshot.data.data()['isNurse']
                 ? NurseBloodCollections(true, widget.scrollController)
-                : Column(
-                    children: [
-                      UserDonations(true, widget.scrollController),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          padding: EdgeInsets.only(
-                            left: 25,
-                          ),
-                          child: Text(
-                            S.current.yourBadges,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.grey,
+                : Container(
+                    child: Column(
+                      children: [
+                        UserDonations(true, widget.scrollController),
+                        Container(
+                          padding: EdgeInsets.only(left: 25),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Information",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.grey,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      BadgesList()
-                    ],
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            padding: EdgeInsets.all(4.0),
+                            margin: EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                              bottom: 5,
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 15.0, right: 20.0),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 2.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: RichText(
+                                                text: TextSpan(
+                                                    style: DefaultTextStyle.of(
+                                                            context)
+                                                        .style,
+                                                    children: [
+                                                      TextSpan(
+                                                          text: "Last donation",
+                                                          style: TextStyle(
+                                                              fontSize: 16)),
+                                                    ]),
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment: Alignment.centerRight,
+                                              child: RichText(
+                                                text: TextSpan(
+                                                    style: DefaultTextStyle.of(
+                                                            context)
+                                                        .style,
+                                                    children: [
+                                                      TextSpan(
+                                                        text: convertTimeStamp(
+                                                            lastDonation),
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 16,
+                                                            color:
+                                                                kPrimaryColor),
+                                                      ),
+                                                    ]),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 2.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: RichText(
+                                                text: TextSpan(
+                                                    style: DefaultTextStyle.of(
+                                                            context)
+                                                        .style,
+                                                    children: [
+                                                      TextSpan(
+                                                          text: "Type donation",
+                                                          style: TextStyle(
+                                                              fontSize: 16)),
+                                                    ]),
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment: Alignment.centerRight,
+                                              child: RichText(
+                                                text: TextSpan(
+                                                    style: DefaultTextStyle.of(
+                                                            context)
+                                                        .style,
+                                                    children: [
+                                                      TextSpan(
+                                                        text:
+                                                            typeOfLastDonation,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 16,
+                                                            color:
+                                                                kPrimaryColor),
+                                                      ),
+                                                    ]),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 2.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: RichText(
+                                                text: TextSpan(
+                                                    style: DefaultTextStyle.of(
+                                                            context)
+                                                        .style,
+                                                    children: [
+                                                      TextSpan(
+                                                          text: "Total donated",
+                                                          style: TextStyle(
+                                                              fontSize: 16)),
+                                                    ]),
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment: Alignment.centerRight,
+                                              child: RichText(
+                                                text: TextSpan(
+                                                    style: DefaultTextStyle.of(
+                                                            context)
+                                                        .style,
+                                                    children: [
+                                                      TextSpan(
+                                                        text:
+                                                            totalAmountOfBloodDonated
+                                                                .toString(),
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 16,
+                                                            color:
+                                                                kPrimaryColor),
+                                                      ),
+                                                      TextSpan(
+                                                          text: " ml",
+                                                          style: TextStyle(
+                                                              fontSize: 16))
+                                                    ]),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: RichText(
+                                              text: TextSpan(
+                                                  style: DefaultTextStyle.of(
+                                                          context)
+                                                      .style,
+                                                  children: [
+                                                    TextSpan(
+                                                        text: "Next badge for",
+                                                        style: TextStyle(
+                                                            fontSize: 16)),
+                                                  ]),
+                                            ),
+                                          ),
+                                          Align(
+                                            alignment: Alignment.centerRight,
+                                            child: RichText(
+                                              text: TextSpan(
+                                                  style: DefaultTextStyle.of(
+                                                          context)
+                                                      .style,
+                                                  children: [
+                                                    TextSpan(
+                                                      text:
+                                                          (totalAmountOfBloodDonated)
+                                                              .toString(),
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 16,
+                                                          color: kPrimaryColor),
+                                                    ),
+                                                    TextSpan(
+                                                        text: " ml",
+                                                        style: TextStyle(
+                                                            fontSize: 16))
+                                                  ]),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        // Container(
+                        //   padding: EdgeInsets.only(left: 25, bottom: 5),
+                        //   child: Align(
+                        //     alignment: Alignment.centerLeft,
+                        //     child: Text(
+                        //       "Next donation",
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //         fontSize: 20,
+                        //         color: Colors.grey,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // Align(
+                        //   alignment: Alignment.centerLeft,
+                        //   child: Container(
+                        //     padding: EdgeInsets.all(4.0),
+                        //     margin: EdgeInsets.only(
+                        //       left: 20,
+                        //       right: 20,
+                        //       top: 0,
+                        //     ),
+                        //     child: Column(
+                        //       children: [
+                        //         Padding(
+                        //           padding: const EdgeInsets.only(
+                        //               left: 15.0, right: 20.0),
+                        //           child: Column(
+                        //             children: [
+                        //               Padding(
+                        //                 padding:
+                        //                     const EdgeInsets.only(bottom: 2.0),
+                        //                 child: Row(
+                        //                   mainAxisAlignment:
+                        //                       MainAxisAlignment.spaceBetween,
+                        //                   children: [
+                        //                     Align(
+                        //                       alignment: Alignment.centerLeft,
+                        //                       child: RichText(
+                        //                         text: TextSpan(
+                        //                             style: DefaultTextStyle.of(
+                        //                                     context)
+                        //                                 .style,
+                        //                             children: [
+                        //                               TextSpan(
+                        //                                   text: "Whole blood",
+                        //                                   style: TextStyle(
+                        //                                       fontSize: 16)),
+                        //                             ]),
+                        //                       ),
+                        //                     ),
+                        //                     Align(
+                        //                       alignment: Alignment.centerRight,
+                        //                       child: RichText(
+                        //                         text: TextSpan(
+                        //                             style: DefaultTextStyle.of(
+                        //                                     context)
+                        //                                 .style,
+                        //                             children: [
+                        //                               TextSpan(
+                        //                                 text: newFormat.format(
+                        //                                     calcNextDonation(
+                        //                                         lastDonation,
+                        //                                         typeOfLastDonation,
+                        //                                         "whole blood")),
+                        //                                 style: TextStyle(
+                        //                                     fontWeight:
+                        //                                         FontWeight.bold,
+                        //                                     fontSize: 16,
+                        //                                     color: kPrimaryColor),
+                        //                               ),
+                        //                               TextSpan(
+                        //                                 text: " (" +
+                        //                                     dateDifference(
+                        //                                         calcNextDonation(
+                        //                                             lastDonation,
+                        //                                             typeOfLastDonation,
+                        //                                             "whole blood")) +
+                        //                                     " days)",
+                        //                                 style: TextStyle(
+                        //                                   fontSize: 16,
+                        //                                 ),
+                        //                               ),
+                        //                             ]),
+                        //                       ),
+                        //                     ),
+                        //                   ],
+                        //                 ),
+                        //               ),
+                        //               Padding(
+                        //                 padding:
+                        //                     const EdgeInsets.only(bottom: 2.0),
+                        //                 child: Row(
+                        //                   mainAxisAlignment:
+                        //                       MainAxisAlignment.spaceBetween,
+                        //                   children: [
+                        //                     Align(
+                        //                       alignment: Alignment.centerLeft,
+                        //                       child: RichText(
+                        //                         text: TextSpan(
+                        //                             style: DefaultTextStyle.of(
+                        //                                     context)
+                        //                                 .style,
+                        //                             children: [
+                        //                               TextSpan(
+                        //                                   text: "Plasma",
+                        //                                   style: TextStyle(
+                        //                                       fontSize: 16)),
+                        //                             ]),
+                        //                       ),
+                        //                     ),
+                        //                     Align(
+                        //                       alignment: Alignment.centerRight,
+                        //                       child: RichText(
+                        //                         text: TextSpan(
+                        //                             style: DefaultTextStyle.of(
+                        //                                     context)
+                        //                                 .style,
+                        //                             children: [
+                        //                               TextSpan(
+                        //                                 text: newFormat.format(
+                        //                                     calcNextDonation(
+                        //                                         lastDonation,
+                        //                                         typeOfLastDonation,
+                        //                                         "plasma")),
+                        //                                 style: TextStyle(
+                        //                                     fontWeight:
+                        //                                         FontWeight.bold,
+                        //                                     fontSize: 16,
+                        //                                     color: kPrimaryColor),
+                        //                               ),
+                        //                               TextSpan(
+                        //                                 text: " (" +
+                        //                                     dateDifference(
+                        //                                         calcNextDonation(
+                        //                                             lastDonation,
+                        //                                             typeOfLastDonation,
+                        //                                             "plasma")) +
+                        //                                     " days)",
+                        //                                 style: TextStyle(
+                        //                                   fontSize: 16,
+                        //                                 ),
+                        //                               ),
+                        //                             ]),
+                        //                       ),
+                        //                     ),
+                        //                   ],
+                        //                 ),
+                        //               ),
+                        //               Row(
+                        //                 mainAxisAlignment:
+                        //                     MainAxisAlignment.spaceBetween,
+                        //                 children: [
+                        //                   Align(
+                        //                     alignment: Alignment.centerLeft,
+                        //                     child: RichText(
+                        //                       text: TextSpan(
+                        //                           style:
+                        //                               DefaultTextStyle.of(context)
+                        //                                   .style,
+                        //                           children: [
+                        //                             TextSpan(
+                        //                                 text: "Platelets",
+                        //                                 style: TextStyle(
+                        //                                     fontSize: 16)),
+                        //                           ]),
+                        //                     ),
+                        //                   ),
+                        //                   Align(
+                        //                     alignment: Alignment.centerRight,
+                        //                     child: RichText(
+                        //                       text: TextSpan(
+                        //                           style:
+                        //                               DefaultTextStyle.of(context)
+                        //                                   .style,
+                        //                           children: [
+                        //                             TextSpan(
+                        //                               text: newFormat.format(
+                        //                                   calcNextDonation(
+                        //                                       lastDonation,
+                        //                                       typeOfLastDonation,
+                        //                                       "platelets")),
+                        //                               style: TextStyle(
+                        //                                   fontWeight:
+                        //                                       FontWeight.bold,
+                        //                                   fontSize: 16,
+                        //                                   color: kPrimaryColor),
+                        //                             ),
+                        //                             TextSpan(
+                        //                               text: " (" +
+                        //                                   dateDifference(
+                        //                                       calcNextDonation(
+                        //                                           lastDonation,
+                        //                                           typeOfLastDonation,
+                        //                                           "platelets")) +
+                        //                                   " days)",
+                        //                               style: TextStyle(
+                        //                                 fontSize: 16,
+                        //                               ),
+                        //                             ),
+                        //                           ]),
+                        //                     ),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            padding: EdgeInsets.only(
+                              left: 25,
+                            ),
+                            child: Text(
+                              S.current.yourBadges,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        BadgesList()
+                      ],
+                    ),
                   ),
           ],
         );
@@ -226,8 +689,119 @@ String splitValue(String fullName) {
 }
 
 String convertTimeStamp(Timestamp timestamp) {
-  DateTime myDateTime = timestamp.toDate();
-  var newFormat = DateFormat("dd/MM/yyyy");
-  String updatedDt = newFormat.format(myDateTime);
-  return updatedDt;
+  DateTime myDateTime;
+  if (timestamp != null) {
+    myDateTime = timestamp.toDate();
+    var newFormat = DateFormat("dd/MM/yyyy");
+    String updatedDt = newFormat.format(myDateTime);
+    return updatedDt;
+  } else
+    return "N/A";
+}
+
+DateTime calcNextDonation(
+    Timestamp timestamp, String lastDonationType, String nextDonationType) {
+  DateTime lastDonationDate;
+  DateTime newDonationDate;
+
+  if (timestamp != null) {
+    lastDonationDate = timestamp.toDate();
+    switch (lastDonationType.toLowerCase()) {
+      case "whole blood":
+        switch (nextDonationType.toLowerCase()) {
+          case "whole blood":
+            {
+              newDonationDate = lastDonationDate.add(new Duration(days: 57));
+            }
+            break;
+          case "plasma":
+            {
+              newDonationDate = lastDonationDate.add(new Duration(days: 30));
+            }
+            break;
+          case "platelets":
+            {
+              newDonationDate = lastDonationDate.add(new Duration(days: 57));
+            }
+            break;
+          default:
+            {
+              //TODO: return null and check the value in TextSpan
+              // newDateTime = "N/A";
+            }
+            break;
+        }
+        break;
+      case "plasma":
+        switch (nextDonationType.toLowerCase()) {
+          case "whole blood":
+            {
+              newDonationDate = lastDonationDate.add(new Duration(days: 30));
+              // newDateTime = newFormat.format(newDonationDate);
+            }
+            break;
+          case "plasma":
+            {
+              newDonationDate = lastDonationDate.add(new Duration(days: 14));
+              // newDateTime = newFormat.format(newDonationDate);
+            }
+            break;
+          case "platelets":
+            {
+              newDonationDate = lastDonationDate.add(new Duration(days: 30));
+              // newDateTime = newFormat.format(newDonationDate);
+            }
+            break;
+          default:
+            {
+              //TODO: return null and check the value in TextSpan
+              // newDateTime = "N/A";
+            }
+            break;
+        }
+        break;
+      case "platelets":
+        switch (nextDonationType.toLowerCase()) {
+          case "whole blood":
+            {
+              newDonationDate = lastDonationDate.add(new Duration(days: 28));
+              // newDateTime = newFormat.format(newDonationDate);
+            }
+            break;
+          case "plasma":
+            {
+              newDonationDate = lastDonationDate.add(new Duration(days: 28));
+              // newDateTime = newFormat.format(newDonationDate);
+            }
+            break;
+          case "platelets":
+            {
+              newDonationDate = lastDonationDate.add(new Duration(days: 28));
+              // newDateTime = newFormat.format(newDonationDate);
+            }
+            break;
+          default:
+            {
+              //TODO: return null and check the value in TextSpan
+              // newDateTime = "N/A";
+            }
+            break;
+        }
+        break;
+      default:
+        {
+          //TODO: return null and check the value in TextSpan
+          // newDateTime = "N/A";
+        }
+        break;
+    }
+  }
+  return newDonationDate;
+}
+
+String dateDifference(DateTime nextDonation) {
+  // final date2 = DateTime.now();
+  final difference = nextDonation.difference(DateTime.now()).inDays;
+
+  return difference.toString();
 }

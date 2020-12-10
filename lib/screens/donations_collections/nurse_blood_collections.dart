@@ -35,8 +35,8 @@ class _NurseBloodCollectionsState extends State<NurseBloodCollections> {
           StreamBuilder<QuerySnapshot>(
             stream: widget.setLimit
                 ? _nurseCollections
-                    .orderBy('donationDate', descending: false)
-                    .limitToLast(3)
+                    .orderBy('donationDate', descending: true)
+                    .limit(3)
                     .snapshots()
                 : _nurseCollections.snapshots(),
             builder:
@@ -100,7 +100,8 @@ class _NurseBloodCollectionsState extends State<NurseBloodCollections> {
                                       new Text(S.current.date +
                                           ": " +
                                           convertTimeStamp(
-                                              document.data()['donationDate'])),
+                                              document.data()['donationDate'],
+                                              false)),
                                       StreamBuilder<DocumentSnapshot>(
                                         stream: document
                                             .data()['userId']
