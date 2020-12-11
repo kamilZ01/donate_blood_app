@@ -60,7 +60,7 @@ class EmailSentDialog extends StatelessWidget {
           content: Text(S.current.noMailApp),
           actions: <Widget>[
             FlatButton(
-              child: Text("OK"),
+              child: Text(S.current.ok),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return LoginScreen();

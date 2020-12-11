@@ -20,7 +20,7 @@ class _BuildTextFormState extends State<BuildTextForm> {
       padding: const EdgeInsets.only(bottom: 10.0),
       child: TextFormField(
         validator: (value) {
-          return value.isEmpty ? "Invalid Field" : null;
+          return value.isEmpty ? S.current.invalidField : null;
         },
         onChanged: widget.onChanged,
         onSaved: widget.onSaved,

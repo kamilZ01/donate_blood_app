@@ -142,7 +142,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: Colors.white,
                             image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: AssetImage('assets/images/profileIcon.png'),
+                              image:
+                                  AssetImage('assets/images/profileIcon.png'),
                             ),
                           ),
                         ),
@@ -158,7 +159,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               shape: BoxShape.circle,
                               border: Border.all(
                                 width: 4,
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                               ),
                               color: Colors.grey,
                             ),
@@ -206,10 +208,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ? snapshot.data.data()["phoneNumber"]
                                         : S.current.loading;
                                     Timestamp dateOfBirth = snapshot.data.exists
-                                        ? snapshot.data
-                                            .data()["dateOfBirth"]
+                                        ? snapshot.data.data()["dateOfBirth"]
                                         : null;
-                                    _dateOfBirth = dateOfBirth != null ? dateOfBirth.toDate() : null;
+                                    _dateOfBirth = dateOfBirth != null
+                                        ? dateOfBirth.toDate()
+                                        : null;
                                     _bloodGroup = snapshot.data.exists
                                         ? snapshot.data.data()["bloodGroup"]
                                         : S.current.loading;
@@ -243,8 +246,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 setState(() {
                                                   _dateOfBirth = date;
                                                 });
-                                              }, 
-                                              lastDate: DateTime(DateTime.now().year - 18, DateTime.now().month, DateTime.now().day),
+                                              },
+                                              lastDate: DateTime(
+                                                  DateTime.now().year - 18,
+                                                  DateTime.now().month,
+                                                  DateTime.now().day),
                                               initialValue: _dateOfBirth,
                                               dateFormat:
                                                   DateFormat("d MMMM y"),
@@ -253,7 +259,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 contentPadding:
                                                     EdgeInsets.only(bottom: 12),
                                                 suffixIcon: Padding(
-                                                  padding: EdgeInsets.only(top: 8.0),
+                                                  padding:
+                                                      EdgeInsets.only(top: 8.0),
                                                   child: Icon(
                                                       Icons.arrow_drop_down,
                                                       color:
@@ -285,7 +292,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     .toString()
                                                     .isNotEmpty) return null;
                                             if (value == null) {
-                                              return "Blood group select is required.";
+                                              return S.current
+                                                  .bloodGroupSelectIsRequired;
                                             }
                                             return null;
                                           },
@@ -342,8 +350,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     _scaffoldMessengerKey
                                                         .currentState
                                                         .showSnackBar(SnackBar(
-                                                            content:
-                                                                Text(error.toString()))));
+                                                            content: Text(error
+                                                                .toString()))));
                                           },
                                           color: kPrimaryColor,
                                           padding: EdgeInsets.symmetric(
@@ -354,7 +362,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 BorderRadius.circular(20),
                                           ),
                                           child: Text(
-                                            "SAVE",
+                                            S.current.saveUpperCase,
                                             style: TextStyle(
                                               fontSize: 14,
                                               letterSpacing: 2.2,
@@ -406,13 +414,13 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         validator: (value) {
           if (value.isEmpty && hintValue == S.current.loading) {
-            return labelText + ' is required';
+            return labelText + S.current.isRequired;
           }
           if (isEmail && hintValue == S.current.loading) {
             if (!RegExp(
                     r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
                 .hasMatch(value)) {
-              return 'Please enter a valid email address';
+              return S.current.pleaseEnterAValidEmailAddress;
             }
           }
           return null;

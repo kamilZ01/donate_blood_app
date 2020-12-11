@@ -34,7 +34,7 @@ class RoundedEmailField extends StatelessWidget {
           if (!RegExp(
                   r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
               .hasMatch(value)) {
-            return 'Please enter a valid email Address';
+            return S.current.pleaseEnterAValidEmailAddress;
           }
 
           return null;

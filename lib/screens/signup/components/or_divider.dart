@@ -1,4 +1,5 @@
 import 'package:donate_blood/constants.dart';
+import 'package:donate_blood/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class OrDivider extends StatelessWidget {
@@ -14,7 +15,7 @@ class OrDivider extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
-              "OR",
+              S.current.orUpperCase,
               style: TextStyle(
                 color: kPrimaryColor,
                 fontWeight: FontWeight.w600,

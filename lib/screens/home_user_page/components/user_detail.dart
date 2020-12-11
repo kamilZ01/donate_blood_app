@@ -213,7 +213,7 @@ class _UserDetailState extends State<UserDetail> {
                                       ),
                                     ),
                                   ),
-                                  headerTitle("Your badges"),
+                                  headerTitle(S.current.yourBadges),
                                   SizedBox(
                                     height: 20,
                                   ),
@@ -382,7 +382,7 @@ class _UserDetailState extends State<UserDetail> {
                             ),
                           ),
                           Text(
-                            "Blood group",
+                            S.current.bloodGroup,
                             style: TextStyle(
                               fontSize: 12,
                             ),

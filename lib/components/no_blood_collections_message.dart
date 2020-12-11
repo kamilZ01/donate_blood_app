@@ -1,3 +1,4 @@
+import 'package:donate_blood/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class NoBloodCollectionsMessage extends StatefulWidget {
@@ -18,11 +19,11 @@ class _NoBloodCollectionsMessageState extends State<NoBloodCollectionsMessage> {
               style: DefaultTextStyle.of(context).style,
               children: <TextSpan>[
                 TextSpan(
-                  text: "There are no registered ",
+                  text: S.current.thereAreNoRegistered,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 TextSpan(
-                  text: "blood",
+                  text: S.current.bloodLowerCase,
                   style: TextStyle(
                     color: Colors.red,
                     // fontStyle: FontStyle.italic,
@@ -31,11 +32,11 @@ class _NoBloodCollectionsMessageState extends State<NoBloodCollectionsMessage> {
                   ),
                 ),
                 TextSpan(
-                  text: " collections in your account. To add a",
+                  text: S.current.collectionsInYourAccountToAddA,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                 ),
                 TextSpan(
-                  text: " blood",
+                  text: S.current.bloodLowerCase,
                   style: TextStyle(
                     color: Colors.red,
                     // fontStyle: FontStyle.italic,
@@ -44,8 +45,8 @@ class _NoBloodCollectionsMessageState extends State<NoBloodCollectionsMessage> {
                   ),
                 ),
                 TextSpan(
-                  text:
-                      " collection click the button in the bottom right-hand corner.",
+                  text: S.current
+                      .collectionClickTheButtonInTheBottomRightHandCorner,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                 ),
               ],

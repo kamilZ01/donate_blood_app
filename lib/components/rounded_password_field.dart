@@ -51,7 +51,7 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
 
           if (widget.signUpForm) {
             if (value.length < 8) {
-              return 'Password should contain min 8 characters';
+              return S.current.passwordShouldContainMinEightCharacters;
             }
           }
           return null;

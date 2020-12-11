@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donate_blood/components/build_text_form.dart';
 import 'package:donate_blood/components/header_curved_container.dart';
 import 'package:donate_blood/constants.dart';
+import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/services/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -41,17 +42,18 @@ class _ListViewEventsState extends State<ListViewEvents> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      BuildTextForm("Event Type", eventType, (value) {
+                      BuildTextForm(S.current.eventType, eventType, (value) {
                         eventType = value;
                       }, (value) {
                         eventType = value.trim();
                       }),
-                      BuildTextForm("Place", location, (value) {
+                      BuildTextForm(S.current.place, location, (value) {
                         location = value;
                       }, (value) {
                         location = value.trim();
                       }),
-                      BuildTextForm("Donation Type", typeDonation, (value) {
+                      BuildTextForm(S.current.donationType, typeDonation,
+                          (value) {
                         typeDonation = value;
                       }, (value) {
                         typeDonation = value.trim();
@@ -62,12 +64,12 @@ class _ListViewEventsState extends State<ListViewEvents> {
                           Expanded(
                               flex: 4,
                               child: selectEventDateTime(context, setState,
-                                  "date", "Date", "Select date")),
+                                  "date", "Date", S.current.selectDate)),
                           SizedBox(width: 10.0),
                           Expanded(
                               flex: 3,
                               child: selectEventDateTime(context, setState,
-                                  "time", "Time", "Select time")),
+                                  "time", "Time", S.current.selectTime)),
                         ],
                       ),
                     ],
@@ -76,7 +78,7 @@ class _ListViewEventsState extends State<ListViewEvents> {
               ),
               actions: <Widget>[
                 TextButton(
-                  child: Text('Add event'),
+                  child: Text(S.current.addEvent),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
@@ -150,11 +152,11 @@ class _ListViewEventsState extends State<ListViewEvents> {
         stream: events.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Text('Something went wrong');
+            return Text(S.current.somethingWentWrong);
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading...");
+            return Text(S.current.loading);
           }
 
           return Container(
@@ -174,7 +176,7 @@ class _ListViewEventsState extends State<ListViewEvents> {
                     bottom: 55,
                   ),
                   child: Text(
-                    "Upcoming Events",
+                    S.current.upcomingEvents,
                     style: TextStyle(
                       fontSize: 30,
                       color: Colors.white,
@@ -194,12 +196,6 @@ class _ListViewEventsState extends State<ListViewEvents> {
                         snapshot.data.docs.map((DocumentSnapshot document) {
                       return Container(
                         padding: EdgeInsets.all(8.0),
-                        // decoration: BoxDecoration(
-                        //   borderRadius: BorderRadius.circular(20.0),
-                        //   border: Border.all(
-                        //     color: Colors.purple[100],
-                        //   ),
-                        // ),
                         margin: EdgeInsets.only(left: 10, right: 10, top: 0),
                         child: Column(
                           children: [
@@ -297,7 +293,7 @@ class _ListViewEventsState extends State<ListViewEvents> {
                 backgroundColor: Colors.red,
               );
           } else if (snapshot.connectionState == ConnectionState.none) {
-            return Text("something went wrong!");
+            return Text(S.current.somethingWentWrong);
           }
           return Container();
         },

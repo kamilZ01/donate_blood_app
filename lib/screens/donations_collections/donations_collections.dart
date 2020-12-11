@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donate_blood/Screens/donations_collections//user_donations.dart';
 import 'package:donate_blood/Screens/donations_collections//nurse_blood_collections.dart';
 import 'package:donate_blood/components/header_curved_container.dart';
+import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/services/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -50,8 +51,8 @@ class _DonationsCollectionsState extends State<DonationsCollections> {
                       ),
                       child: Text(
                         snapshot.data.data()['isNurse']
-                            ? "Blood Collections"
-                            : "Donations",
+                            ? S.current.bloodCollections
+                            : S.current.donations,
                         style: TextStyle(
                           fontSize: 30,
                           color: Colors.white,
@@ -84,7 +85,7 @@ class _DonationsCollectionsState extends State<DonationsCollections> {
               );
             }
           } else if (snapshot.connectionState == ConnectionState.none) {
-            return Text("something went wrong!");
+            return Text(S.current.somethingWentWrong);
           }
           return Container();
         },

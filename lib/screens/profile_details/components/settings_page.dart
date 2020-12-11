@@ -1,5 +1,6 @@
 import 'package:donate_blood/Screens/Welcome/welcome_screen.dart';
 import 'package:donate_blood/constants.dart';
+import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/screens/profile_details/components/change_email_page.dart';
 import 'package:donate_blood/screens/profile_details/components/change_password_page.dart';
 import 'package:donate_blood/services/authentication.dart';
@@ -36,7 +37,7 @@ class _SettingsPageState extends State<SettingsPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Settings",
+                  S.current.settings,
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
                 ),
               ],
@@ -47,7 +48,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Row(
               children: [
                 Text(
-                  "Account",
+                  S.current.account,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ],
@@ -56,11 +57,12 @@ class _SettingsPageState extends State<SettingsPage> {
               height: 15,
               thickness: 2,
             ),
-            buildAccountOptionRow(context, "Change email", Icon(Icons.email), ChangeEmailPage()),
-            buildAccountOptionRow(
-                context, "Change password", Icon(Icons.vpn_key), ChangePasswordPage()),
-            buildAccountOptionRow(
-                context, "Language", Icon(Icons.language_outlined), ChangeEmailPage()),
+            buildAccountOptionRow(context, S.current.changedEmail,
+                Icon(Icons.email), ChangeEmailPage()),
+            buildAccountOptionRow(context, S.current.changePassword,
+                Icon(Icons.vpn_key), ChangePasswordPage()),
+            buildAccountOptionRow(context, S.current.language,
+                Icon(Icons.language_outlined), ChangeEmailPage()),
             //buildAccountOptionRow(context, "Privacy and security", Icon(Icons.lock_outline_rounded)),
             //buildAccountOptionRow(context, "About", Icon(Icons.info)),
             SizedBox(
@@ -69,7 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Row(
               children: [
                 Text(
-                  "Notifications",
+                  S.current.notifications,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ],
@@ -81,8 +83,8 @@ class _SettingsPageState extends State<SettingsPage> {
             SizedBox(
               height: 10,
             ),
-            buildNotificationOptionRow("Urgent blood donation", true),
-            buildNotificationOptionRow("Account activity", false),
+            buildNotificationOptionRow(S.current.urgentBloodDonation, true),
+            buildNotificationOptionRow(S.current.accountActivity, false),
             SizedBox(
               height: 50,
             ),
@@ -101,7 +103,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       });
                 },
                 color: Colors.red,
-                child: Text("SIGN OUT",
+                child: Text(S.current.signOutUpperCase,
                     style: TextStyle(
                       fontSize: 16,
                       letterSpacing: 2.2,

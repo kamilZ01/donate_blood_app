@@ -1,3 +1,4 @@
+import 'package:donate_blood/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class NoDonationMessage extends StatefulWidget {
@@ -16,11 +17,11 @@ class _NoDonationMessageState extends State<NoDonationMessage> {
               style: DefaultTextStyle.of(context).style,
               children: <TextSpan>[
                 TextSpan(
-                  text: "You haven't donated ",
+                  text: S.current.youHaveNotDonated,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 TextSpan(
-                  text: "blood",
+                  text: S.current.blood,
                   style: TextStyle(
                     color: Colors.red,
                     // fontStyle: FontStyle.italic,
@@ -29,11 +30,11 @@ class _NoDonationMessageState extends State<NoDonationMessage> {
                   ),
                 ),
                 TextSpan(
-                  text: " yet. \n 1",
+                  text: S.current.yetOne,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                 ),
                 TextSpan(
-                  text: " blood",
+                  text: S.current.blood,
                   style: TextStyle(
                     color: Colors.red,
                     // fontStyle: FontStyle.italic,
@@ -42,11 +43,11 @@ class _NoDonationMessageState extends State<NoDonationMessage> {
                   ),
                 ),
                 TextSpan(
-                  text: " donation can save up to 3 ",
+                  text: S.current.donationCanSaveUpToThree,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                 ),
                 TextSpan(
-                  text: "lives.",
+                  text: S.current.lives,
                   style: TextStyle(
                     color: Colors.red,
                     // fontStyle: FontStyle.italic,
@@ -55,11 +56,11 @@ class _NoDonationMessageState extends State<NoDonationMessage> {
                   ),
                 ),
                 TextSpan(
-                  text: "\n For someone, your ",
+                  text: S.current.forSomeoneYour,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                 ),
                 TextSpan(
-                  text: "blood",
+                  text: S.current.blood,
                   style: TextStyle(
                     color: Colors.red,
                     // fontStyle: FontStyle.italic,
@@ -68,14 +69,9 @@ class _NoDonationMessageState extends State<NoDonationMessage> {
                   ),
                 ),
                 TextSpan(
-                  text: " is the best gift ever.",
+                  text: S.current.isTheBestGiftEver,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                 ),
-                // TextSpan(
-                //   text: S.of(context).saveLives.toUpperCase(),
-                //   style: TextStyle(
-                //       fontWeight: FontWeight.bold, fontSize: 31),
-                // ),
               ],
             ),
           ),

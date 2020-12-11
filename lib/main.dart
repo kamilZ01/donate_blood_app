@@ -20,8 +20,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   //Auth().signOut();
-  initializeDateFormatting('en_US', null).then((value) => runApp(MyApp()));
+  // initializeDateFormatting('en_US', null).then((value) => runApp(MyApp()));
 
+  runApp(MyApp());
   if (kDebugMode)
     // Force disable Crashlytics collection while doing every day development.
     // Temporarily toggle this to true if you want to test crash reporting in your app.
