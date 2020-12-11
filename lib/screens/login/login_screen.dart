@@ -5,6 +5,7 @@ import 'package:donate_blood/components/rounded_password_field.dart';
 import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/screens/home_user_page/home_page_screen.dart';
 import 'package:donate_blood/screens/signup/signup_screen.dart';
+import 'package:donate_blood/screens/welcome/welcome_screen.dart';
 import 'package:donate_blood/services/authentication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -67,103 +68,111 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      //key: _scaffoldKey,
-      body: Background(
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: AutofillGroup(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    S.current.login.toUpperCase(),
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Container(
-                    child: Image.asset(
-                      "assets/icons/login.webp",
-                      width: size.width * 0.5,
+    return WillPopScope(
+      child: Scaffold(
+        //key: _scaffoldKey,
+        body: Background(
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: AutofillGroup(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      S.current.login.toUpperCase(),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  RoundedEmailField(
-                    hintText: S.current.email,
-                    onChanged: (value) {
-                      _email = value;
-                    },
-                  ),
-                  RoundedPasswordField((value) {
-                    _password = value;
-                  }, S.current.password, false),
-                  Container(
-                    margin: EdgeInsets.all(4.0),
-                    width: size.width * 0.75,
-                    child: GestureDetector(
-                      onTap: () {
+                    Container(
+                      child: Image.asset(
+                        "assets/icons/login.webp",
+                        width: size.width * 0.5,
+                      ),
+                    ),
+                    RoundedEmailField(
+                      hintText: S.current.email,
+                      onChanged: (value) {
+                        _email = value;
+                      },
+                    ),
+                    RoundedPasswordField((value) {
+                      _password = value;
+                    }, S.current.password, false),
+                    Container(
+                      margin: EdgeInsets.all(4.0),
+                      width: size.width * 0.75,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ForgotPasswordPage();
+                              },
+                            ),
+                          );
+                        },
+                        child: Text(
+                          S.current.forgetPasswordAsk,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            color: kPrimaryColor,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    RoundedButton(
+                      text: S.current.login.toUpperCase(),
+                      press: () {
+                        _validateAndSubmit().then((value) => {
+                              if (value)
+                                {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return HomePageScreen();
+                                      },
+                                    ),
+                                  )
+                                }
+                              else if (_errorMessage.length > 0)
+                                {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(_errorMessageWidget()),
+                                }
+                            });
+                      },
+                    ),
+                    //_showErrorMessage(),
+                    SizedBox(height: size.height * 0.02),
+                    AlreadyHaveAnAccountCheck(
+                      press: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return ForgotPasswordPage();
+                              return SignUpScreen();
                             },
                           ),
                         );
                       },
-                      child: Text(
-                        S.current.forgetPasswordAsk,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  RoundedButton(
-                    text: S.current.login.toUpperCase(),
-                    press: () {
-                      _validateAndSubmit().then((value) => {
-                            if (value)
-                              {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return HomePageScreen();
-                                    },
-                                  ),
-                                )
-                              }
-                            else if (_errorMessage.length > 0)
-                              {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(_errorMessageWidget()),
-                              }
-                          });
-                    },
-                  ),
-                  //_showErrorMessage(),
-                  SizedBox(height: size.height * 0.02),
-                  AlreadyHaveAnAccountCheck(
-                    press: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return SignUpScreen();
-                          },
-                        ),
-                      );
-                    },
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
+      onWillPop: () async {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return WelcomeScreen();
+        }));
+        return false;
+      },
     );
   }
 }

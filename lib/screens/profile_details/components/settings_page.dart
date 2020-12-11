@@ -57,7 +57,7 @@ class _SettingsPageState extends State<SettingsPage> {
               height: 15,
               thickness: 2,
             ),
-            buildAccountOptionRow(context, S.current.changedEmail,
+            buildAccountOptionRow(context, S.current.changeEmail,
                 Icon(Icons.email), ChangeEmailPage()),
             buildAccountOptionRow(context, S.current.changePassword,
                 Icon(Icons.vpn_key), ChangePasswordPage()),

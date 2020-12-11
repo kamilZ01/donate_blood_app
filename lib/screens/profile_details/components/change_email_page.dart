@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:donate_blood/components/background.dart';
+import 'package:move_to_background/move_to_background.dart';
 
 import '../../../constants.dart';
 
@@ -35,84 +36,91 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return ScaffoldMessenger(
-      key: _scaffoldMessengerKey,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          elevation: 1,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: Icon(
-              Icons.arrow_back_ios_outlined,
-              color: kPrimaryColor,
+    return WillPopScope(
+      child: ScaffoldMessenger(
+        key: _scaffoldMessengerKey,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            elevation: 1,
+            leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(
+                Icons.arrow_back_ios_outlined,
+                color: kPrimaryColor,
+              ),
             ),
           ),
-        ),
-        body: Background(
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    S.current.changeEmail.toUpperCase(),
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Container(
-                    child: Image.asset(
-                      "assets/icons/sign.webp",
-                      width: size.width * 0.5,
+          body: Background(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      S.current.changeEmail.toUpperCase(),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  RoundedEmailField(
-                    hintText: S.current.newMail,
-                    onChanged: (value) {
-                      _newEmail = value;
-                    },
-                  ),
-                  RoundedPasswordField((value) {
-                    _currentPassword = value;
-                  }, S.current.currentPassword, false),
-                  RoundedButton(
-                      text: S.current.changeEmail.toUpperCase(),
-                      press: () async {
-                        if (_validateAndSave()) {
-                          await Auth()
-                              .changeEmail(_newEmail, _currentPassword)
-                              .then((value) => {
-                                    if (value == S.current.changedEmail)
-                                      {
-                                        showDialog<void>(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                            return EmailSentDialog(
-                                                S.current
-                                                    .verifyEmailDialogTitle,
-                                                value + '\n' +S.current.verifyEmailDialogContent);
-                                          },
-                                        )
-                                      }
-                                    else if (value.isNotEmpty &&
-                                        value.length > 0)
-                                      {
-                                        _scaffoldMessengerKey.currentState
-                                            .showSnackBar(
-                                                SnackBar(content: Text(value)))
-                                      },
-                                  });
-                        }
-                      }),
-                ],
+                    Container(
+                      child: Image.asset(
+                        "assets/icons/sign.webp",
+                        width: size.width * 0.5,
+                      ),
+                    ),
+                    RoundedEmailField(
+                      hintText: S.current.newMail,
+                      onChanged: (value) {
+                        _newEmail = value;
+                      },
+                    ),
+                    RoundedPasswordField((value) {
+                      _currentPassword = value;
+                    }, S.current.currentPassword, false),
+                    RoundedButton(
+                        text: S.current.changeEmail.toUpperCase(),
+                        press: () async {
+                          if (_validateAndSave()) {
+                            await Auth()
+                                .changeEmail(_newEmail, _currentPassword)
+                                .then((value) => {
+                                      if (value == S.current.changedEmail)
+                                        {
+                                          showDialog<void>(
+                                            context: context,
+                                            barrierDismissible: false,
+                                            builder:
+                                                (BuildContext dialogContext) {
+                                              return EmailSentDialog(
+                                                  S.current
+                                                      .verifyEmailDialogTitle,
+                                                  value + '\n' +S.current.verifyEmailDialogContent);
+                                            },
+                                          )
+                                        }
+                                      else if (value.isNotEmpty &&
+                                          value.length > 0)
+                                        {
+                                          _scaffoldMessengerKey.currentState
+                                              .showSnackBar(
+                                                  SnackBar(content: Text(value)))
+                                        },
+                                    });
+                          }
+                        }),
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
+      onWillPop: () async {
+        MoveToBackground.moveTaskToBack();
+        return false;
+      }
     );
   }
 }

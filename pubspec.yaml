@@ -45,6 +45,7 @@ dependencies:
   firebase_crashlytics: ^0.2.4
   open_mail_app: ^0.0.3
   provider: ^4.3.2+3
+  move_to_background: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -95,3 +96,5 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 flutter_intl:
   enabled: true
+  localizely:
+    project_id: edc281cb-6a33-4e36-a108-15a17d7eda66

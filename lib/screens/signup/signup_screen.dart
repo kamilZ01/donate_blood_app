@@ -52,6 +52,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Auth().getCurrentUser().uid == signUpResult) {
         showDialog<void>(
           context: context,
+          barrierDismissible: false,
           builder: (BuildContext dialogContext) {
             return EmailSentDialog(
                 S.current.verifyEmailDialogTitle,

@@ -37,6 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
     _newBloodGroup = '';
     _userData = context.read<Repository>().getUserData();
     _bloodGroupsList = context.read<Repository>().getBloodGroups();
+    //context.read<Repository>().getUsersMap();
   }
 
   @override
@@ -314,8 +315,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                             });
                                           },
                                           dataSource: _bloodGroupsList,
-                                          textField: "display",
+                                          textField: "value",
                                           valueField: "value",
+                                          /*dataSource: context.watch<Repository>().getUsersList(),
+                                          textField: "display",
+                                          valueField: "value",*/
                                         ),
                                         SizedBox(
                                           height: 5,

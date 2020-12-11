@@ -11,7 +11,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:intl/date_symbol_data_file.dart';
 import 'package:provider/provider.dart';
 
 import 'generated/l10n.dart';
@@ -20,8 +19,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   //Auth().signOut();
-  // initializeDateFormatting('en_US', null).then((value) => runApp(MyApp()));
-
+  //initializeDateFormatting('en_US');
   runApp(MyApp());
   if (kDebugMode)
     // Force disable Crashlytics collection while doing every day development.

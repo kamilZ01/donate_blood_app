@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/services/authentication.dart';
 
 class Repository {
   Repository(this._firestore) : assert(_firestore != null);
   final FirebaseFirestore _firestore;
+  List<dynamic> list = new List();
 
   Stream<DocumentSnapshot> getUserData() {
     return _firestore
@@ -51,7 +53,8 @@ class Repository {
         .catchError((error) => print("Failed to add donation: $error"));
   }
 
-  Future<String> updateUser(String fullName, DateTime dateOfBirth, String phoneNumber, String bloodGroup) async {
+  Future<String> updateUser(String fullName, DateTime dateOfBirth,
+      String phoneNumber, String bloodGroup) async {
 /*    Map<String,dynamic> fields = HashMap<String,dynamic>();
     if(fullName.isNotEmpty)
       fields.addAll({'fullName':fullName.trim()});
@@ -73,40 +76,60 @@ class Repository {
         .catchError((error) => "User data has not been updated. Error: $error");
   }
 
+  Future<void> getUsersMap() async {
+    list.clear();
+    var getter = await _firestore.collection('users').get();
+    /*getter.docs.forEach((element) {
+      list.add({"display": element.data()['fullName'], "value": element.id});
+    });*/
+
+    list = getter.docs.map((element) => ({"display": element.data()['fullName'], "value": element.id})).toList();
+  }
+
+  List<dynamic> getUsersList(){
+    return list;
+  }
+
   List getBloodGroups() {
     return [
       {
-        "display": "AB+",
         "value": "AB+",
       },
       {
-        "display": "AB-",
         "value": "AB-",
       },
       {
-        "display": "A+",
         "value": "A+",
       },
       {
-        "display": "A-",
         "value": "A-",
       },
       {
-        "display": "B+",
         "value": "B+",
       },
       {
-        "display": "B-",
         "value": "B-",
       },
       {
-        "display": "0+",
         "value": "0+",
       },
       {
-        "display": "0-",
         "value": "0-",
       }
+    ];
+  }
+
+  List getDonationType() {
+    return [
+      {
+        "value": S.current.wholeBlood,
+      },
+      {
+        "value": S.current.plasma,
+      },
+      {
+        "value": S.current.platelets,
+      },
     ];
   }
 }
