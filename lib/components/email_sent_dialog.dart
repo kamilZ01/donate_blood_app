@@ -17,7 +17,7 @@ class EmailSentDialog extends StatelessWidget {
       content: new Text(_dialogContent),
       actions: <Widget>[
         new FlatButton(
-          child: new Text(S.current.dismiss),
+          child: new Text(S.current.goToLogin),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return LoginScreen();

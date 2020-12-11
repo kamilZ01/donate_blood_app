@@ -1,6 +1,7 @@
 import 'package:donate_blood/Screens/Welcome/welcome_screen.dart';
 import 'package:donate_blood/constants.dart';
 import 'package:donate_blood/screens/profile_details/components/change_email_page.dart';
+import 'package:donate_blood/screens/profile_details/components/change_password_page.dart';
 import 'package:donate_blood/services/authentication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +58,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             buildAccountOptionRow(context, "Change email", Icon(Icons.email), ChangeEmailPage()),
             buildAccountOptionRow(
-                context, "Change password", Icon(Icons.vpn_key), ChangeEmailPage()),
+                context, "Change password", Icon(Icons.vpn_key), ChangePasswordPage()),
             buildAccountOptionRow(
                 context, "Language", Icon(Icons.language_outlined), ChangeEmailPage()),
             //buildAccountOptionRow(context, "Privacy and security", Icon(Icons.lock_outline_rounded)),

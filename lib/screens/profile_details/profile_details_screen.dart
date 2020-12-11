@@ -205,11 +205,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                     _phoneNumber = snapshot.data.exists
                                         ? snapshot.data.data()["phoneNumber"]
                                         : S.current.loading;
-                                    _dateOfBirth = snapshot.data.exists
+                                    Timestamp dateOfBirth = snapshot.data.exists
                                         ? snapshot.data
                                             .data()["dateOfBirth"]
-                                            .toDate()
-                                        : S.current.loading;
+                                        : null;
+                                    _dateOfBirth = dateOfBirth != null ? dateOfBirth.toDate() : null;
                                     _bloodGroup = snapshot.data.exists
                                         ? snapshot.data.data()["bloodGroup"]
                                         : S.current.loading;
@@ -231,6 +231,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                           padding: const EdgeInsets.only(
                                               bottom: 15.0),
                                           child: DateTimeFormField(
+                                              /*textStyle: TextStyle(
+                                                fontSize: 20,
+                                              ),*/
                                               onDateSelected: (DateTime date) {
                                                 setState(() {
                                                   _dateOfBirth = date;
@@ -240,18 +243,22 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 setState(() {
                                                   _dateOfBirth = date;
                                                 });
-                                              },
+                                              }, 
+                                              lastDate: DateTime(DateTime.now().year - 18, DateTime.now().month, DateTime.now().day),
                                               initialValue: _dateOfBirth,
                                               dateFormat:
-                                                  DateFormat("dd/MM/yyyy"),
+                                                  DateFormat("d MMMM y"),
                                               mode: DateFieldPickerMode.date,
                                               decoration: InputDecoration(
                                                 contentPadding:
-                                                    EdgeInsets.only(bottom: 3),
-                                                suffixIcon: Icon(
-                                                    Icons.arrow_drop_down,
-                                                    color:
-                                                        Colors.grey.shade700),
+                                                    EdgeInsets.only(bottom: 12),
+                                                suffixIcon: Padding(
+                                                  padding: EdgeInsets.only(top: 8.0),
+                                                  child: Icon(
+                                                      Icons.arrow_drop_down,
+                                                      color:
+                                                          Colors.grey.shade700),
+                                                ),
                                                 labelText:
                                                     S.current.dateOfBirth,
                                                 floatingLabelBehavior:
@@ -263,6 +270,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         .toLowerCase()),
                                                 hintStyle: TextStyle(
                                                   color: Colors.grey.shade500,
+                                                  height: 2.3,
                                                 ),
                                               )),
                                         ),
@@ -311,26 +319,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                               return;
                                             } else
                                               _formKey.currentState.save();
-
-                                            /*if(_email != Auth().getCurrentUser().email){
-                                              await Auth().changeEmail(_email,'123456').then((value) =>
-                                              {
-                                                if(value != null && value.contains('Error:'))
-                                                  _scaffoldMessengerKey.currentState
-                                                      .showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(value),
-                                                      )
-                                                  )
-                                                */ /*else {
-                                                  showDialog<void>(
-                                              context: context,
-                                              builder: (BuildContext dialogContext) {
-                                              return EmailSentDialog(value + "\n" + S.current.verifyEmailDialogTitle, S.current.verifyEmailDialogContent);
-                                              })}  */ /*
-
-                                              });
-                                            }*/
                                             await context
                                                 .read<Repository>()
                                                 .updateUser(
@@ -380,6 +368,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ],
                                     );
                                   }
+
                                   return CircularProgressIndicator();
                                 },
                               ),

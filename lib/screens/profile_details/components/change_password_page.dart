@@ -1,33 +1,37 @@
-import 'package:donate_blood/components/email_sent_dialog.dart';
 import 'package:donate_blood/components/rounded_button.dart';
-import 'package:donate_blood/components/rounded_email_field.dart';
 import 'package:donate_blood/components/rounded_password_field.dart';
 import 'package:donate_blood/generated/l10n.dart';
+import 'package:donate_blood/screens/login/login_screen.dart';
 import 'package:donate_blood/services/authentication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:donate_blood/components/background.dart';
-
 import '../../../constants.dart';
 
-class ChangeEmailPage extends StatefulWidget {
+class ChangePasswordPage extends StatefulWidget {
   @override
-  _ChangeEmailPageState createState() => _ChangeEmailPageState();
+  _ChangePasswordPageState createState() => _ChangePasswordPageState();
 }
 
-class _ChangeEmailPageState extends State<ChangeEmailPage> {
+class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final _formKey = GlobalKey<FormState>();
-  String _newEmail;
+  String _newPassword;
+  String _confirmNewPassword;
   String _currentPassword;
+  String _errorMessage = '';
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
 
   bool _validateAndSave() {
     final form = _formKey.currentState;
-    if (form.validate()) {
-      _newEmail = _newEmail.trim();
+    if (form.validate() && _newPassword == _confirmNewPassword) {
+      _newPassword = _newPassword.trim();
       return true;
+    } else if(form.validate() && _newPassword == _currentPassword){
+      _errorMessage = S.current.newPasswordEqualCurrentPassword;
+      return false;
+    } else if(form.validate()){
+      _errorMessage = S.current.differentPassword;
     }
     return false;
   }
@@ -59,41 +63,51 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    S.current.changeEmail.toUpperCase(),
+                    S.current.changePassword.toUpperCase(),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Container(
                     child: Image.asset(
-                      "assets/icons/sign.webp",
+                      "assets/icons/login.webp",
                       width: size.width * 0.5,
                     ),
-                  ),
-                  RoundedEmailField(
-                    hintText: S.current.newMail,
-                    onChanged: (value) {
-                      _newEmail = value;
-                    },
                   ),
                   RoundedPasswordField((value) {
                     _currentPassword = value;
                   }, S.current.currentPassword, false),
+                  RoundedPasswordField((value) {
+                    _newPassword = value;
+                  }, S.current.newPassword, true),
+                  RoundedPasswordField((value) {
+                    _confirmNewPassword = value;
+                  }, S.current.confirmNewPassword, false),
                   RoundedButton(
-                      text: S.current.changeEmail.toUpperCase(),
+                      text: S.current.changePassword.toUpperCase(),
                       press: () async {
                         if (_validateAndSave()) {
                           await Auth()
-                              .changeEmail(_newEmail, _currentPassword)
+                              .changePassword(_currentPassword, _newPassword)
                               .then((value) => {
-                                    if (value == S.current.changedEmail)
+                                    if (value == S.current.changedPassword)
                                       {
                                         showDialog<void>(
                                           context: context,
                                           builder:
                                               (BuildContext dialogContext) {
-                                            return EmailSentDialog(
-                                                S.current
-                                                    .verifyEmailDialogTitle,
-                                                value + '\n' +S.current.verifyEmailDialogContent);
+                                            return AlertDialog(
+                                              title: new Text(S.current.changePassword),
+                                              content: new Text(S.current.changedPassword),
+                                              actions: <Widget>[
+                                                new FlatButton(
+                                                  child: new Text(S.current.goToLogin),
+                                                  onPressed: () {
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                                      return LoginScreen();
+                                                    }));
+                                                  },
+                                                ),
+                                              ],
+                                            );
                                           },
                                         )
                                       }
@@ -105,6 +119,10 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
                                                 SnackBar(content: Text(value)))
                                       },
                                   });
+                        } else {
+                          if(_errorMessage.isNotEmpty && _errorMessage.length > 0){
+                            _scaffoldMessengerKey.currentState.showSnackBar(SnackBar(content: Text(_errorMessage),));
+                          }
                         }
                       }),
                 ],

@@ -18,7 +18,7 @@ abstract class BaseAuth {
 
   Future<String> changeEmail(String email, String currentPassword);
 
-  Future<String> changePassword(String password);
+  Future<String> changePassword(String currentPassword, String newPassword);
 
   Future<String> deleteUser();
 
@@ -126,28 +126,34 @@ class Auth implements BaseAuth {
       return e.message;
     }
     return S.current.changedEmail;
-    /*return _firebaseAuth.currentUser
-        .reauthenticateWithCredential(EmailAuthProvider.credential(
-            email: _firebaseAuth.currentUser.email, password: currentPassword))
-        .then((value) async {
-      return await _firebaseAuth.currentUser.updateEmail(email).then((_) async {
-        await Auth().sendEmailVerification();
-        await Auth().signOut();
-        return S.current.changedEmail;
-      }).catchError((e) {
-        return S.current.notChangedEmail(e.toString());
-      });
-    });*/
   }
 
   @override
-  Future<String> changePassword(String password) async {
-    await _firebaseAuth.currentUser.updatePassword(password).then((_) {
+  Future<String> changePassword(
+      String currentPassword, String newPassword) async {
+    try {
+      await _firebaseAuth.currentUser
+          .reauthenticateWithCredential(EmailAuthProvider.credential(
+              email: _firebaseAuth.currentUser.email,
+              password: currentPassword))
+          .then((value) async => {
+                await _firebaseAuth.currentUser
+                    .updatePassword(newPassword)
+                    .then((_) async {
+                  await Auth().signOut();
+                })
+              });
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
+    return S.current.changedPassword;
+
+    /* await _firebaseAuth.currentUser.updatePassword(password).then((_) {
       return S.current.changedPassword;
     }).catchError((e) {
       return S.current.notChangedPassword(e.toString());
     });
-    return null;
+    return null;*/
   }
 
   @override
