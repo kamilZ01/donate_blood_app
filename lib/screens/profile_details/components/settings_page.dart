@@ -1,4 +1,6 @@
 import 'package:donate_blood/Screens/Welcome/welcome_screen.dart';
+import 'package:donate_blood/Screens/bottom_nav_screen.dart';
+import 'package:donate_blood/Screens/profile_details/profile_details_screen.dart';
 import 'package:donate_blood/constants.dart';
 import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/screens/profile_details/components/change_email_page.dart';
@@ -21,7 +23,9 @@ class _SettingsPageState extends State<SettingsPage> {
         elevation: 1,
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            Route route =
+                MaterialPageRoute(builder: (context) => BottomNavScreen(3));
+            Navigator.pushReplacement(context, route).then(onGoBack);
           },
           icon: Icon(
             Icons.arrow_back_ios_outlined,
@@ -57,12 +61,12 @@ class _SettingsPageState extends State<SettingsPage> {
               height: 15,
               thickness: 2,
             ),
-            buildAccountOptionRow(context, S.current.changeEmail,
-                Icon(Icons.email), ChangeEmailPage()),
-            buildAccountOptionRow(context, S.current.changePassword,
+            buildNewWidget(context, S.current.changeEmail, Icon(Icons.email),
+                ChangeEmailPage()),
+            buildNewWidget(context, S.current.changePassword,
                 Icon(Icons.vpn_key), ChangePasswordPage()),
-            buildAccountOptionRow(context, S.current.language,
-                Icon(Icons.language_outlined), ChangeEmailPage()),
+            buildAccountOptionRow(context, S.current.changeLanguage,
+                Icon(Icons.language_outlined)),
             //buildAccountOptionRow(context, "Privacy and security", Icon(Icons.lock_outline_rounded)),
             //buildAccountOptionRow(context, "About", Icon(Icons.info)),
             SizedBox(
@@ -140,40 +144,13 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  GestureDetector buildAccountOptionRow(
+  GestureDetector buildNewWidget(
       BuildContext context, String title, Icon icon, StatefulWidget widget) {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return widget;
         }));
-        /*showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(title),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text("Option 1"),
-                ],
-              ),
-              actions: [
-                FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(
-                    "Close",
-                    style: TextStyle(
-                      color: kPrimaryColor,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
-        );*/
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 0.1),
@@ -201,5 +178,78 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
     );
+  }
+
+  GestureDetector buildAccountOptionRow(
+      BuildContext context, String title, Icon icona) {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(title),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  RaisedButton(
+                    onPressed: () {
+                      setState(() {
+                        S.load(Locale('pl', 'PL'));
+                        Navigator.of(context).pop();
+                      });
+                    },
+                    child: Text(S.current.polish),
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      setState(() {
+                        S.load(Locale('en', 'EN'));
+                        Navigator.of(context).pop();
+                      });
+                    },
+                    child: Text(S.current.english),
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 0.1),
+        child: Row(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              icon: icona,
+              onPressed: () {},
+            ),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey[450],
+              ),
+            ),
+            Expanded(child: SizedBox()),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.grey,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void refresh() {
+    ProfilePage();
+  }
+
+  Future onGoBack(dynamic value) {
+    refresh();
+    setState(() {});
   }
 }

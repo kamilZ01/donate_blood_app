@@ -36,59 +36,100 @@ class _ListViewEventsState extends State<ListViewEvents> {
         builder: (context) {
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
-              content: Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      BuildTextForm(S.current.eventType, eventType, (value) {
-                        eventType = value;
-                      }, (value) {
-                        eventType = value.trim();
-                      }),
-                      BuildTextForm(S.current.place, location, (value) {
-                        location = value;
-                      }, (value) {
-                        location = value.trim();
-                      }),
-                      BuildTextForm(S.current.donationType, typeDonation,
-                          (value) {
-                        typeDonation = value;
-                      }, (value) {
-                        typeDonation = value.trim();
-                      }),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Expanded(
-                              flex: 4,
-                              child: selectEventDateTime(context, setState,
-                                  "date", "Date", S.current.selectDate)),
-                          SizedBox(width: 10.0),
-                          Expanded(
-                              flex: 3,
-                              child: selectEventDateTime(context, setState,
-                                  "time", "Time", S.current.selectTime)),
-                        ],
-                      ),
-                    ],
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(32.0))),
+              contentPadding: EdgeInsets.only(top: 10.0),
+              content: Container(
+                width: 300,
+                child: Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: BuildTextForm(S.current.eventType, eventType,
+                              (value) {
+                            eventType = value;
+                          }, (value) {
+                            eventType = value.trim();
+                          }),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child:
+                              BuildTextForm(S.current.place, location, (value) {
+                            location = value;
+                          }, (value) {
+                            location = value.trim();
+                          }),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: BuildTextForm(
+                              S.current.donationType, typeDonation, (value) {
+                            typeDonation = value;
+                          }, (value) {
+                            typeDonation = value.trim();
+                          }),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                  flex: 3,
+                                  child: selectEventDateTime(
+                                      context,
+                                      setState,
+                                      "date",
+                                      S.current.date,
+                                      S.current.selectDate)),
+                              SizedBox(width: 10.0),
+                              Expanded(
+                                  flex: 3,
+                                  child: selectEventDateTime(
+                                      context,
+                                      setState,
+                                      "time",
+                                      S.current.time,
+                                      S.current.selectTime)),
+                            ],
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
+                              context.read<Repository>().addEvent(eventType,
+                                  location, typeDonation, getEventDate());
+                              Navigator.of(context).pop();
+                            }
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                            decoration: BoxDecoration(
+                              color: kPrimaryColor,
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(32.0),
+                                  bottomRight: Radius.circular(32.0)),
+                            ),
+                            child: Text(S.current.addEvent,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-              actions: <Widget>[
-                TextButton(
-                  child: Text(S.current.addEvent),
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save();
-                      context.read<Repository>().addEvent(
-                          eventType, location, typeDonation, getEventDate());
-                      Navigator.of(context).pop();
-                    }
-                  },
-                ),
-              ],
             );
           });
         });
@@ -127,9 +168,14 @@ class _ListViewEventsState extends State<ListViewEvents> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             typePicker == "date"
-                ? new Text(dateTime == null ? hintText : convertDate(dateTime))
+                ? new Text(
+                    dateTime == null ? hintText : convertDate(dateTime),
+                    style: TextStyle(fontSize: 12),
+                  )
                 : new Text(
-                    timeOfDay == null ? hintText : timeOfDay.format(context)),
+                    timeOfDay == null ? hintText : timeOfDay.format(context),
+                    style: TextStyle(fontSize: 12),
+                  ),
             new Icon(Icons.keyboard_arrow_down_outlined,
                 color: Theme.of(context).brightness == Brightness.light
                     ? Colors.grey.shade700

@@ -40,57 +40,56 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
-      child: Scaffold(
-        body: Background(
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    S.current.forgetPassword,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Container(
-                    child: Image.asset(
-                      "assets/icons/login.webp",
-                      width: size.width * 0.5,
+        child: Scaffold(
+          body: Background(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      S.current.resetPassword,
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  RoundedEmailField(
-                    hintText: S.current.email,
-                    onChanged: (value) {
-                      _email = value;
-                    },
-                  ),
-                  RoundedButton(
-                      text: S.current.forgetPassword,
-                      press: () {
-                        if (_validateAndSubmit()) {
-                          showDialog<void>(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (BuildContext dialogContext) {
-                              return EmailSentDialog(
-                                  S.current.passwordResetEmailDialogTitle,
-                                  S.current.passwordResetEmailDialogContent);
-                            },
-                          );
-                        }
-                      }),
-                ],
+                    Container(
+                      child: Image.asset(
+                        "assets/icons/login.webp",
+                        width: size.width * 0.5,
+                      ),
+                    ),
+                    RoundedEmailField(
+                      hintText: S.current.email,
+                      onChanged: (value) {
+                        _email = value;
+                      },
+                    ),
+                    RoundedButton(
+                        text: S.current.resetPassword,
+                        press: () {
+                          if (_validateAndSubmit()) {
+                            showDialog<void>(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext dialogContext) {
+                                return EmailSentDialog(
+                                    S.current.passwordResetEmailDialogTitle,
+                                    S.current.passwordResetEmailDialogContent);
+                              },
+                            );
+                          }
+                        }),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
-      onWillPop: () async {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return LoginScreen();
-        }));
-        return false;
-      }
-    );
+        onWillPop: () async {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return LoginScreen();
+          }));
+          return false;
+        });
   }
 }

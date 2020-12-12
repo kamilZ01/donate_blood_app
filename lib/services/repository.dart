@@ -72,8 +72,8 @@ class Repository {
           'phoneNumber': phoneNumber,
           'bloodGroup': bloodGroup
         })
-        .then((value) => "User data has been successfully updated.")
-        .catchError((error) => "User data has not been updated. Error: $error");
+        .then((value) => S.current.userDataHasBeenSuccessfullyUpdated)
+        .catchError((error) => S.current.userDataHasNotBeenUpdated + '$error');
   }
 
   Future<void> getUsersMap() async {
@@ -83,10 +83,13 @@ class Repository {
       list.add({"display": element.data()['fullName'], "value": element.id});
     });*/
 
-    list = getter.docs.map((element) => ({"display": element.data()['fullName'], "value": element.id})).toList();
+    list = getter.docs
+        .map((element) =>
+            ({"display": element.data()['fullName'], "value": element.id}))
+        .toList();
   }
 
-  List<dynamic> getUsersList(){
+  List<dynamic> getUsersList() {
     return list;
   }
 
