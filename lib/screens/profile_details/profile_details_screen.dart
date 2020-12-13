@@ -221,13 +221,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                       children: [
                                         buildTextField(
                                             S.current.fullName,
-                                            _fullName,
+                                            _fullName, TextInputType.name,
                                             (value) => _fullName = value.trim(),
                                             false),
                                         //buildTextField("E-mail", _email, (value) => _email = value.trim(), true),
                                         buildTextField(
                                             S.current.phone,
-                                            _phoneNumber,
+                                            _phoneNumber, TextInputType.phone,
                                             (value) =>
                                                 _phoneNumber = value.trim(),
                                             false),
@@ -399,11 +399,12 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget buildTextField(String labelText, String hintValue,
+  Widget buildTextField(String labelText, String hintValue, TextInputType typeValue,
       ValueChanged<String> onChanged, bool isEmail) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),
       child: TextFormField(
+        keyboardType: typeValue,
         initialValue: hintValue,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(bottom: 3),

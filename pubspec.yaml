@@ -48,6 +48,7 @@ dependencies:
   open_mail_app: ^0.0.3
   provider: ^4.3.2+3
   move_to_background: ^1.0.1
+  shared_preferences: ^0.5.12+4
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +67,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   assets:

@@ -51,7 +51,7 @@ class _ListViewEventsState extends State<ListViewEvents> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
-                          child: BuildTextForm(S.current.eventType, eventType,
+                          child: BuildTextForm(S.current.eventType, eventType, TextInputType.text,
                               (value) {
                             eventType = value;
                           }, (value) {
@@ -61,7 +61,7 @@ class _ListViewEventsState extends State<ListViewEvents> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child:
-                              BuildTextForm(S.current.place, location, (value) {
+                              BuildTextForm(S.current.place, location,TextInputType.text, (value) {
                             location = value;
                           }, (value) {
                             location = value.trim();
@@ -70,7 +70,7 @@ class _ListViewEventsState extends State<ListViewEvents> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child: BuildTextForm(
-                              S.current.donationType, typeDonation, (value) {
+                              S.current.donationType, typeDonation, TextInputType.text, (value) {
                             typeDonation = value;
                           }, (value) {
                             typeDonation = value.trim();

@@ -8,116 +8,123 @@ import 'package:donate_blood/screens/profile_details/components/change_password_
 import 'package:donate_blood/services/authentication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
+
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  Future<SharedPreferences> _preferences = SharedPreferences.getInstance();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        elevation: 1,
-        leading: IconButton(
-          onPressed: () {
-            Route route =
-                MaterialPageRoute(builder: (context) => BottomNavScreen(3));
-            Navigator.pushReplacement(context, route).then(onGoBack);
-          },
-          icon: Icon(
-            Icons.arrow_back_ios_outlined,
-            color: kPrimaryColor,
+    return WillPopScope(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          elevation: 1,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BottomNavScreen(3))).then(onGoBack);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios_outlined,
+              color: kPrimaryColor,
+            ),
+          ),
+        ),
+        body: Container(
+          padding: EdgeInsets.only(left: 16, top: 25, right: 16),
+          child: ListView(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    S.current.settings,
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              Row(
+                children: [
+                  Text(
+                    S.current.account,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Divider(
+                height: 15,
+                thickness: 2,
+              ),
+              buildNewWidget(context, S.current.changeEmail, Icon(Icons.email),
+                  ChangeEmailPage()),
+              buildNewWidget(context, S.current.changePassword,
+                  Icon(Icons.vpn_key), ChangePasswordPage()),
+              buildLanguageOptionRow(context, S.current.changeLanguage,
+                  Icon(Icons.language_outlined)),
+              //buildAccountOptionRow(context, "Privacy and security", Icon(Icons.lock_outline_rounded)),
+              //buildAccountOptionRow(context, "About", Icon(Icons.info)),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Text(
+                    S.current.notifications,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Divider(
+                height: 15,
+                thickness: 2,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              buildNotificationOptionRow(S.current.urgentBloodDonation, true),
+              buildNotificationOptionRow(S.current.accountActivity, false),
+              SizedBox(
+                height: 50,
+              ),
+              Center(
+                child: RaisedButton(
+                  padding: EdgeInsets.symmetric(horizontal: 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  onPressed: () {
+                    Auth().signOut().then((value) => {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WelcomeScreen()))
+                        });
+                  },
+                  color: Colors.red,
+                  child: Text(S.current.signOutUpperCase,
+                      style: TextStyle(
+                        fontSize: 16,
+                        letterSpacing: 2.2,
+                        color: Colors.white,
+                      )),
+                ),
+              )
+            ],
           ),
         ),
       ),
-      body: Container(
-        padding: EdgeInsets.only(left: 16, top: 25, right: 16),
-        child: ListView(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  S.current.settings,
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            Row(
-              children: [
-                Text(
-                  S.current.account,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            Divider(
-              height: 15,
-              thickness: 2,
-            ),
-            buildNewWidget(context, S.current.changeEmail, Icon(Icons.email),
-                ChangeEmailPage()),
-            buildNewWidget(context, S.current.changePassword,
-                Icon(Icons.vpn_key), ChangePasswordPage()),
-            buildAccountOptionRow(context, S.current.changeLanguage,
-                Icon(Icons.language_outlined)),
-            //buildAccountOptionRow(context, "Privacy and security", Icon(Icons.lock_outline_rounded)),
-            //buildAccountOptionRow(context, "About", Icon(Icons.info)),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                Text(
-                  S.current.notifications,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            Divider(
-              height: 15,
-              thickness: 2,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            buildNotificationOptionRow(S.current.urgentBloodDonation, true),
-            buildNotificationOptionRow(S.current.accountActivity, false),
-            SizedBox(
-              height: 50,
-            ),
-            Center(
-              child: RaisedButton(
-                padding: EdgeInsets.symmetric(horizontal: 40),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                onPressed: () {
-                  Auth().signOut().then((value) => {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WelcomeScreen()))
-                      });
-                },
-                color: Colors.red,
-                child: Text(S.current.signOutUpperCase,
-                    style: TextStyle(
-                      fontSize: 16,
-                      letterSpacing: 2.2,
-                      color: Colors.white,
-                    )),
-              ),
-            )
-          ],
-        ),
-      ),
+      onWillPop: () async {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BottomNavScreen(3))).then(onGoBack);
+        return true;
+      }
     );
   }
 
@@ -180,8 +187,8 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  GestureDetector buildAccountOptionRow(
-      BuildContext context, String title, Icon icona) {
+  GestureDetector buildLanguageOptionRow(
+      BuildContext context, String title, Icon icon) {
     return GestureDetector(
       onTap: () {
         showDialog(
@@ -196,6 +203,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     onPressed: () {
                       setState(() {
                         S.load(Locale('pl', 'PL'));
+                        _preferences.then((value) => value.setString("delegate", 'pl'));
                         Navigator.of(context).pop();
                       });
                     },
@@ -205,8 +213,10 @@ class _SettingsPageState extends State<SettingsPage> {
                     onPressed: () {
                       setState(() {
                         S.load(Locale('en', 'EN'));
+                        _preferences.then((value) => value.setString("delegate", "en"));
                         Navigator.of(context).pop();
                       });
+
                     },
                     child: Text(S.current.english),
                   )
@@ -222,7 +232,7 @@ class _SettingsPageState extends State<SettingsPage> {
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              icon: icona,
+              icon: icon,
               onPressed: () {},
             ),
             Text(
@@ -248,7 +258,7 @@ class _SettingsPageState extends State<SettingsPage> {
     ProfilePage();
   }
 
-  Future onGoBack(dynamic value) {
+  void onGoBack(dynamic value) {
     refresh();
     setState(() {});
   }
