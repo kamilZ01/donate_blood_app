@@ -5,13 +5,16 @@ import 'package:donate_blood/services/authentication.dart';
 class Repository {
   Repository(this._firestore) : assert(_firestore != null);
   final FirebaseFirestore _firestore;
-  List<dynamic> list = new List();
 
   Stream<DocumentSnapshot> getUserData() {
     return _firestore
         .collection('users')
         .doc(Auth().getCurrentUser().uid)
         .snapshots();
+  }
+
+  Query getUsers() {
+    return  _firestore.collection('users');
   }
 
   Query getUserDonations() {
@@ -39,7 +42,7 @@ class Repository {
   }
 
   Future<void> addDonation(String user, String nurse, String donationType,
-      int amount, DateTime date) {
+      int amount, DateTime donationDate) {
     return _firestore
         .collection('donations')
         .add({
@@ -47,7 +50,7 @@ class Repository {
           'userId': _firestore.doc('/users/' + user),
           'nurseId': _firestore.doc('/users/' + nurse),
           'donationType': donationType,
-          'donationDate': date
+          'donationDate': donationDate
         })
         .then((value) => print("donation added"))
         .catchError((error) => print("Failed to add donation: $error"));
@@ -55,14 +58,6 @@ class Repository {
 
   Future<String> updateUser(String fullName, DateTime dateOfBirth,
       String phoneNumber, String bloodGroup) async {
-/*    Map<String,dynamic> fields = HashMap<String,dynamic>();
-    if(fullName.isNotEmpty)
-      fields.addAll({'fullName':fullName.trim()});
-    if( phoneNumber.isNotEmpty)
-      fields.addAll({'phoneNumber': phoneNumber.trim()});
-    if(bloodGroup.isNotEmpty)
-      fields.addAll({'bloodGroup':bloodGroup.trim()});*/
-
     return await _firestore
         .collection('users')
         .doc(Auth().getCurrentUser().uid)
@@ -74,23 +69,6 @@ class Repository {
         })
         .then((value) => S.current.userDataHasBeenSuccessfullyUpdated)
         .catchError((error) => S.current.userDataHasNotBeenUpdated + '$error');
-  }
-
-  Future<void> getUsersMap() async {
-    list.clear();
-    var getter = await _firestore.collection('users').get();
-    /*getter.docs.forEach((element) {
-      list.add({"display": element.data()['fullName'], "value": element.id});
-    });*/
-
-    list = getter.docs
-        .map((element) =>
-            ({"display": element.data()['fullName'], "value": element.id}))
-        .toList();
-  }
-
-  List<dynamic> getUsersList() {
-    return list;
   }
 
   List getBloodGroups() {

@@ -162,6 +162,8 @@ class _ListViewEventsState extends State<ListViewEvents> {
       child: new InputDecorator(
         decoration: new InputDecoration(
           labelText: label,
+          contentPadding: EdgeInsets.symmetric(vertical: 12),
+          //labelStyle: TextStyle(height: 2)
         ),
         child: new Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -170,11 +172,11 @@ class _ListViewEventsState extends State<ListViewEvents> {
             typePicker == "date"
                 ? new Text(
                     dateTime == null ? hintText : convertDate(dateTime),
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 15, height: 2),
                   )
                 : new Text(
                     timeOfDay == null ? hintText : timeOfDay.format(context),
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 15, height: 2),
                   ),
             new Icon(Icons.keyboard_arrow_down_outlined,
                 color: Theme.of(context).brightness == Brightness.light

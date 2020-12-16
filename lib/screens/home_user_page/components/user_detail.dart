@@ -81,7 +81,7 @@ class _UserDetailState extends State<UserDetail> {
                         children: [
                           buildWelcomeHeader(context, snapshot, querySnapshot),
                           if (snapshot.data.data()['isNurse'])
-                            NurseBloodCollections(true, widget.scrollController)
+                            NurseBloodCollections(false, widget.scrollController)
                           else
                             Container(
                               child: Column(

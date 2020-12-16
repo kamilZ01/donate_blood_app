@@ -235,9 +235,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                           padding: const EdgeInsets.only(
                                               bottom: 15.0),
                                           child: DateTimeFormField(
-                                              /*textStyle: TextStyle(
-                                                fontSize: 20,
-                                              ),*/
+                                              textStyle: TextStyle(
+                                                fontSize: 15,
+                                              ),
                                               onDateSelected: (DateTime date) {
                                                 setState(() {
                                                   _dateOfBirth = date;

@@ -25,7 +25,7 @@
   "verifyEmailDialogTitle" : "Zweryfikuj swój adres e-mail",
   "verifyEmailDialogContent": "Link do weryfikacji adresu e-mail został wysłany na Twój adres e-mail",
   "passwordResetEmailDialogTitle" : "Zresetuj hasło",
-  "passwordResetEmailDialogContent": "Na zarejestrowany adres e-mail wysłaliśmy link do zresetowania hasła",
+  "passwordResetEmailDialogContent": "Na wskazany adres e-mail wysłaliśmy link do resetowania hasła.",
   "userDisabled": "Konto z podanym adresem e-mail zostało wyłączone.",
   "invalidEmail": "Adres e-mail jest nieprawidłowy.",
   "loginError": "Pojawił się niezdefiniowany problem z zalogowaniem się. Błąd: {error}",
@@ -52,7 +52,8 @@
   "somethingWentWrong": "Coś poszło nie tak",
   "amount": "Ilość",
   "date": "Data",
-  "enterSomeText": "Wprowadź tekst",
+  "enterText": "Wprowadź tekst",
+  "enterAmount": "Wprowadź ilość",
   "donor": "Darczyńca",
   "collections": "Pobrania",
   "welcome": "Witaj",
@@ -108,6 +109,8 @@
   "accountActivity": "Aktywność na koncie",
   "signOutUpperCase": "WYLOGUJ SIĘ",
   "bloodGroupSelectIsRequired": "Wybór grupy krwi jest wymagany.",
+  "donorSelectionIsRequired": "Wybór dawcy jest wymagany.",
+  "donationTypeSelectionIsRequired": "Wybór typu donacji jest wymagany.",
   "saveUpperCase": "ZAPISZ",
   "isRequired": " jest wymagany",
   "orUpperCase": "LUB",
@@ -116,5 +119,7 @@
   "english": "ANGIELSKI",
   "time": "Czas",
   "userDataHasBeenSuccessfullyUpdated": "Dane użytkownika zostały pomyślnie zaktualizowane.",
-  "userDataHasNotBeenUpdated": "Dane użytkownika nie zostały zaktualizowane. Błąd:"
+  "userDataHasNotBeenUpdated": "Dane użytkownika nie zostały zaktualizowane. Błąd:",
+  "donationDate": "Data donacji",
+  "addDonation": "Dodaj donację"
 }
