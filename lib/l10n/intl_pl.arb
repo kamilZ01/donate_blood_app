@@ -109,6 +109,7 @@
   "accountActivity": "Aktywność na koncie",
   "signOutUpperCase": "WYLOGUJ SIĘ",
   "bloodGroupSelectIsRequired": "Wybór grupy krwi jest wymagany.",
+  "genderSelectIsRequired": "Wybór płci jest wymagany.",
   "donorSelectionIsRequired": "Wybór dawcy jest wymagany.",
   "donationTypeSelectionIsRequired": "Wybór typu donacji jest wymagany.",
   "saveUpperCase": "ZAPISZ",
@@ -127,5 +128,8 @@
   "collectedInTotal": "W sumie",
   "today": "Dzisiaj",
   "informationAboutCollections": "Informacje o pobraniach krwi",
-  "inCurrentMonth": "W bieżącym miesiącu"
+  "inCurrentMonth": "W bieżącym miesiącu",
+  "gender": "Płeć",
+  "male" : "Mężczyzna",
+  "female": "Kobieta"
 }

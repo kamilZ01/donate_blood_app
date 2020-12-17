@@ -414,7 +414,7 @@ class _UserDetailState extends State<UserDetail> {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  BadgesList()
+                                  BadgesList(totalAmountOfBloodDonated, snapshot.data.data()['gender'])
                                 ],
                               ),
                             ),

@@ -22,14 +22,17 @@ class _ProfilePageState extends State<ProfilePage> {
   bool showPassword = false;
 
   String _fullName;
+  String _gender;
+  String _newGender;
   DateTime _dateOfBirth;
   String _phoneNumber;
   String _newBloodGroup, _bloodGroup;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
-      GlobalKey<ScaffoldMessengerState>();
+  GlobalKey<ScaffoldMessengerState>();
   Stream<DocumentSnapshot> _userData;
   List _bloodGroupsList;
+  List _genderList;
 
   @override
   void initState() {
@@ -37,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
     _newBloodGroup = '';
     _userData = context.read<Repository>().getUserData();
     _bloodGroupsList = context.read<Repository>().getBloodGroups();
-    //context.read<Repository>().getUsersMap();
+    _genderList = context.read<Repository>().getGenders();
   }
 
   @override
@@ -45,45 +48,20 @@ class _ProfilePageState extends State<ProfilePage> {
     return ScaffoldMessenger(
       key: _scaffoldMessengerKey,
       child: Scaffold(
-        /*appBar: AppBar(
-          elevation: 1,
-          backgroundColor: kPrimaryColor,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomePageScreen()),
-              );
-            },
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.settings_outlined,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return SettingsPage();
-                    },
-                  ),
-                );
-              },
-            ),
-          ],
-        ),*/
         body: SingleChildScrollView(
           child: Column(
             children: [
               CustomPaint(
                 child: Container(
                   margin: EdgeInsets.only(top: 55),
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.01,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.01,
                 ),
                 painter: HeaderCurvedContainer(),
               ),
@@ -135,8 +113,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: <Widget>[
                         Container(
                           padding: EdgeInsets.all(10.0),
-                          width: MediaQuery.of(context).size.width / 2,
-                          height: MediaQuery.of(context).size.width / 2,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width / 2,
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .width / 2,
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.white, width: 5),
                             shape: BoxShape.circle,
@@ -144,7 +128,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image:
-                                  AssetImage('assets/images/profileIcon.png'),
+                              AssetImage('assets/images/profileIcon.png'),
                             ),
                           ),
                         ),
@@ -161,7 +145,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               border: Border.all(
                                 width: 4,
                                 color:
-                                    Theme.of(context).scaffoldBackgroundColor,
+                                Theme
+                                    .of(context)
+                                    .scaffoldBackgroundColor,
                               ),
                               color: Colors.grey,
                             ),
@@ -205,6 +191,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                     _fullName = snapshot.data.exists
                                         ? snapshot.data.data()["fullName"]
                                         : S.current.loading;
+                                    _gender = snapshot.data.exists
+                                        ? snapshot.data.data()["gender"]
+                                        : S.current.loading;
                                     _phoneNumber = snapshot.data.exists
                                         ? snapshot.data.data()["phoneNumber"]
                                         : S.current.loading;
@@ -221,15 +210,59 @@ class _ProfilePageState extends State<ProfilePage> {
                                       children: [
                                         buildTextField(
                                             S.current.fullName,
-                                            _fullName, TextInputType.name,
-                                            (value) => _fullName = value.trim(),
+                                            _fullName,
+                                            TextInputType.name,
+                                                (value) =>
+                                            _fullName = value.trim(),
                                             false),
-                                        //buildTextField("E-mail", _email, (value) => _email = value.trim(), true),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 15.0),
+                                          child: DropDownFormField(
+                                            contentPadding:
+                                            EdgeInsets.only(right: 10),
+                                            filled: false,
+                                            validator: (value) {
+                                              if (snapshot.data.exists &&
+                                                  snapshot.data
+                                                      .data()["gender"]
+                                                      .toString()
+                                                      .isNotEmpty) return null;
+                                              if (value == null) {
+                                                return S.current
+                                                    .genderSelectIsRequired;
+                                              }
+                                              return null;
+                                            },
+                                            titleText: S.current.gender,
+                                            hintText: snapshot.data.exists &&
+                                                snapshot.data
+                                                    .data()["gender"] != ""
+                                                ? _genderList.singleWhere((element) =>
+                                            element["value"] == snapshot.data.data()["gender"])["display"]
+                                                : S.current.pleaseChooseOne,
+                                            value: _newGender,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _newGender = value;
+                                              });
+                                            },
+                                            onSaved: (value) {
+                                              setState(() {
+                                                _newGender = value;
+                                              });
+                                            },
+                                            dataSource: _genderList,
+                                            textField: "display",
+                                            valueField: "value",
+                                          ),
+                                        ),
                                         buildTextField(
                                             S.current.phone,
-                                            _phoneNumber, TextInputType.phone,
-                                            (value) =>
-                                                _phoneNumber = value.trim(),
+                                            _phoneNumber,
+                                            TextInputType.phone,
+                                                (value) =>
+                                            _phoneNumber = value.trim(),
                                             false),
                                         Padding(
                                           padding: const EdgeInsets.only(
@@ -249,33 +282,39 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 });
                                               },
                                               lastDate: DateTime(
-                                                  DateTime.now().year - 18,
-                                                  DateTime.now().month,
-                                                  DateTime.now().day),
+                                                  DateTime
+                                                      .now()
+                                                      .year - 18,
+                                                  DateTime
+                                                      .now()
+                                                      .month,
+                                                  DateTime
+                                                      .now()
+                                                      .day),
                                               initialValue: _dateOfBirth,
                                               dateFormat:
-                                                  DateFormat("d MMMM y"),
+                                              DateFormat("d MMMM y"),
                                               mode: DateFieldPickerMode.date,
                                               decoration: InputDecoration(
                                                 contentPadding:
-                                                    EdgeInsets.only(bottom: 12),
+                                                EdgeInsets.only(bottom: 12),
                                                 suffixIcon: Padding(
                                                   padding:
-                                                      EdgeInsets.only(top: 8.0),
+                                                  EdgeInsets.only(top: 8.0),
                                                   child: Icon(
                                                       Icons.arrow_drop_down,
                                                       color:
-                                                          Colors.grey.shade700),
+                                                      Colors.grey.shade700),
                                                 ),
                                                 labelText:
-                                                    S.current.dateOfBirth,
+                                                S.current.dateOfBirth,
                                                 floatingLabelBehavior:
-                                                    FloatingLabelBehavior
-                                                        .always,
+                                                FloatingLabelBehavior
+                                                    .always,
                                                 hintText: S.current
                                                     .pleaseEnterValue(S
-                                                        .current.dateOfBirth
-                                                        .toLowerCase()),
+                                                    .current.dateOfBirth
+                                                    .toLowerCase()),
                                                 hintStyle: TextStyle(
                                                   color: Colors.grey.shade500,
                                                   height: 2.3,
@@ -284,7 +323,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ),
                                         DropDownFormField(
                                           contentPadding:
-                                              EdgeInsets.only(right: 10),
+                                          EdgeInsets.only(right: 10),
                                           filled: false,
                                           validator: (value) {
                                             if (snapshot.data.exists &&
@@ -299,9 +338,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                             return null;
                                           },
                                           titleText: S.current.bloodType,
-                                          hintText: snapshot.data.exists
+                                          hintText: snapshot.data.exists &&
+                                              snapshot.data
+                                                  .data()["bloodGroup"] != ""
                                               ? snapshot.data
-                                                  .data()["bloodGroup"]
+                                              .data()["bloodGroup"]
                                               : S.current.pleaseChooseOne,
                                           value: _newBloodGroup,
                                           onChanged: (value) {
@@ -317,9 +358,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                           dataSource: _bloodGroupsList,
                                           textField: "value",
                                           valueField: "value",
-                                          /*dataSource: context.watch<Repository>().getUsersList(),
-                                          textField: "display",
-                                          valueField: "value",*/
                                         ),
                                         SizedBox(
                                           height: 5,
@@ -334,28 +372,32 @@ class _ProfilePageState extends State<ProfilePage> {
                                             await context
                                                 .read<Repository>()
                                                 .updateUser(
-                                                    _fullName,
-                                                    _dateOfBirth,
-                                                    _phoneNumber,
-                                                    _newBloodGroup == null
-                                                        ? _bloodGroup
-                                                        : _newBloodGroup)
-                                                .then((value) => {
-                                                      if (value.isNotEmpty &&
-                                                          value.length > 0)
-                                                        _scaffoldMessengerKey
-                                                            .currentState
-                                                            .showSnackBar(
-                                                                SnackBar(
-                                                          content: Text(value),
-                                                        ))
-                                                    })
+                                                _fullName,
+                                                _newGender == null
+                                                    ? _gender
+                                                    : _newGender,
+                                                _dateOfBirth,
+                                                _phoneNumber,
+                                                _newBloodGroup == null
+                                                    ? _bloodGroup
+                                                    : _newBloodGroup)
+                                                .then((value) =>
+                                            {
+                                              if (value.isNotEmpty &&
+                                                  value.length > 0)
+                                                _scaffoldMessengerKey
+                                                    .currentState
+                                                    .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(value),
+                                                    ))
+                                            })
                                                 .catchError((error) =>
-                                                    _scaffoldMessengerKey
-                                                        .currentState
-                                                        .showSnackBar(SnackBar(
-                                                            content: Text(error
-                                                                .toString()))));
+                                                _scaffoldMessengerKey
+                                                    .currentState
+                                                    .showSnackBar(SnackBar(
+                                                    content: Text(error
+                                                        .toString()))));
                                           },
                                           color: kPrimaryColor,
                                           padding: EdgeInsets.symmetric(
@@ -363,7 +405,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(20),
+                                            BorderRadius.circular(20),
                                           ),
                                           child: Text(
                                             S.current.saveUpperCase,
@@ -380,7 +422,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ],
                                     );
                                   }
-
                                   return CircularProgressIndicator();
                                 },
                               ),
@@ -399,8 +440,8 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget buildTextField(String labelText, String hintValue, TextInputType typeValue,
-      ValueChanged<String> onChanged, bool isEmail) {
+  Widget buildTextField(String labelText, String hintValue,
+      TextInputType typeValue, ValueChanged<String> onChanged, bool isEmail) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),
       child: TextFormField(
@@ -423,7 +464,7 @@ class _ProfilePageState extends State<ProfilePage> {
           }
           if (isEmail && hintValue == S.current.loading) {
             if (!RegExp(
-                    r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
                 .hasMatch(value)) {
               return S.current.pleaseEnterAValidEmailAddress;
             }

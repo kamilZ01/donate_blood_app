@@ -109,6 +109,7 @@
   "accountActivity": "Account activity",
   "signOutUpperCase": "SIGN OUT",
   "bloodGroupSelectIsRequired": "Blood group select is required.",
+  "genderSelectIsRequired": "Gender select is required.",
   "donorSelectionIsRequired": "Donor selection is required.",
   "donationTypeSelectionIsRequired": "Donation type selection is required.",
   "saveUpperCase": "SAVE",
@@ -127,5 +128,8 @@
   "collectedInTotal": "In total",
   "today": "Today",
   "informationAboutCollections": "Information about blood collections",
-  "inCurrentMonth": "This month"
+  "inCurrentMonth": "This month",
+  "gender": "Gender",
+  "male" : "Male",
+  "female": "Female"
 }

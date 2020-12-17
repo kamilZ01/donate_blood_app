@@ -161,27 +161,29 @@ class _SettingsPageState extends State<SettingsPage> {
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 0.1),
-        child: Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: icon,
-              onPressed: () {},
-            ),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: Colors.grey[450],
+        child: Card(
+          child: Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                icon: icon,
+                onPressed: () {},
               ),
-            ),
-            Expanded(child: SizedBox()),
-            Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.grey,
-            ),
-          ],
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey[450],
+                ),
+              ),
+              Expanded(child: SizedBox()),
+              Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.grey,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -228,27 +230,29 @@ class _SettingsPageState extends State<SettingsPage> {
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 0.1),
-        child: Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: icon,
-              onPressed: () {},
-            ),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: Colors.grey[450],
+        child: Card(
+          child: Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                icon: icon,
+                onPressed: () {},
               ),
-            ),
-            Expanded(child: SizedBox()),
-            Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.grey,
-            ),
-          ],
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey[450],
+                ),
+              ),
+              Expanded(child: SizedBox()),
+              Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.grey,
+              ),
+            ],
+          ),
         ),
       ),
     );

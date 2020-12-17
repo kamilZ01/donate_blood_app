@@ -56,13 +56,14 @@ class Repository {
         .catchError((error) => print("Failed to add donation: $error"));
   }
 
-  Future<String> updateUser(String fullName, DateTime dateOfBirth,
+  Future<String> updateUser(String fullName, String gender, DateTime dateOfBirth,
       String phoneNumber, String bloodGroup) async {
     return await _firestore
         .collection('users')
         .doc(Auth().getCurrentUser().uid)
         .update({
           'fullName': fullName,
+          'gender' : gender,
           'dateOfBirth': dateOfBirth,
           'phoneNumber': phoneNumber,
           'bloodGroup': bloodGroup
@@ -108,6 +109,19 @@ class Repository {
       },
       {"display": S.current.plasma, "value": "Plasma"},
       {"display": S.current.platelets, "value": "Platelets"},
+    ];
+  }
+
+  List getGenders() {
+    return [
+      {
+        "display": S.current.male,
+        "value": "male",
+      },
+      {
+        "display": S.current.female,
+        "value": "female",
+      },
     ];
   }
 }

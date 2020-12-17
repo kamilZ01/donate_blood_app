@@ -5,18 +5,46 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class BadgesList extends StatefulWidget {
+  final int bloodAmount;
+  final String gender;
+  BadgesList(this.bloodAmount, this.gender);
+
   @override
   _BadgesListState createState() => _BadgesListState();
 }
 
 class _BadgesListState extends State<BadgesList> {
+  List<BadgesInfo> currentBadges = new List();
   @override
   Widget build(BuildContext context) {
+    currentBadges.clear();
+    switch(widget.gender){
+      case 'male':{
+        if(widget.bloodAmount >= badges[0].minBloodForMale)
+          currentBadges.add(badges[0]);
+        if(widget.bloodAmount >= badges[1].minBloodForMale)
+          currentBadges.add(badges[1]);
+        if(widget.bloodAmount >= badges[2].minBloodForMale)
+          currentBadges.add(badges[2]);
+        break;
+      }
+      case 'female':{
+        if(widget.bloodAmount >= badges[0].minBloodForFemale)
+          currentBadges.add(badges[0]);
+        if(widget.bloodAmount >= badges[1].minBloodForFemale)
+          currentBadges.add(badges[1]);
+        if(widget.bloodAmount >= badges[2].minBloodForFemale)
+          currentBadges.add(badges[2]);
+        break;
+      }
+    }
+
     return Container(
       height: 410,
       padding: const EdgeInsets.only(left: 25.0),
       child: Swiper(
-        itemCount: badges.length,
+        loop: false,
+        itemCount: currentBadges.length,
         itemWidth: MediaQuery.of(context).size.width - 2 * 64,
         layout: SwiperLayout.STACK,
         pagination: SwiperPagination(
@@ -33,7 +61,7 @@ class _BadgesListState extends State<BadgesList> {
                 context,
                 PageRouteBuilder(
                   pageBuilder: (context, a, b) => DetailPage(
-                    badgesInfo: badges[index],
+                    badgesInfo: currentBadges[index],
                   ),
                 ),
               );
@@ -56,7 +84,7 @@ class _BadgesListState extends State<BadgesList> {
                               height: 100,
                             ),
                             Text(
-                              badges[index].name,
+                              currentBadges[index].name,
                               style: TextStyle(
                                 fontFamily: 'Avenir',
                                 fontSize: 25,
@@ -91,7 +119,7 @@ class _BadgesListState extends State<BadgesList> {
                 Align(
                   alignment: Alignment.topCenter,
                   child: Image.asset(
-                    badges[index].iconImage,
+                    currentBadges[index].iconImage,
                     width: MediaQuery.of(context).size.width * 0.35,
                   ),
                 ),
