@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donate_blood/components/build_text_form.dart';
+import 'package:donate_blood/components/donation_type_translation.dart';
 import 'package:donate_blood/components/header_curved_container.dart';
 import 'package:donate_blood/constants.dart';
 import 'package:donate_blood/generated/l10n.dart';
@@ -14,6 +15,7 @@ class ListViewEvents extends StatefulWidget {
 }
 
 class _ListViewEventsState extends State<ListViewEvents> {
+  final translation = DonationType();
   Stream<DocumentSnapshot> _userData;
   String eventType;
   String location;
@@ -51,8 +53,8 @@ class _ListViewEventsState extends State<ListViewEvents> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
-                          child: BuildTextForm(S.current.eventType, eventType, TextInputType.text,
-                              (value) {
+                          child: BuildTextForm(S.current.eventType, eventType,
+                              TextInputType.text, (value) {
                             eventType = value;
                           }, (value) {
                             eventType = value.trim();
@@ -60,8 +62,9 @@ class _ListViewEventsState extends State<ListViewEvents> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
-                          child:
-                              BuildTextForm(S.current.place, location,TextInputType.text, (value) {
+                          child: BuildTextForm(
+                              S.current.place, location, TextInputType.text,
+                              (value) {
                             location = value;
                           }, (value) {
                             location = value.trim();
@@ -69,8 +72,8 @@ class _ListViewEventsState extends State<ListViewEvents> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
-                          child: BuildTextForm(
-                              S.current.donationType, typeDonation, TextInputType.text, (value) {
+                          child: BuildTextForm(S.current.donationType,
+                              typeDonation, TextInputType.text, (value) {
                             typeDonation = value;
                           }, (value) {
                             typeDonation = value.trim();
@@ -252,7 +255,8 @@ class _ListViewEventsState extends State<ListViewEvents> {
                                 'assets/icons/event.png',
                               ),
                               title: new Text(
-                                document.data()['eventType'],
+                                translation.getTranslationOfBlood(
+                                    document.data()['eventType']),
                                 style: new TextStyle(
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.bold,

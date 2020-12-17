@@ -69,12 +69,13 @@ class _DonationsCollectionsState extends State<DonationsCollections> {
                                     ConnectionState.active) {
                                   List _donors = snapshot.data.docs
                                       .map((element) => {
-                                                "display":
+                                            "display":
                                                 element.data()['fullName'],
-                                                "value": element.id
-                                              })
+                                            "value": element.id
+                                          })
                                       .toList();
-                                  _donors.removeWhere((value) => value["value"] == _nurse);
+                                  _donors.removeWhere(
+                                      (value) => value["value"] == _nurse);
                                   return DropDownFormField(
                                     contentPadding: EdgeInsets.only(right: 10),
                                     filled: false,
@@ -134,7 +135,7 @@ class _DonationsCollectionsState extends State<DonationsCollections> {
                               },
                               dataSource:
                                   context.watch<Repository>().getDonationType(),
-                              textField: "value",
+                              textField: "display",
                               valueField: "value",
                             )),
                         Padding(
