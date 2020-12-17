@@ -121,5 +121,11 @@
   "userDataHasBeenSuccessfullyUpdated": "Dane użytkownika zostały pomyślnie zaktualizowane.",
   "userDataHasNotBeenUpdated": "Dane użytkownika nie zostały zaktualizowane. Błąd:",
   "donationDate": "Data donacji",
-  "addDonation": "Dodaj donację"
+  "addDonation": "Dodaj donację",
+  "inLastYear": "W ubiegłym roku",
+  "inCurrentYear": "W bieżącym roku",
+  "collectedInTotal": "W sumie",
+  "today": "Dzisiaj",
+  "informationAboutCollections": "Informacje o pobraniach krwi",
+  "inCurrentMonth": "W bieżącym miesiącu"
 }

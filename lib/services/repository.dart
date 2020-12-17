@@ -14,7 +14,7 @@ class Repository {
   }
 
   Query getUsers() {
-    return  _firestore.collection('users');
+    return _firestore.collection('users');
   }
 
   Query getUserDonations() {
@@ -103,14 +103,11 @@ class Repository {
   List getDonationType() {
     return [
       {
-        "value": S.current.wholeBlood,
+        "display": S.current.wholeBlood,
+        "value": "Whole blood",
       },
-      {
-        "value": S.current.plasma,
-      },
-      {
-        "value": S.current.platelets,
-      },
+      {"display": S.current.plasma, "value": "Plasma"},
+      {"display": S.current.platelets, "value": "Platelets"},
     ];
   }
 }

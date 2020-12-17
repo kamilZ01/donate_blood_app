@@ -121,5 +121,11 @@
   "userDataHasBeenSuccessfullyUpdated": "User data has been successfully updated.",
   "userDataHasNotBeenUpdated": "User data has not been updated. Error:",
   "donationDate": "Donation date",
-  "addDonation": "Add donation"
+  "addDonation": "Add donation",
+  "inLastYear": "Last year",
+  "inCurrentYear": "This year",
+  "collectedInTotal": "In total",
+  "today": "Today",
+  "informationAboutCollections": "Information about blood collections",
+  "inCurrentMonth": "This month"
 }
