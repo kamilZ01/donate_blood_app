@@ -79,16 +79,6 @@
   "signIn": "Zaloguj się",
   "invalidField": "Niepoprawne dane",
   "ok": "OK",
-  "thereAreNoRegistered": "Na Twoim koncie nie ma zarejestrowanych pobrań ",
-  "bloodLowerCase": "krwi",
-  "collectionsInYourAccountToAddA": ". Aby dodać pobranie ",
-  "collectionClickTheButtonInTheBottomRightHandCorner": " kliknij przycisk w prawym dolnym rogu.",
-  "youHaveNotDonated": "Nie oddałeś jeszcze ",
-  "yetOne": " \n 1 ",
-  "donationCanSaveUpToThree": " donacja może uratować nawet 3 ",
-  "lives": "życia.",
-  "forSomeoneYour": "\n Dla kogoś Twoja ",
-  "isTheBestGiftEver": " jest najlepszym prezentem w życiu.",
   "pleaseEnterAValidEmailAddress": "Proszę podać prawidłowy adres e-mail",
   "passwordShouldContainMinEightCharacters": "Hasło powinno zawierać min. 8 znaków",
   "bloodCollections": "Pobrania krwi",
@@ -131,5 +121,7 @@
   "inCurrentMonth": "W bieżącym miesiącu",
   "gender": "Płeć",
   "male" : "Mężczyzna",
-  "female": "Kobieta"
+  "female": "Kobieta",
+  "noDonationMessage": "Na twoim koncie nie ma zarejestrowanych pobrań krwi. Sprawdź kalendarz z nadchodzącymi wydarzeniami i wybierz odpowiedni dla siebie termin.",
+  "noCollectionsMessage":"Na twoim koncie nie ma zarejestrowanych pobrań krwi. Sprawdź kalendarz z nadchodzącymi wydarzeniami, aby wesprzeć zbiórki."
 }

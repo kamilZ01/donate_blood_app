@@ -79,16 +79,6 @@
   "signIn": "Sign In",
   "invalidField": "Invalid Field",
   "ok": "OK",
-  "thereAreNoRegistered": "There are no registered ",
-  "bloodLowerCase": "blood",
-  "collectionsInYourAccountToAddA": " collections in your account. To add a ",
-  "collectionClickTheButtonInTheBottomRightHandCorner": " collection click the button in the bottom right-hand corner.",
-  "youHaveNotDonated": "You haven't donated ",
-  "yetOne": " yet. \n 1 ",
-  "donationCanSaveUpToThree": " donation can save up to 3 ",
-  "lives": "lives.",
-  "forSomeoneYour": "\n For someone, your ",
-  "isTheBestGiftEver": " is the best gift ever.",
   "pleaseEnterAValidEmailAddress": "Please enter a valid email Address",
   "passwordShouldContainMinEightCharacters": "Password should contain min 8 characters",
   "bloodCollections": "Blood Collections",
@@ -131,5 +121,7 @@
   "inCurrentMonth": "This month",
   "gender": "Gender",
   "male" : "Male",
-  "female": "Female"
+  "female": "Female",
+  "noDonationMessage": "There are no registered blood donations in your account. Check the calendar with upcoming events and choose the appropriate date for you.",
+  "noCollectionsMessage":"There are no registered blood collections in your account. Check the calendar with upcoming events to support the collections."
 }

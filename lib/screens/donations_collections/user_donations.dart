@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donate_blood/Screens/home_user_page/components/user_detail.dart';
 import 'package:donate_blood/components/donation_type_translation.dart';
-import 'package:donate_blood/components/no_donation_message.dart';
 import 'package:donate_blood/constants.dart';
 import 'package:donate_blood/services/repository.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +52,14 @@ class _UserDonationsState extends State<UserDonations> {
             padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
             children: snapshot.data.size == 0
                 ? [
-                    NoDonationMessage(),
+                    new Container(
+                      margin: EdgeInsets.only(left: 35, right: 10),
+                      child: Text(S.current.noDonationMessage,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontStyle: FontStyle.italic,
+                              fontSize: 16)),
+                    )
                   ]
                 : snapshot.data.docs.map(
                     (DocumentSnapshot document) {
