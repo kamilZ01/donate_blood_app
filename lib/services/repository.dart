@@ -28,13 +28,13 @@ class Repository {
   }
 
   Future<void> addEvent(
-      String eventType, String location, String typeDonation, DateTime date) {
+      String donationType, String location, String eventType, DateTime date) {
     return _firestore
         .collection('events')
         .add({
-          'eventType': eventType,
+          'donationType': donationType,
           'location': location,
-          'typeDonation': typeDonation,
+          'eventType': eventType,
           'date': date
         })
         .then((value) => print("events added"))
@@ -56,20 +56,38 @@ class Repository {
         .catchError((error) => print("Failed to add donation: $error"));
   }
 
-  Future<String> updateUser(String fullName, String gender, DateTime dateOfBirth,
-      String phoneNumber, String bloodGroup) async {
+  Future<String> updateUser(String fullName, String gender,
+      DateTime dateOfBirth, String phoneNumber, String bloodGroup) async {
     return await _firestore
         .collection('users')
         .doc(Auth().getCurrentUser().uid)
         .update({
           'fullName': fullName,
-          'gender' : gender,
+          'gender': gender,
           'dateOfBirth': dateOfBirth,
           'phoneNumber': phoneNumber,
           'bloodGroup': bloodGroup
         })
         .then((value) => S.current.userDataHasBeenSuccessfullyUpdated)
         .catchError((error) => S.current.userDataHasNotBeenUpdated + '$error');
+  }
+
+  Future<void> addFcmTokenToUser(String token) async {
+    await _firestore
+        .collection('users')
+        .doc(Auth().getCurrentUser().uid)
+        .update({
+      'tokens': FieldValue.arrayUnion([token])
+    });
+  }
+
+  Future<void> removeFcmTokenFromUser(String token) async {
+    await _firestore
+        .collection('users')
+        .doc(Auth().getCurrentUser().uid)
+        .update({
+      'tokens': FieldValue.arrayRemove([token])
+    });
   }
 
   List getBloodGroups() {
@@ -121,6 +139,19 @@ class Repository {
       {
         "display": S.current.female,
         "value": "female",
+      },
+    ];
+  }
+
+  List getEventType() {
+    return [
+      {
+        "display": S.current.urgentBloodDonation,
+        "value": "urgent",
+      },
+      {
+        "display": S.current.normalBloodDonation,
+        "value": "normal",
       },
     ];
   }

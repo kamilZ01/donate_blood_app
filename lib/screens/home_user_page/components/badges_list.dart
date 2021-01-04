@@ -14,27 +14,27 @@ class BadgesList extends StatefulWidget {
 }
 
 class _BadgesListState extends State<BadgesList> {
-  List<BadgesInfo> currentBadges = new List();
+  List<BadgesInfo> currentBadges = [];
   @override
   Widget build(BuildContext context) {
     currentBadges.clear();
     switch(widget.gender){
       case 'male':{
-        if(widget.bloodAmount >= badges[0].minBloodForMale)
-          currentBadges.add(badges[0]);
-        if(widget.bloodAmount >= badges[1].minBloodForMale)
-          currentBadges.add(badges[1]);
         if(widget.bloodAmount >= badges[2].minBloodForMale)
           currentBadges.add(badges[2]);
+        if(widget.bloodAmount >= badges[1].minBloodForMale)
+          currentBadges.add(badges[1]);
+        if(widget.bloodAmount >= badges[0].minBloodForMale)
+          currentBadges.add(badges[0]);
         break;
       }
       case 'female':{
-        if(widget.bloodAmount >= badges[0].minBloodForFemale)
-          currentBadges.add(badges[0]);
-        if(widget.bloodAmount >= badges[1].minBloodForFemale)
-          currentBadges.add(badges[1]);
         if(widget.bloodAmount >= badges[2].minBloodForFemale)
           currentBadges.add(badges[2]);
+        if(widget.bloodAmount >= badges[1].minBloodForFemale)
+          currentBadges.add(badges[1]);
+        if(widget.bloodAmount >= badges[0].minBloodForFemale)
+          currentBadges.add(badges[0]);
         break;
       }
     }
@@ -120,7 +120,8 @@ class _BadgesListState extends State<BadgesList> {
                   alignment: Alignment.topCenter,
                   child: Image.asset(
                     currentBadges[index].iconImage,
-                    width: MediaQuery.of(context).size.width * 0.35,
+                    //width: MediaQuery.of(context).size.width * 0.35,
+                    height: MediaQuery.of(context).size.height * 0.25
                   ),
                 ),
               ],

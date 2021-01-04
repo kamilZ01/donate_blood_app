@@ -28,6 +28,8 @@ dependencies:
 
   intl_translation: ^0.17.10+1
   firebase_core: ^0.5.3
+  firebase_messaging: ^8.0.0-dev.11
+  flutter_local_notifications: ^3.0.2
   cloud_firestore: ^0.14.4
   firebase_analytics: ^6.3.0
   firebase_auth: ^0.18.4+1
@@ -45,14 +47,23 @@ dependencies:
   #functional_widget_annotation: ^0.8.0
   asset_cache: ^0.2.3
   firebase_crashlytics: ^0.2.4
-  open_mail_app: ^0.0.3
+  open_mail_app: ^0.0.5
   provider: ^4.3.2+3
   move_to_background: ^1.0.1
   shared_preferences: ^0.5.12+4
 
+dependency_overrides:
+    intl: 0.17.0-nullsafety.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.8.1
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/app_icon.png"
 
   #functional_widget: ^0.8.0
   #build_runner: ^1.9.0
