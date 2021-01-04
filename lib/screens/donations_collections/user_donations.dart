@@ -25,7 +25,7 @@ class _UserDonationsState extends State<UserDonations> {
   @override
   void initState() {
     super.initState();
-    _userDonations = context.read<Repository>().getUserDonations();
+    _userDonations = context.read<Repository>().getUserDonations().orderBy('donationDate', descending: true);
   }
 
   @override
@@ -34,7 +34,6 @@ class _UserDonationsState extends State<UserDonations> {
       child: StreamBuilder<QuerySnapshot>(
         stream: widget.setLimit
             ? _userDonations
-                .orderBy('donationDate', descending: true)
                 .limit(2)
                 .snapshots()
             : _userDonations.snapshots(),

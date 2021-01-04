@@ -7,8 +7,11 @@ import 'package:donate_blood/screens/home_user_page/home_page_screen.dart';
 import 'package:donate_blood/screens/signup/signup_screen.dart';
 import 'package:donate_blood/screens/welcome/welcome_screen.dart';
 import 'package:donate_blood/services/authentication.dart';
+import 'package:donate_blood/services/repository.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:donate_blood/constants.dart';
 import 'package:donate_blood/components/background.dart';
@@ -47,6 +50,10 @@ class _LoginScreenState extends State<LoginScreen> {
           .then((value) => loginResult = value);
       if (Auth().getCurrentUser() != null &&
           Auth().getCurrentUser().uid == loginResult) {
+        String fcmToken = await FirebaseMessaging.instance.getToken();
+        if(fcmToken != null) {
+          context.read<Repository>().addFcmTokenToUser(fcmToken);
+        }
         return true;
       } else {
         _errorMessage = loginResult;

@@ -25,7 +25,7 @@ class _NurseBloodCollectionsState extends State<NurseBloodCollections> {
   @override
   void initState() {
     super.initState();
-    _nurseCollections = context.read<Repository>().getNurseCollections();
+    _nurseCollections = context.read<Repository>().getNurseCollections().orderBy('donationDate', descending: true);
   }
 
   @override
@@ -36,7 +36,6 @@ class _NurseBloodCollectionsState extends State<NurseBloodCollections> {
           StreamBuilder<QuerySnapshot>(
             stream: widget.setLimit
                 ? _nurseCollections
-                    .orderBy('donationDate', descending: true)
                     .limit(4)
                     .snapshots()
                 : _nurseCollections.snapshots(),
