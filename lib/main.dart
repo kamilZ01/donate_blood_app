@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donate_blood/constants.dart';
 import 'package:donate_blood/screens/home_user_page/home_page_screen.dart';
@@ -77,13 +75,10 @@ Future<void> main() async {
       isEventNotifications = value.getBool("eventNotifications");
   });
 
-  String eventLocale = locale != null
-      ? locale.toUpperCase()
-      : Platform.localeName.substring(0, 2).toUpperCase();
   if (isEventNotifications) {
-    FirebaseMessaging.instance.subscribeToTopic('event' + eventLocale);
+    FirebaseMessaging.instance.subscribeToTopic('event');
   } else {
-    FirebaseMessaging.instance.unsubscribeFromTopic('event' + eventLocale);
+    FirebaseMessaging.instance.unsubscribeFromTopic('event');
   }
 
   runApp(MyApp(locale));
@@ -93,54 +88,10 @@ Future<void> main() async {
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
 }
 
-/*class App extends StatefulWidget {
-  final String locale;
-  App(this.locale);
-
-  @override
-  _AppState createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-
-  @override
-  Widget build(BuildContext context) {
-    User user = Auth().getCurrentUser();
-    return Provider<Repository>(
-      create: (_) => Repository(FirebaseFirestore.instance),
-      child: MaterialApp(
-        builder: (context, child) => MediaQuery(
-            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-            child: child),
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          S.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        locale: widget.locale != null ? Locale(widget.locale) : null,
-        debugShowCheckedModeBanner: false,
-        title: "Donate Blood",
-        theme: ThemeData(
-          primaryColor: kPrimaryColor,
-          scaffoldBackgroundColor: Colors.white,
-        ),
-        home: (user != null && user.uid.isNotEmpty)
-            ? HomePageScreen()
-            : WelcomeScreen(),
-      ),
-    );
-  }
-}*/
-
 class MyApp extends StatelessWidget {
   final String locale;
 
   MyApp(this.locale);
-
-  // This widget is the root of your application.
-  //AppLocalizationDelegate _localeOverrideDelegate = AppLocalizationDelegate();
 
   @override
   Widget build(BuildContext context) {
