@@ -122,18 +122,18 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 buildNotificationOptionRow(
                     S.current.eventNotifications, isEventNotifications,
-                    (bool value) async {
+                    (bool value) {
                   setState(() {
                     isEventNotifications = value;
                     _preferences.then((value) => value.setBool(
                         "eventNotifications", isEventNotifications));
                   });
                   if (isEventNotifications)
-                    await FirebaseMessaging.instance
-                        .subscribeToTopic( 'event' + currentLanguage);
+                    FirebaseMessaging.instance
+                        .subscribeToTopic( 'event' /*+ currentLanguage*/);
                   else
-                    await FirebaseMessaging.instance
-                        .unsubscribeFromTopic( 'event' + currentLanguage);
+                    FirebaseMessaging.instance
+                        .unsubscribeFromTopic( 'event' /*+ currentLanguage*/);
                   //print('Zmiana eventu:' + currentLanguage);
                 }),
                 buildNotificationOptionRow(
@@ -266,9 +266,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   RaisedButton(
-                    onPressed: () async {
-                      await FirebaseMessaging.instance.unsubscribeFromTopic('event' + currentLanguage);
-                      await FirebaseMessaging.instance.subscribeToTopic('eventPL');
+                    onPressed: () {
                       setState(() {
                         S.load(Locale('pl', 'PL'));
                         _preferences
@@ -280,9 +278,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: Text(S.current.polish),
                   ),
                   RaisedButton(
-                    onPressed: () async {
-                      await FirebaseMessaging.instance.unsubscribeFromTopic('event' + currentLanguage);
-                      await FirebaseMessaging.instance.subscribeToTopic('eventEN');
+                    onPressed: () {
                       setState(() {
                         S.load(Locale('en', 'EN'));
                         _preferences

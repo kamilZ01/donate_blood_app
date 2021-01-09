@@ -126,6 +126,8 @@
   "male" : "Mężczyzna",
   "female": "Kobieta",
   "noDonationMessage": "Na twoim koncie nie ma zarejestrowanych pobrań krwi. Sprawdź kalendarz z nadchodzącymi wydarzeniami i wybierz odpowiedni dla siebie termin.",
+  "newEventNotificationTitle": "Nowa zbiórka krwi",
+  "newDonationNotificationTitle": "Pojawiła się nowa donacja na twoim koncie!",
   "noCollectionsMessage":"Na twoim koncie nie ma zarejestrowanych pobrań krwi. Sprawdź kalendarz z nadchodzącymi wydarzeniami, aby wesprzeć zbiórki.",
   "disconnected": "Utraciłeś połączenie z internetem.",
   "checkStatus": "Proszę sprawdź swoje połączenie internetowe"

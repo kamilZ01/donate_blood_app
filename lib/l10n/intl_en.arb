@@ -126,6 +126,8 @@
   "male" : "Male",
   "female": "Female",
   "noDonationMessage": "There are no registered blood donations in your account. Check the calendar with upcoming events and choose the appropriate date for you.",
+  "newEventNotificationTitle": "New blood donation event",
+  "newDonationNotificationTitle": "A new donation has been registered in your account!",
   "noCollectionsMessage":"There are no registered blood collections in your account. Check the calendar with upcoming events to support the collections.",
   "disconnected": "You are disconnected to the Internet.",
   "checkStatus": "Please check your internet connection"

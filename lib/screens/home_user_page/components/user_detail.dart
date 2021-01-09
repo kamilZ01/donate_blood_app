@@ -707,7 +707,7 @@ DateTime calcNextDonation(
     Timestamp timestamp, String lastDonationType, String nextDonationType) {
   DateTime lastDonationDate;
   DateTime newDonationDate;
-  String wholeBlood = S.current.wholeBlood;
+  //String wholeBlood = S.current.wholeBlood;
 
   if (timestamp != null) {
     lastDonationDate = timestamp.toDate();
