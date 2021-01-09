@@ -77,11 +77,13 @@ Future<void> main() async {
       isEventNotifications = value.getBool("eventNotifications");
   });
 
-  String eventLocale = locale != null ? locale.toUpperCase() : Platform.localeName.substring(0,2).toUpperCase();
+  String eventLocale = locale != null
+      ? locale.toUpperCase()
+      : Platform.localeName.substring(0, 2).toUpperCase();
   if (isEventNotifications) {
-    await FirebaseMessaging.instance.subscribeToTopic('event' + eventLocale);
+    FirebaseMessaging.instance.subscribeToTopic('event' + eventLocale);
   } else {
-    await FirebaseMessaging.instance.unsubscribeFromTopic('event' + eventLocale);
+    FirebaseMessaging.instance.unsubscribeFromTopic('event' + eventLocale);
   }
 
   runApp(MyApp(locale));

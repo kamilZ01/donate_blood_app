@@ -116,11 +116,7 @@ class _UserDetailState extends State<UserDetail> {
                         });
                       } else {
                         querySnapshot.data.docs.forEach((element) {
-                          if (getYearFromDonationDate(
-                                  element.data()['donationDate'], "year") ==
-                              DateTime.now().year) {
-                            totalCollected += element.data()['amount'];
-                          }
+                          totalCollected += element.data()['amount'];
                           if (getYearFromDonationDate(
                                       element.data()['donationDate'],
                                       "month") ==
@@ -414,7 +410,8 @@ class _UserDetailState extends State<UserDetail> {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  BadgesList(totalAmountOfBloodDonated, snapshot.data.data()['gender'])
+                                  BadgesList(totalAmountOfBloodDonated,
+                                      snapshot.data.data()['gender'])
                                 ],
                               ),
                             ),
