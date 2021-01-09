@@ -1,13 +1,31 @@
 import 'package:donate_blood/Screens/Login/login_screen.dart';
 import 'package:donate_blood/Screens/Signup/signup_screen.dart';
 import 'package:donate_blood/components/background.dart';
+import 'package:donate_blood/components/check_internet.dart';
 import 'package:donate_blood/components/rounded_button.dart';
 import 'package:donate_blood/constants.dart';
 import 'package:donate_blood/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  @override
+  void initState() {
+    super.initState();
+    checkInternet().checkConnection(context);
+  }
+
+  @override
+  void dispose() {
+    checkInternet().listener.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
