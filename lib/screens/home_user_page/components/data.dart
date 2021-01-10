@@ -16,7 +16,6 @@ class BadgesInfo {
       this.maxBloodForMale,
       this.minBloodForFemale,
       this.maxBloodForFemale});
-
 }
 
 List<BadgesInfo> badges = [
@@ -24,9 +23,9 @@ List<BadgesInfo> badges = [
       name: 'Zasłużony Honorowy Dawca Krwi 3 º',
       iconImage: 'assets/images/brazowaOdznaka.png',
       description:
-          "Otrzmuje dawcy krwi: \n1) kobiecie, która oddała w dowolnym okresie co najmniej 5 litrów krwi lub odpowiadającą tej objętości ilość jej składników, \n2) mężczyźnie, który oddał w dowolnym okresie co najmniej 6 litrów krwi lub odpowiadającą tej objętości ilość jej składników\n– przysługuje tytuł „Zasłużony Honorowy Dawca Krwi III stopnia” i brązowa odznaka honorowa „Zasłużony Honorowy Dawca Krwi III stopnia”."
-      + "Otrzmuje dawcy krwi: \n1) kobiecie, która oddała w dowolnym okresie co najmniej 5 litrów krwi lub odpowiadającą tej objętości ilość jej składników, \n2) mężczyźnie, który oddał w dowolnym okresie co najmniej 6 litrów krwi lub odpowiadającą tej objętości ilość jej składników\n– przysługuje tytuł „Zasłużony Honorowy Dawca Krwi III stopnia” i brązowa odznaka honorowa „Zasłużony Honorowy Dawca Krwi III stopnia”."
-              + "Otrzmuje dawcy krwi: \n1) kobiecie, która oddała w dowolnym okresie co najmniej 5 litrów krwi lub odpowiadającą tej objętości ilość jej składników, \n2) mężczyźnie, który oddał w dowolnym okresie co najmniej 6 litrów krwi lub odpowiadającą tej objętości ilość jej składników\n– przysługuje tytuł „Zasłużony Honorowy Dawca Krwi III stopnia” i brązowa odznaka honorowa „Zasłużony Honorowy Dawca Krwi III stopnia”.",
+          "Otrzmuje dawcy krwi: \n1) kobiecie, która oddała w dowolnym okresie co najmniej 5 litrów krwi lub odpowiadającą tej objętości ilość jej składników, \n2) mężczyźnie, który oddał w dowolnym okresie co najmniej 6 litrów krwi lub odpowiadającą tej objętości ilość jej składników\n– przysługuje tytuł „Zasłużony Honorowy Dawca Krwi III stopnia” i brązowa odznaka honorowa „Zasłużony Honorowy Dawca Krwi III stopnia”." +
+              "Otrzmuje dawcy krwi: \n1) kobiecie, która oddała w dowolnym okresie co najmniej 5 litrów krwi lub odpowiadającą tej objętości ilość jej składników, \n2) mężczyźnie, który oddał w dowolnym okresie co najmniej 6 litrów krwi lub odpowiadającą tej objętości ilość jej składników\n– przysługuje tytuł „Zasłużony Honorowy Dawca Krwi III stopnia” i brązowa odznaka honorowa „Zasłużony Honorowy Dawca Krwi III stopnia”." +
+              "Otrzmuje dawcy krwi: \n1) kobiecie, która oddała w dowolnym okresie co najmniej 5 litrów krwi lub odpowiadającą tej objętości ilość jej składników, \n2) mężczyźnie, który oddał w dowolnym okresie co najmniej 6 litrów krwi lub odpowiadającą tej objętości ilość jej składników\n– przysługuje tytuł „Zasłużony Honorowy Dawca Krwi III stopnia” i brązowa odznaka honorowa „Zasłużony Honorowy Dawca Krwi III stopnia”.",
       minBloodForMale: 6000,
       maxBloodForMale: 11999,
       minBloodForFemale: 5000,
@@ -36,9 +35,9 @@ List<BadgesInfo> badges = [
       iconImage: 'assets/images/srebrnaOdznaka.png',
       description:
           "Dawcy krwi:\n1) kobiecie, która oddała w dowolnym okresie co najmniej 10 litrów krwi lub odpowiadającą tej objętości ilość jej składników,\n2) mężczyźnie, który oddał w dowolnym okresie co najmniej 12 litrów krwi lub odpowiadającą tej objętości ilość jej składników\n– przysługuje tytuł „Zasłużony Honorowy Dawca Krwi II stopnia” i srebrna odznaka honorowa „Zasłużony Honorowy Dawca Krwi II stopnia”.",
-      minBloodForMale: 10000,
+      minBloodForMale: 12000,
       maxBloodForMale: 17999,
-      minBloodForFemale: 12000,
+      minBloodForFemale: 10000,
       maxBloodForFemale: 14999),
   BadgesInfo(3,
       name: 'Zasłużony Honorowy Dawca Krwi 1 º',
