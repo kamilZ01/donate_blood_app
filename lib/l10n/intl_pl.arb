@@ -130,5 +130,6 @@
   "newDonationNotificationTitle": "Pojawiła się nowa donacja na twoim koncie!",
   "noCollectionsMessage":"Na twoim koncie nie ma zarejestrowanych pobrań krwi. Sprawdź kalendarz z nadchodzącymi wydarzeniami, aby wesprzeć zbiórki.",
   "disconnected": "Utraciłeś połączenie z internetem.",
-  "checkStatus": "Proszę sprawdź swoje połączenie internetowe"
+  "checkStatus": "Proszę sprawdź swoje połączenie internetowe",
+  "noBadgesMessage": "W Twojej kolekcji nie ma jeszcze żadnej odznaki. Proszę, sprawdź powyżej ile krwi trzeba oddać, aby otrzymać odznakę. "
 }

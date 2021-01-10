@@ -130,5 +130,6 @@
   "newDonationNotificationTitle": "A new donation has been registered in your account!",
   "noCollectionsMessage":"There are no registered blood collections in your account. Check the calendar with upcoming events to support the collections.",
   "disconnected": "You are disconnected to the Internet.",
-  "checkStatus": "Please check your internet connection"
+  "checkStatus": "Please check your internet connection",
+  "noBadgesMessage": "There is no badge in your collection. Please, check above to see how much blood you need to donate to get your badge."
 }

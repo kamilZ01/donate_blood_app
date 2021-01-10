@@ -14,121 +14,136 @@ class BadgesList extends StatefulWidget {
 }
 
 class _BadgesListState extends State<BadgesList> {
-  List<BadgesInfo> currentBadges = [];
+  List<BadgesInfo> badgesList = [];
   @override
   Widget build(BuildContext context) {
-    currentBadges.clear();
-    switch(widget.gender){
-      case 'male':{
-        if(widget.bloodAmount >= badges[2].minBloodForMale)
-          currentBadges.add(badges[2]);
-        if(widget.bloodAmount >= badges[1].minBloodForMale)
-          currentBadges.add(badges[1]);
-        if(widget.bloodAmount >= badges[0].minBloodForMale)
-          currentBadges.add(badges[0]);
-        break;
-      }
-      case 'female':{
-        if(widget.bloodAmount >= badges[2].minBloodForFemale)
-          currentBadges.add(badges[2]);
-        if(widget.bloodAmount >= badges[1].minBloodForFemale)
-          currentBadges.add(badges[1]);
-        if(widget.bloodAmount >= badges[0].minBloodForFemale)
-          currentBadges.add(badges[0]);
-        break;
-      }
+    badgesList.clear();
+    switch (widget.gender) {
+      case 'male':
+        {
+          if (widget.bloodAmount >= badges[2].minBloodForMale)
+            badgesList.add(badges[2]);
+          if (widget.bloodAmount >= badges[1].minBloodForMale)
+            badgesList.add(badges[1]);
+          if (widget.bloodAmount >= badges[0].minBloodForMale)
+            badgesList.add(badges[0]);
+          break;
+        }
+      case 'female':
+        {
+          if (widget.bloodAmount >= badges[2].minBloodForFemale)
+            badgesList.add(badges[2]);
+          if (widget.bloodAmount >= badges[1].minBloodForFemale)
+            badgesList.add(badges[1]);
+          if (widget.bloodAmount >= badges[0].minBloodForFemale)
+            badgesList.add(badges[0]);
+          break;
+        }
     }
+    print("ilosc odznak + " + badgesList.length.toString());
 
-    return Container(
-      height: 410,
-      padding: const EdgeInsets.only(left: 25.0),
-      child: Swiper(
-        loop: false,
-        itemCount: currentBadges.length,
-        itemWidth: MediaQuery.of(context).size.width - 2 * 64,
-        layout: SwiperLayout.STACK,
-        pagination: SwiperPagination(
-          builder: DotSwiperPaginationBuilder(
-            color: Colors.grey,
-            activeSize: 15,
-            space: 5,
-          ),
-        ),
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (context, a, b) => DetailPage(
-                    badgesInfo: currentBadges[index],
-                  ),
+    return Column(
+      children: [
+        if (badgesList.length > 0)
+          Container(
+            height: 410,
+            padding: const EdgeInsets.only(left: 25.0),
+            child: Swiper(
+              loop: true,
+              itemCount: badgesList.length,
+              itemWidth: MediaQuery.of(context).size.width - 2 * 64,
+              layout: SwiperLayout.STACK,
+              pagination: SwiperPagination(
+                builder: DotSwiperPaginationBuilder(
+                  color: Colors.grey,
+                  activeSize: 15,
+                  space: 5,
                 ),
-              );
-            },
-            child: Stack(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    SizedBox(height: 100),
-                    Card(
-                      elevation: 8,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32.0)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(32.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            SizedBox(
-                              height: 100,
-                            ),
-                            Text(
-                              currentBadges[index].name,
-                              style: TextStyle(
-                                fontFamily: 'Avenir',
-                                fontSize: 25,
-                                color: const Color(0xff47455f),
-                                fontWeight: FontWeight.w900,
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  S.current.readMore,
-                                  style: TextStyle(
-                                    fontFamily: 'Avenir',
-                                    fontSize: 18,
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                              ],
-                            ),
-                          ],
+              ),
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, a, b) => DetailPage(
+                          badgesInfo: badgesList[index],
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Image.asset(
-                    currentBadges[index].iconImage,
-                    //width: MediaQuery.of(context).size.width * 0.35,
-                    height: MediaQuery.of(context).size.height * 0.25
+                    );
+                  },
+                  child: Stack(
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          SizedBox(height: 100),
+                          Card(
+                            elevation: 8,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(32.0)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(32.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: 100,
+                                  ),
+                                  Text(
+                                    badgesList[index].name,
+                                    style: TextStyle(
+                                      fontFamily: 'Avenir',
+                                      fontSize: 25,
+                                      color: const Color(0xff47455f),
+                                      fontWeight: FontWeight.w900,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        S.current.readMore,
+                                        style: TextStyle(
+                                          fontFamily: 'Avenir',
+                                          fontSize: 18,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Image.asset(badgesList[index].iconImage,
+                            //width: MediaQuery.of(context).size.width * 0.35,
+                            height: MediaQuery.of(context).size.height * 0.25),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                );
+              },
             ),
-          );
-        },
-      ),
+          )
+        else
+          new Container(
+            margin: EdgeInsets.only(left: 35, right: 10, bottom: 10),
+            child: Text(S.current.noBadgesMessage,
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontStyle: FontStyle.italic,
+                    fontSize: 16)),
+          ),
+      ],
     );
   }
 }
