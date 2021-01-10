@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donate_blood/Screens/donations_collections/nurse_blood_collections.dart';
 import 'package:donate_blood/Screens/donations_collections/user_donations.dart';
 import 'package:donate_blood/Screens/home_user_page/components/badges_list.dart';
+import 'package:donate_blood/Screens/home_user_page/components/data.dart';
 import 'package:donate_blood/components/donation_type_translation.dart';
 import 'package:donate_blood/constants.dart';
 import 'package:donate_blood/generated/l10n.dart';
@@ -32,7 +33,8 @@ class _UserDetailState extends State<UserDetail> {
       totalCollectedInCurrentMonth,
       totalCollectedInCurrentDay,
       totalCollectedInCurrentYear,
-      totalCollectedInLastYear;
+      totalCollectedInLastYear,
+      nextBadgeFor;
   Timestamp lastDonation;
   String typeOfLastDonation;
   var newFormat = DateFormat("dd/MM/yyyy");
@@ -56,6 +58,7 @@ class _UserDetailState extends State<UserDetail> {
     totalCollectedInCurrentDay = 0;
     totalCollectedInCurrentYear = 0;
     totalCollectedInLastYear = 0;
+    nextBadgeFor = 0;
     typeOfLastDonation = "N/A";
   }
 
@@ -147,6 +150,8 @@ class _UserDetailState extends State<UserDetail> {
                           }
                         });
                       }
+                      nextBadgeFor = getAmount(snapshot.data.data()['gender'],
+                          totalAmountOfBloodDonated);
 
                       return Column(
                         children: [
@@ -215,38 +220,6 @@ class _UserDetailState extends State<UserDetail> {
                                                     true,
                                                     " ml",
                                                     " ml"),
-                                                // buildRowWithInformation(
-                                                //     context,
-                                                //     "Oddano w poprzednim roku",
-                                                //     totalAmountOfDonatedBloodInLastYear
-                                                //         .toString(),
-                                                //     true,
-                                                //     " ml",
-                                                //     " ml"),
-                                                // buildRowWithInformation(
-                                                //     context,
-                                                //     "Oddano w obecnym roku",
-                                                //     totalAmountOfDonatedBloodInCurrentYear
-                                                //         .toString(),
-                                                //     true,
-                                                //     " ml",
-                                                //     " ml"),
-                                                // buildRowWithInformation(
-                                                //     context,
-                                                //     S.current.totalDonated,
-                                                //     totalAmountOfBloodDonated
-                                                //         .toString(),
-                                                //     true,
-                                                //     " ml",
-                                                //     " ml"),
-                                                // buildRowWithInformation(
-                                                //     context,
-                                                //     S.current.nextBadgeFor,
-                                                //     (2000 - totalAmountOfBloodDonated)
-                                                //         .toString(),
-                                                //     true,
-                                                //     " ml",
-                                                //     " ml"),
                                               ],
                                             ),
                                           ),
@@ -321,14 +294,14 @@ class _UserDetailState extends State<UserDetail> {
                                                     true,
                                                     " ml",
                                                     " ml"),
-                                                buildRowWithInformation(
-                                                    context,
-                                                    S.current.nextBadgeFor,
-                                                    (2000 - totalAmountOfBloodDonated)
-                                                        .toString(),
-                                                    true,
-                                                    " ml",
-                                                    " ml"),
+                                                if (nextBadgeFor > 0)
+                                                  buildRowWithInformation(
+                                                      context,
+                                                      S.current.nextBadgeFor,
+                                                      nextBadgeFor.toString(),
+                                                      true,
+                                                      " ml",
+                                                      " ml"),
                                               ],
                                             ),
                                           ),
@@ -408,10 +381,12 @@ class _UserDetailState extends State<UserDetail> {
                                   ),
                                   headerTitle(S.current.yourBadges),
                                   SizedBox(
-                                    height: 20,
+                                    height: 10,
                                   ),
-                                  BadgesList(totalAmountOfBloodDonated,
-                                      snapshot.data.data()['gender'])
+                                  BadgesList(
+                                    totalAmountOfBloodDonated,
+                                    snapshot.data.data()['gender'],
+                                  ),
                                 ],
                               ),
                             ),
@@ -813,4 +788,34 @@ class Test {
   static String mess() {
     return "Test";
   }
+}
+
+int getAmount(String gender, int total) {
+  switch (gender) {
+    case 'male':
+      {
+        if (total >= badges[2].minBloodForMale) return 0;
+        if (total >= badges[1].minBloodForMale)
+          return badges[1].maxBloodForMale + 1 - total;
+        if (total >= badges[0].minBloodForMale)
+          return badges[0].maxBloodForMale + 1 - total;
+        if (total < badges[0].minBloodForMale) {
+          return badges[0].minBloodForMale - total;
+        }
+        break;
+      }
+    case 'female':
+      {
+        if (total >= badges[2].minBloodForFemale) return 0;
+        if (total >= badges[1].minBloodForFemale)
+          return badges[1].maxBloodForFemale + 1 - total;
+        if (total >= badges[0].minBloodForFemale)
+          return badges[0].maxBloodForFemale + 1 - total;
+        if (total < badges[0].minBloodForFemale) {
+          return badges[0].minBloodForFemale - total;
+        }
+        break;
+      }
+  }
+  return 0;
 }
