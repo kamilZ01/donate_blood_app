@@ -13,20 +13,80 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'components/donation_type_translation.dart';
 import 'generated/l10n.dart';
 
 /// Define a top-level named handler which background/terminated messages will
 /// call.
 ///
 /// To verify things are working, check out the native platform logs.
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
-  print("Handling a background message ${message.messageId}");
+  //print("Handling a background message ${message.messageId}");
+  bool isAccountActivityNotifications = true;
+  SharedPreferences.getInstance().then((value) {
+    if (value.getBool("accountActivityNotifications") != null)
+      isAccountActivityNotifications =
+          value.getBool("accountActivityNotifications");
+  });
+  Map<String, dynamic> data = message.data;
+
+  if (data != null) {
+    switch (data['type']) {
+      case 'new_event':
+        if (message.from.contains('event')) {
+          DateTime eventDate = new DateTime.fromMillisecondsSinceEpoch(
+              int.parse(data['eventDate']));
+          flutterLocalNotificationsPlugin.show(
+              message.hashCode,
+              S.current.newEventNotificationTitle,
+              new DateFormat("d MMMM y, H:mm").format(eventDate) +
+                  ', ' +
+                  data['location'],
+              NotificationDetails(
+                android: AndroidNotificationDetails(
+                  channel.id,
+                  channel.name,
+                  channel.description,
+                  icon: 'notification_icon',
+                ),
+              ));
+        }
+        break;
+      case 'new_donation':
+        if (isAccountActivityNotifications) {
+          DateTime donationDate = new DateTime.fromMillisecondsSinceEpoch(
+              int.parse(data['donationDate']));
+          String donationType =
+              DonationType().getTranslationOfBlood(data['donationType']);
+          flutterLocalNotificationsPlugin.show(
+              message.hashCode,
+              S.current.newDonationNotificationTitle,
+              donationType +
+                  ", " +
+                  data['amount'] +
+                  " ml, " +
+                  DateFormat("d MMMM y, H:mm").format(donationDate),
+              NotificationDetails(
+                android: AndroidNotificationDetails(
+                  channel.id,
+                  channel.name,
+                  channel.description,
+                  icon: 'notification_icon',
+                ),
+              ));
+        }
+        break;
+      default:
+        {}
+    }
+  }
 }
 
 /// Create a [AndroidNotificationChannel] for heads up notifications
@@ -44,9 +104,6 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
-  // Set the background messaging handler early on, as a named top-level function
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   /// Create an Android Notification Channel.
   ///
@@ -80,6 +137,9 @@ Future<void> main() async {
   } else {
     FirebaseMessaging.instance.unsubscribeFromTopic('event');
   }
+
+  // Set the background messaging handler early on, as a named top-level function
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   runApp(MyApp(locale));
   if (kDebugMode)

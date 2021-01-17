@@ -122,19 +122,28 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 buildNotificationOptionRow(
                     S.current.eventNotifications, isEventNotifications,
-                    (bool value) {
+                    (bool value) async {
                   setState(() {
                     isEventNotifications = value;
                     _preferences.then((value) => value.setBool(
                         "eventNotifications", isEventNotifications));
                   });
-                  if (isEventNotifications)
+                  String fcmToken = await FirebaseMessaging.instance.getToken();
+                  if (isEventNotifications) {
                     FirebaseMessaging.instance
-                        .subscribeToTopic( 'event' /*+ currentLanguage*/);
-                  else
+                        .subscribeToTopic('event');
+                    if (fcmToken != null) {
+                      context.read<Repository>().addFcmTokenToUser(fcmToken);
+                    }
+                  }
+                  else {
                     FirebaseMessaging.instance
-                        .unsubscribeFromTopic( 'event' /*+ currentLanguage*/);
-                  //print('Zmiana eventu:' + currentLanguage);
+                        .unsubscribeFromTopic('event');
+                    if(fcmToken != null) {
+                      context.read<Repository>().removeFcmTokenFromUser(fcmToken);
+                    }
+                  }
+
                 }),
                 buildNotificationOptionRow(
                     S.current.accountActivity, isAccountActivityNotifications,
@@ -163,6 +172,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             .read<Repository>()
                             .removeFcmTokenFromUser(fcmToken);
                       }
+                      _preferences.then((value) => value.clear());
                       Auth().signOut().then((value) => {
                             Navigator.push(
                                 context,

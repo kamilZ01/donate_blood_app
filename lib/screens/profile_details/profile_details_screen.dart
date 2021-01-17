@@ -197,7 +197,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     _phoneNumber = snapshot.data.exists
                                         ? snapshot.data.data()["phoneNumber"]
                                         : S.current.loading;
-                                    Timestamp dateOfBirth = snapshot.data.exists
+                                    Timestamp dateOfBirth = snapshot.data.exists && snapshot.data.data()["dateOfBirth"].toString().isNotEmpty
                                         ? snapshot.data.data()["dateOfBirth"]
                                         : null;
                                     _dateOfBirth = dateOfBirth != null
