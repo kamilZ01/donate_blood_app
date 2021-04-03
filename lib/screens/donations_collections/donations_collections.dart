@@ -152,7 +152,7 @@ class _DonationsCollectionsState extends State<DonationsCollections> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child: DateTimeFormField(
-                              textStyle: TextStyle(
+                              dateTextStyle: TextStyle(
                                 fontSize: 15,
                               ),
                               onDateSelected: (DateTime date) {
@@ -168,7 +168,7 @@ class _DonationsCollectionsState extends State<DonationsCollections> {
                               lastDate: DateTime.now(),
                               initialValue: DateTime.now(),
                               dateFormat: DateFormat("d MMMM y, H:mm"),
-                              mode: DateFieldPickerMode.dateAndTime,
+                              mode: DateTimeFieldPickerMode.dateAndTime,
                               decoration: InputDecoration(
                                 contentPadding:
                                     EdgeInsets.only(bottom: 15, top: 10),

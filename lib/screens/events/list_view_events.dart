@@ -26,6 +26,7 @@ class _ListViewEventsState extends State<ListViewEvents> {
   String message;
   List donationTypeList;
   List eventTypeList;
+
   @override
   void initState() {
     super.initState();
@@ -36,8 +37,9 @@ class _ListViewEventsState extends State<ListViewEvents> {
   }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   //add more form field
-  Future<void> showInformationDialog(BuildContext context) async {
+  Future<void> showAddEventForm(BuildContext context) async {
     return await showDialog(
         context: context,
         builder: (context) {
@@ -83,7 +85,7 @@ class _ListViewEventsState extends State<ListViewEvents> {
                                 });
                               },
                               dataSource:
-                              context.watch<Repository>().getDonationType(),
+                                  context.watch<Repository>().getDonationType(),
                               textField: "display",
                               valueField: "value",
                             )),
@@ -124,23 +126,14 @@ class _ListViewEventsState extends State<ListViewEvents> {
                                 });
                               },
                               dataSource:
-                              context.watch<Repository>().getEventType(),
+                                  context.watch<Repository>().getEventType(),
                               textField: "display",
                               valueField: "value",
                             )),
-                       /* Padding(
-                          padding: const EdgeInsets.only(left: 15, right: 15),
-                          child: BuildTextForm(S.current.eventType, eventType,
-                              TextInputType.text, (value) {
-                            eventType = value;
-                          }, (value) {
-                            eventType = value.trim();
-                          }),
-                        ),*/
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child: DateTimeFormField(
-                              textStyle: TextStyle(
+                              dateTextStyle: TextStyle(
                                 fontSize: 15,
                               ),
                               onDateSelected: (DateTime date) {
@@ -156,10 +149,10 @@ class _ListViewEventsState extends State<ListViewEvents> {
                               firstDate: DateTime.now(),
                               initialValue: DateTime.now(),
                               dateFormat: DateFormat("d MMMM y, H:mm"),
-                              mode: DateFieldPickerMode.dateAndTime,
+                              mode: DateTimeFieldPickerMode.dateAndTime,
                               decoration: InputDecoration(
                                 contentPadding:
-                                EdgeInsets.only(bottom: 15, top: 10),
+                                    EdgeInsets.only(bottom: 15, top: 10),
                                 suffixIcon: Padding(
                                   padding: EdgeInsets.only(top: 8.0),
                                   child: Icon(Icons.arrow_drop_down,
@@ -167,7 +160,7 @@ class _ListViewEventsState extends State<ListViewEvents> {
                                 ),
                                 labelText: S.current.eventDate,
                                 floatingLabelBehavior:
-                                FloatingLabelBehavior.always,
+                                    FloatingLabelBehavior.always,
                                 hintText: S.current.pleaseEnterValue(
                                     S.current.eventDate.toLowerCase()),
                                 hintStyle: TextStyle(
@@ -180,8 +173,8 @@ class _ListViewEventsState extends State<ListViewEvents> {
                           onTap: () {
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
-                              context.read<Repository>().addEvent(donationType,
-                                  location, eventType, eventDate);
+                              context.read<Repository>().addEvent(
+                                  donationType, location, eventType, eventDate);
                               Navigator.of(context).pop();
                             }
                           },
@@ -209,59 +202,6 @@ class _ListViewEventsState extends State<ListViewEvents> {
           });
         });
   }
-
- /* InkWell selectEventDateTime(BuildContext context, StateSetter setState,
-      String typePicker, String label, String hintText) {
-    return InkWell(
-      onTap: () {
-        typePicker == "date"
-            ? showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2200))
-                .then((date) {
-                setState(() {
-                  eventDate = date;
-                });
-              })
-            : showTimePicker(
-                context: context,
-                initialTime: TimeOfDay.now(),
-              ).then((time) {
-                setState(() {
-                  timeOfDay = time;
-                });
-              });
-      },
-      child: new InputDecorator(
-        decoration: new InputDecoration(
-          labelText: label,
-          contentPadding: EdgeInsets.symmetric(vertical: 12),
-          //labelStyle: TextStyle(height: 2)
-        ),
-        child: new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            typePicker == "date"
-                ? new Text(
-                    eventDate == null ? hintText : convertDate(eventDate),
-                    style: TextStyle(fontSize: 15, height: 2),
-                  )
-                : new Text(
-                    timeOfDay == null ? hintText : timeOfDay.format(context),
-                    style: TextStyle(fontSize: 15, height: 2),
-                  ),
-            new Icon(Icons.keyboard_arrow_down_outlined,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.grey.shade700
-                    : Colors.white70),
-          ],
-        ),
-      ),
-    );
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -311,89 +251,7 @@ class _ListViewEventsState extends State<ListViewEvents> {
                   height: 20,
                 ),
                 Expanded(
-                  child: new ListView(
-                    padding: EdgeInsets.all(0.0),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    children:
-                        snapshot.data.docs.map((DocumentSnapshot document) {
-                      return Container(
-                        padding: EdgeInsets.all(8.0),
-                        margin: EdgeInsets.only(left: 10, right: 10, top: 0),
-                        child: Column(
-                          children: [
-                            new ListTile(
-                              leading: Image.asset(
-                                'assets/icons/event.png',
-                              ),
-                              title: new Text(
-                                translation.getTranslationOfBlood(
-                                    document.data()['donationType']),
-                                style: new TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: kPrimaryColor,
-                                ),
-                              ),
-                              subtitle: new Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.location_on_outlined),
-                                      new Text(
-                                        document.data()['location'],
-                                        style: new TextStyle(
-                                          fontSize: 15.0,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.date_range_outlined),
-                                      new Text(
-                                        convertTimeStamp(
-                                            document.data()['date'], true),
-                                        style: new TextStyle(
-                                          fontSize: 15.0,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.opacity),
-                                      new Text(
-                                              eventTypeList.singleWhere((element) =>
-                                          element["value"] == document.data()['eventType'])["display"],
-                                        style: document
-                                                    .data()['eventType'] ==
-                                                'urgent'
-                                            ? new TextStyle(
-                                                color: kPrimaryColor,
-                                                fontSize: 15.0,
-                                                // fontWeight: FontWeight.bold,
-                                              )
-                                            : new TextStyle(fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                  Divider(
-                                    thickness: 3,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  ),
+                  child: buildEventsListView(snapshot),
                 ),
               ],
             ),
@@ -409,7 +267,7 @@ class _ListViewEventsState extends State<ListViewEvents> {
               return FloatingActionButton(
                 child: Icon(Icons.add),
                 onPressed: () async {
-                  await showInformationDialog(context);
+                  await showAddEventForm(context);
                   //eventDate = null;
                   //timeOfDay = null;
                 },
@@ -424,10 +282,92 @@ class _ListViewEventsState extends State<ListViewEvents> {
     );
   }
 
- /* DateTime getEventDate() {
-    return new DateTime(eventDate.year, eventDate.month, eventDate.day,
-        timeOfDay.hour, timeOfDay.minute);
-  }*/
+  ListView buildEventsListView(AsyncSnapshot<QuerySnapshot> snapshot) {
+    return new ListView(
+                  padding: EdgeInsets.all(0.0),
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  children:
+                      snapshot.data.docs.map((DocumentSnapshot document) {
+                    return Container(
+                      padding: EdgeInsets.all(8.0),
+                      margin: EdgeInsets.only(left: 10, right: 10, top: 0),
+                      child: Column(
+                        children: [
+                          new ListTile(
+                            leading: Image.asset(
+                              'assets/icons/event.png',
+                            ),
+                            title: new Text(
+                              translation.getTranslationOfBlood(
+                                  document.data()['donationType']),
+                              style: new TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: kPrimaryColor,
+                              ),
+                            ),
+                            subtitle: new Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(Icons.location_on_outlined),
+                                    new Text(
+                                      document.data()['location'],
+                                      style: new TextStyle(
+                                        fontSize: 15.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(Icons.date_range_outlined),
+                                    new Text(
+                                      convertTimeStamp(
+                                          document.data()['date'], true),
+                                      style: new TextStyle(
+                                        fontSize: 15.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(Icons.opacity),
+                                    new Text(
+                                      eventTypeList.singleWhere((element) =>
+                                              element["value"] ==
+                                              document.data()['eventType'])[
+                                          "display"],
+                                      style: document.data()['eventType'] ==
+                                              'urgent'
+                                          ? new TextStyle(
+                                              color: kPrimaryColor,
+                                              fontSize: 15.0,
+                                              // fontWeight: FontWeight.bold,
+                                            )
+                                          : new TextStyle(fontSize: 15),
+                                    ),
+                                  ],
+                                ),
+                                Divider(
+                                  thickness: 3,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                );
+  }
 }
 
 String convertTimeStamp(Timestamp timestamp, bool isEvent) {

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:donate_blood/Screens/home_user_page/components/user_detail.dart';
 import 'package:donate_blood/components/donation_type_translation.dart';
 import 'package:donate_blood/constants.dart';
+import 'package:donate_blood/screens/home_user_page/components/user_detail.dart';
 import 'package:donate_blood/services/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -101,7 +101,7 @@ class _UserDonationsState extends State<UserDonations> {
                                   ),
                                   new Text(S.current.date +
                                       ": " +
-                                      convertTimeStamp(
+                                      convertTimeStampToFormattedDateString(
                                           document.data()['donationDate'])),
                                   Divider(
                                     thickness: 3,

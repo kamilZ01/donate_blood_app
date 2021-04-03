@@ -7,6 +7,7 @@ import 'package:donate_blood/components/donation_type_translation.dart';
 import 'package:donate_blood/constants.dart';
 import 'package:donate_blood/generated/l10n.dart';
 import 'package:donate_blood/services/repository.dart';
+import 'package:donate_blood/utils/donor_information.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -26,18 +27,14 @@ class _UserDetailState extends State<UserDetail> {
   Stream<DocumentSnapshot> _userData;
   Stream<QuerySnapshot> _userDonations;
   Stream<QuerySnapshot> _nurseCollections;
-  int totalAmountOfBloodDonated,
-      totalAmountOfDonatedBloodInCurrentYear,
-      totalAmountOfDonatedBloodInLastYear,
-      totalCollected,
-      totalCollectedInCurrentMonth,
-      totalCollectedInCurrentDay,
-      totalCollectedInCurrentYear,
-      totalCollectedInLastYear,
-      nextBadgeFor;
-  Timestamp lastDonation;
-  String typeOfLastDonation;
-  var newFormat = DateFormat("dd/MM/yyyy");
+  int totalCollected = 0,
+      totalCollectedInCurrentMonth = 0,
+      totalCollectedInCurrentDay = 0,
+      totalCollectedInCurrentYear = 0,
+      totalCollectedInLastYear = 0,
+      nextBadgeFor = 0;
+  var displayedDateFormat = DateFormat("dd/MM/yyyy");
+  DonorInformation donorInformation;
 
   @override
   void initState() {
@@ -50,16 +47,6 @@ class _UserDetailState extends State<UserDetail> {
         .snapshots();
     _nurseCollections =
         context.read<Repository>().getNurseCollections().snapshots();
-    totalAmountOfBloodDonated = 0;
-    totalAmountOfDonatedBloodInCurrentYear = 0;
-    totalAmountOfDonatedBloodInLastYear = 0;
-    totalCollected = 0;
-    totalCollectedInCurrentMonth = 0;
-    totalCollectedInCurrentDay = 0;
-    totalCollectedInCurrentYear = 0;
-    totalCollectedInLastYear = 0;
-    nextBadgeFor = 0;
-    typeOfLastDonation = "N/A";
   }
 
   @override
@@ -67,336 +54,60 @@ class _UserDetailState extends State<UserDetail> {
     return Container(
       child: StreamBuilder<DocumentSnapshot>(
         stream: _userData,
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.hasError) {
+        builder: (BuildContext context,
+            AsyncSnapshot<DocumentSnapshot> userDataSnapshot) {
+          if (userDataSnapshot.hasError) {
             return new Text(S.current.somethingWentWrong);
           }
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (userDataSnapshot.connectionState == ConnectionState.waiting) {
             return Text(S.current.loading);
           }
-          if (snapshot.connectionState == ConnectionState.active) {
-            if (snapshot.hasData) {
+          if (userDataSnapshot.connectionState == ConnectionState.active) {
+            if (userDataSnapshot.hasData) {
               return StreamBuilder<QuerySnapshot>(
-                stream: snapshot.data.data()['isNurse']
+                stream: userDataSnapshot.data.data()['isNurse']
                     ? _nurseCollections
                     : _userDonations,
                 builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> querySnapshot) {
-                  if (querySnapshot.hasError) {
+                    AsyncSnapshot<QuerySnapshot> donationsSnapshot) {
+                  if (donationsSnapshot.hasError) {
                     return new Text("-");
                   }
-                  if (querySnapshot.connectionState == ConnectionState.active) {
-                    if (querySnapshot.hasData && querySnapshot.data.size > 0) {
-                      totalAmountOfBloodDonated = 0;
-                      totalAmountOfDonatedBloodInCurrentYear = 0;
-                      totalAmountOfDonatedBloodInLastYear = 0;
-                      totalCollected = 0;
-                      totalCollectedInCurrentMonth = 0;
-                      totalCollectedInCurrentDay = 0;
-                      totalCollectedInCurrentYear = 0;
-                      totalCollectedInLastYear = 0;
+                  if (donationsSnapshot.connectionState ==
+                      ConnectionState.active) {
+                    if (donationsSnapshot.hasData &&
+                        donationsSnapshot.data.size > 0) {
+                      _resetVariables();
+                      bool userIsNurse =
+                          userDataSnapshot.data.data()['isNurse'];
 
-                      if (!snapshot.data.data()['isNurse']) {
-                        lastDonation =
-                            querySnapshot.data.docs.first['donationDate'];
-                        typeOfLastDonation =
-                            querySnapshot.data.docs.first['donationType'];
-                        querySnapshot.data.docs.forEach((element) {
-                          totalAmountOfBloodDonated += element.data()['amount'];
-                          if (getYearFromDonationDate(
-                                  element.data()['donationDate'], "year") ==
-                              DateTime.now().year) {
-                            totalAmountOfDonatedBloodInCurrentYear +=
-                                element.data()['amount'];
-                          }
-                          if (getYearFromDonationDate(
-                                  element.data()['donationDate'], "year") ==
-                              DateTime.now().year - 1) {
-                            totalAmountOfDonatedBloodInLastYear +=
-                                element.data()['amount'];
-                          }
-                        });
+                      if (userIsNurse) {
+                        _calcNurseInformationData(donationsSnapshot);
                       } else {
-                        querySnapshot.data.docs.forEach((element) {
-                          totalCollected += element.data()['amount'];
-                          if (getYearFromDonationDate(
-                                      element.data()['donationDate'],
-                                      "month") ==
-                                  DateTime.now().month &&
-                              getYearFromDonationDate(
-                                      element.data()['donationDate'], "year") ==
-                                  DateTime.now().year) {
-                            totalCollectedInCurrentMonth +=
-                                element.data()['amount'];
-                          }
-                          if (calculateDifferenceBetweenDates(
-                                  element.data()['donationDate']) ==
-                              0) {
-                            totalCollectedInCurrentDay +=
-                                element.data()['amount'];
-                          }
-                          if (getYearFromDonationDate(
-                                  element.data()['donationDate'], "year") ==
-                              DateTime.now().year) {
-                            totalCollectedInCurrentYear +=
-                                element.data()['amount'];
-                          }
-                          if (getYearFromDonationDate(
-                                  element.data()['donationDate'], "year") ==
-                              DateTime.now().year - 1) {
-                            totalCollectedInLastYear +=
-                                element.data()['amount'];
-                          }
-                        });
+                        donorInformation = DonorInformation.fromDonationsMap(
+                            donationsSnapshot.data.docs.asMap());
                       }
-                      nextBadgeFor = getAmount(snapshot.data.data()['gender'],
-                          totalAmountOfBloodDonated);
+                      nextBadgeFor = _getRequiredBloodAmountForGetNextBadge(
+                          userDataSnapshot.data.data()['gender'],
+                          donorInformation.totalAmountOfBloodDonated);
 
                       return Column(
                         children: [
-                          buildWelcomeHeader(context, snapshot, querySnapshot),
-                          if (snapshot.data.data()['isNurse'])
-                            Container(
-                              child: Column(
-                                children: [
-                                  NurseBloodCollections(
-                                      true, widget.scrollController),
-                                  headerTitle(
-                                      S.current.informationAboutCollections),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Container(
-                                      padding: EdgeInsets.all(4.0),
-                                      margin: EdgeInsets.only(
-                                        left: 20,
-                                        right: 20,
-                                        top: 0,
-                                        bottom: 5,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 15.0, right: 20.0),
-                                            child: Column(
-                                              children: [
-                                                buildRowWithInformation(
-                                                    context,
-                                                    S.current.inLastYear,
-                                                    totalCollectedInLastYear
-                                                        .toString(),
-                                                    true,
-                                                    " ml",
-                                                    " ml"),
-                                                buildRowWithInformation(
-                                                    context,
-                                                    S.current.inCurrentYear,
-                                                    totalCollectedInCurrentYear
-                                                        .toString(),
-                                                    true,
-                                                    " ml",
-                                                    " ml"),
-                                                buildRowWithInformation(
-                                                    context,
-                                                    S.current.inCurrentMonth,
-                                                    totalCollectedInCurrentMonth
-                                                        .toString(),
-                                                    true,
-                                                    " ml",
-                                                    " ml"),
-                                                buildRowWithInformation(
-                                                    context,
-                                                    S.current.today,
-                                                    totalCollectedInCurrentDay
-                                                        .toString(),
-                                                    true,
-                                                    " ml",
-                                                    " ml"),
-                                                buildRowWithInformation(
-                                                    context,
-                                                    S.current.collectedInTotal,
-                                                    totalCollected.toString(),
-                                                    true,
-                                                    " ml",
-                                                    " ml"),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
+                          _buildWelcomeHeader(
+                              context, userDataSnapshot, donationsSnapshot),
+                          if (userIsNurse)
+                            buildNurseInformationContainer(context)
                           else
-                            Container(
-                              child: Column(
-                                children: [
-                                  UserDonations(true, widget.scrollController),
-                                  headerTitle(S.current.information),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Container(
-                                      padding: EdgeInsets.all(4.0),
-                                      margin: EdgeInsets.only(
-                                        left: 20,
-                                        right: 20,
-                                        top: 0,
-                                        bottom: 5,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 15.0, right: 20.0),
-                                            child: Column(
-                                              children: [
-                                                buildRowWithInformation(
-                                                    context,
-                                                    S.current.lastDonation,
-                                                    convertTimeStamp(
-                                                        lastDonation),
-                                                    false,
-                                                    "",
-                                                    ""),
-                                                buildRowWithInformation(
-                                                    context,
-                                                    S.current.typeOfDonation,
-                                                    translation
-                                                        .getTranslationOfBlood(
-                                                            typeOfLastDonation),
-                                                    false,
-                                                    "",
-                                                    ""),
-                                                buildRowWithInformation(
-                                                    context,
-                                                    S.current.inLastYear,
-                                                    totalAmountOfDonatedBloodInLastYear
-                                                        .toString(),
-                                                    true,
-                                                    " ml",
-                                                    " ml"),
-                                                buildRowWithInformation(
-                                                    context,
-                                                    S.current.inCurrentYear,
-                                                    totalAmountOfDonatedBloodInCurrentYear
-                                                        .toString(),
-                                                    true,
-                                                    " ml",
-                                                    " ml"),
-                                                buildRowWithInformation(
-                                                    context,
-                                                    S.current.totalDonated,
-                                                    totalAmountOfBloodDonated
-                                                        .toString(),
-                                                    true,
-                                                    " ml",
-                                                    " ml"),
-                                                if (nextBadgeFor > 0)
-                                                  buildRowWithInformation(
-                                                      context,
-                                                      S.current.nextBadgeFor,
-                                                      nextBadgeFor.toString(),
-                                                      true,
-                                                      " ml",
-                                                      " ml"),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  headerTitle(S.current.nextDonation),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Container(
-                                      padding: EdgeInsets.all(4.0),
-                                      margin: EdgeInsets.only(
-                                        left: 20,
-                                        right: 20,
-                                        top: 0,
-                                        bottom: 5,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 15.0, right: 20.0),
-                                            child: Column(
-                                              children: [
-                                                buildRowWithInformation(
-                                                    context,
-                                                    S.current.wholeBlood,
-                                                    newFormat.format(
-                                                        calcNextDonation(
-                                                            lastDonation,
-                                                            typeOfLastDonation,
-                                                            "whole blood")),
-                                                    true,
-                                                    S.current.days,
-                                                    dateDifference(
-                                                        calcNextDonation(
-                                                            lastDonation,
-                                                            typeOfLastDonation,
-                                                            "whole blood"))),
-                                                buildRowWithInformation(
-                                                    context,
-                                                    S.current.plasma,
-                                                    newFormat.format(
-                                                        calcNextDonation(
-                                                            lastDonation,
-                                                            typeOfLastDonation,
-                                                            "plasma")),
-                                                    true,
-                                                    S.current.days,
-                                                    dateDifference(
-                                                        calcNextDonation(
-                                                            lastDonation,
-                                                            typeOfLastDonation,
-                                                            "plasma"))),
-                                                buildRowWithInformation(
-                                                    context,
-                                                    S.current.platelets,
-                                                    newFormat.format(
-                                                        calcNextDonation(
-                                                            lastDonation,
-                                                            typeOfLastDonation,
-                                                            "platelets")),
-                                                    true,
-                                                    S.current.days,
-                                                    dateDifference(
-                                                        calcNextDonation(
-                                                            lastDonation,
-                                                            typeOfLastDonation,
-                                                            "platelets"))),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  headerTitle(S.current.yourBadges),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  BadgesList(
-                                    totalAmountOfBloodDonated,
-                                    snapshot.data.data()['gender'],
-                                  ),
-                                ],
-                              ),
-                            ),
+                            buildDonorInformationContainer(
+                                context, userDataSnapshot),
                         ],
                       );
                     }
                     return Column(
                       children: [
-                        buildWelcomeHeader(context, snapshot, querySnapshot),
-                        snapshot.data.data()['isNurse']
+                        _buildWelcomeHeader(
+                            context, userDataSnapshot, donationsSnapshot),
+                        userDataSnapshot.data.data()['isNurse']
                             ? NurseBloodCollections(
                                 true, widget.scrollController)
                             : UserDonations(true, widget.scrollController)
@@ -414,7 +125,267 @@ class _UserDetailState extends State<UserDetail> {
     );
   }
 
-  Padding buildRowWithInformation(
+  Container buildDonorInformationContainer(
+      BuildContext context, AsyncSnapshot<DocumentSnapshot> userDataSnapshot) {
+    return Container(
+      child: Column(
+        children: [
+          UserDonations(true, widget.scrollController),
+          _headerTitle(S.current.information),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              padding: EdgeInsets.all(4.0),
+              margin: EdgeInsets.only(
+                left: 20,
+                right: 20,
+                top: 0,
+                bottom: 5,
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0, right: 20.0),
+                    child: Column(
+                      children: [
+                        _buildRowWithInformation(
+                            context,
+                            S.current.lastDonation,
+                            formattedDateTimeString(
+                                donorInformation.lastDonation),
+                            false,
+                            "",
+                            ""),
+                        _buildRowWithInformation(
+                            context,
+                            S.current.typeOfDonation,
+                            translation.getTranslationOfBlood(
+                                donorInformation.typeOfLastDonation),
+                            false,
+                            "",
+                            ""),
+                        _buildRowWithInformation(
+                            context,
+                            S.current.inLastYear,
+                            donorInformation.totalAmountOfDonatedBloodInLastYear
+                                .toString(),
+                            true,
+                            " ml",
+                            " ml"),
+                        _buildRowWithInformation(
+                            context,
+                            S.current.inCurrentYear,
+                            donorInformation
+                                .totalAmountOfDonatedBloodInCurrentYear
+                                .toString(),
+                            true,
+                            " ml",
+                            " ml"),
+                        _buildRowWithInformation(
+                            context,
+                            S.current.totalDonated,
+                            donorInformation.totalAmountOfBloodDonated
+                                .toString(),
+                            true,
+                            " ml",
+                            " ml"),
+                        if (nextBadgeFor > 0)
+                          _buildRowWithInformation(
+                              context,
+                              S.current.nextBadgeFor,
+                              nextBadgeFor.toString(),
+                              true,
+                              " ml",
+                              " ml"),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          _headerTitle(S.current.nextDonation),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              padding: EdgeInsets.all(4.0),
+              margin: EdgeInsets.only(
+                left: 20,
+                right: 20,
+                top: 0,
+                bottom: 5,
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0, right: 20.0),
+                    child: Column(
+                      children: [
+                        _buildRowWithInformation(
+                            context,
+                            S.current.wholeBlood,
+                            displayedDateFormat.format(_calcNextDonation(
+                                donorInformation.getLastDonationTimestamp(),
+                                donorInformation.typeOfLastDonation,
+                                "whole blood")),
+                            true,
+                            S.current.days,
+                            _dateDifferenceInDays(_calcNextDonation(
+                                donorInformation.getLastDonationTimestamp(),
+                                donorInformation.typeOfLastDonation,
+                                "whole blood"))),
+                        _buildRowWithInformation(
+                            context,
+                            S.current.plasma,
+                            displayedDateFormat.format(_calcNextDonation(
+                                donorInformation.getLastDonationTimestamp(),
+                                donorInformation.typeOfLastDonation,
+                                "plasma")),
+                            true,
+                            S.current.days,
+                            _dateDifferenceInDays(_calcNextDonation(
+                                donorInformation.getLastDonationTimestamp(),
+                                donorInformation.typeOfLastDonation,
+                                "plasma"))),
+                        _buildRowWithInformation(
+                            context,
+                            S.current.platelets,
+                            displayedDateFormat.format(_calcNextDonation(
+                                donorInformation.getLastDonationTimestamp(),
+                                donorInformation.typeOfLastDonation,
+                                "platelets")),
+                            true,
+                            S.current.days,
+                            _dateDifferenceInDays(_calcNextDonation(
+                                donorInformation.getLastDonationTimestamp(),
+                                donorInformation.typeOfLastDonation,
+                                "platelets"))),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          _headerTitle(S.current.yourBadges),
+          SizedBox(
+            height: 10,
+          ),
+          BadgesList(
+            donorInformation.totalAmountOfBloodDonated,
+            userDataSnapshot.data.data()['gender'],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container buildNurseInformationContainer(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          NurseBloodCollections(true, widget.scrollController),
+          _headerTitle(S.current.informationAboutCollections),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              padding: EdgeInsets.all(4.0),
+              margin: EdgeInsets.only(
+                left: 20,
+                right: 20,
+                top: 0,
+                bottom: 5,
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0, right: 20.0),
+                    child: Column(
+                      children: [
+                        _buildRowWithInformation(
+                            context,
+                            S.current.inLastYear,
+                            totalCollectedInLastYear.toString(),
+                            true,
+                            " ml",
+                            " ml"),
+                        _buildRowWithInformation(
+                            context,
+                            S.current.inCurrentYear,
+                            totalCollectedInCurrentYear.toString(),
+                            true,
+                            " ml",
+                            " ml"),
+                        _buildRowWithInformation(
+                            context,
+                            S.current.inCurrentMonth,
+                            totalCollectedInCurrentMonth.toString(),
+                            true,
+                            " ml",
+                            " ml"),
+                        _buildRowWithInformation(
+                            context,
+                            S.current.today,
+                            totalCollectedInCurrentDay.toString(),
+                            true,
+                            " ml",
+                            " ml"),
+                        _buildRowWithInformation(
+                            context,
+                            S.current.collectedInTotal,
+                            totalCollected.toString(),
+                            true,
+                            " ml",
+                            " ml"),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _calcNurseInformationData(
+      AsyncSnapshot<QuerySnapshot> donationsSnapshot) {
+    donationsSnapshot.data.docs.forEach((element) {
+      totalCollected += element.data()['amount'];
+      if (_getYearFromDonationDate(element.data()['donationDate'], "month") ==
+              DateTime.now().month &&
+          _getYearFromDonationDate(element.data()['donationDate'], "year") ==
+              DateTime.now().year) {
+        totalCollectedInCurrentMonth += element.data()['amount'];
+      }
+      if (_calculateDifferenceBetweenDates(element.data()['donationDate']) ==
+          0) {
+        totalCollectedInCurrentDay += element.data()['amount'];
+      }
+      if (_getYearFromDonationDate(element.data()['donationDate'], "year") ==
+          DateTime.now().year) {
+        totalCollectedInCurrentYear += element.data()['amount'];
+      }
+      if (_getYearFromDonationDate(element.data()['donationDate'], "year") ==
+          DateTime.now().year - 1) {
+        totalCollectedInLastYear += element.data()['amount'];
+      }
+    });
+  }
+
+  void _resetVariables() {
+    /*totalAmountOfBloodDonated = 0;
+    totalAmountOfDonatedBloodInCurrentYear = 0;
+    totalAmountOfDonatedBloodInLastYear = 0;*/
+    totalCollected = 0;
+    totalCollectedInCurrentMonth = 0;
+    totalCollectedInCurrentDay = 0;
+    totalCollectedInCurrentYear = 0;
+    totalCollectedInLastYear = 0;
+  }
+
+  Padding _buildRowWithInformation(
       BuildContext context,
       String subtitle,
       String dataToSubtitle,
@@ -473,7 +444,7 @@ class _UserDetailState extends State<UserDetail> {
     );
   }
 
-  Container headerTitle(String title) {
+  Container _headerTitle(String title) {
     return Container(
       padding: EdgeInsets.only(left: 25, bottom: 5),
       child: Align(
@@ -490,7 +461,7 @@ class _UserDetailState extends State<UserDetail> {
     );
   }
 
-  Column buildWelcomeHeader(
+  Column _buildWelcomeHeader(
       BuildContext context,
       AsyncSnapshot<DocumentSnapshot> snapshot,
       AsyncSnapshot<QuerySnapshot> querySnapshot) {
@@ -525,7 +496,7 @@ class _UserDetailState extends State<UserDetail> {
                     snapshot.hasData
                         ? S.current.welcome +
                             ', ' +
-                            splitValue(snapshot.data.data()['fullName'])
+                            _splitValue(snapshot.data.data()['fullName'])
                         : '-',
                     style: TextStyle(
                       fontSize: 22,
@@ -626,11 +597,11 @@ class _UserDetailState extends State<UserDetail> {
   }
 }
 
-String splitValue(String fullName) {
+String _splitValue(String fullName) {
   return fullName.split(" ")[0];
 }
 
-int calculateDifferenceBetweenDates(Timestamp timestamp) {
+int _calculateDifferenceBetweenDates(Timestamp timestamp) {
   DateTime now = DateTime.now();
   DateTime dateFromDataBase = timestamp.toDate();
 
@@ -640,18 +611,29 @@ int calculateDifferenceBetweenDates(Timestamp timestamp) {
       .inDays;
 }
 
-String convertTimeStamp(Timestamp timestamp) {
+String convertTimeStampToFormattedDateString(Timestamp timestamp) {
   DateTime myDateTime;
   if (timestamp != null) {
     myDateTime = timestamp.toDate();
     var newFormat = DateFormat("dd/MM/yyyy");
-    String updatedDt = newFormat.format(myDateTime);
-    return updatedDt;
+    String updatedDate = newFormat.format(myDateTime);
+    return updatedDate;
   } else
     return "N/A";
 }
 
-int getYearFromDonationDate(Timestamp timestamp, String type) {
+String formattedDateTimeString(DateTime dateTime) {
+  //DateTime myDateTime;
+  if (dateTime != null) {
+    //myDateTime = timestamp.toDate();
+    var newFormat = DateFormat("dd/MM/yyyy");
+    String updatedDate = newFormat.format(dateTime);
+    return updatedDate;
+  } else
+    return "N/A";
+}
+
+int _getYearFromDonationDate(Timestamp timestamp, String type) {
   if (timestamp != null) {
     switch (type) {
       case "year":
@@ -678,7 +660,7 @@ int getYearFromDonationDate(Timestamp timestamp, String type) {
     return 0;
 }
 
-DateTime calcNextDonation(
+DateTime _calcNextDonation(
     Timestamp timestamp, String lastDonationType, String nextDonationType) {
   DateTime lastDonationDate;
   DateTime newDonationDate;
@@ -779,18 +761,12 @@ DateTime calcNextDonation(
   return newDonationDate;
 }
 
-String dateDifference(DateTime nextDonation) {
+String _dateDifferenceInDays(DateTime nextDonation) {
   final difference = nextDonation.difference(DateTime.now()).inDays;
   return difference.toString();
 }
 
-class Test {
-  static String mess() {
-    return "Test";
-  }
-}
-
-int getAmount(String gender, int total) {
+int _getRequiredBloodAmountForGetNextBadge(String gender, int total) {
   switch (gender) {
     case 'male':
       {

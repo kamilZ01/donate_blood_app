@@ -4,10 +4,10 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:donate_blood/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
-class checkInternet {
+class CheckInternet {
   StreamSubscription<DataConnectionStatus> listener;
-  var InternetStatus = "Unknown";
-  var contentmessage = "Unknown";
+  var internetStatus = "Unknown";
+  var contentMessage = "Unknown";
 
   void _showDialog(String title, String content, BuildContext context) {
     showDialog(
@@ -17,7 +17,7 @@ class checkInternet {
               title: new Text(title),
               content: new Text(content),
               actions: <Widget>[
-                new FlatButton(
+                new TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -30,14 +30,14 @@ class checkInternet {
     listener = DataConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
         case DataConnectionStatus.connected:
-          InternetStatus = "Connected to the Internet";
-          contentmessage = "Connected to the Internet";
+          internetStatus = "Connected to the Internet";
+          contentMessage = "Connected to the Internet";
           // _showDialog(InternetStatus, contentmessage, context);
           break;
         case DataConnectionStatus.disconnected:
-          InternetStatus = S.current.disconnected;
-          contentmessage = S.current.checkStatus;
-          _showDialog(InternetStatus, contentmessage, context);
+          internetStatus = S.current.disconnected;
+          contentMessage = S.current.checkStatus;
+          _showDialog(internetStatus, contentMessage, context);
           break;
       }
     });

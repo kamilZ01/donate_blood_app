@@ -16,7 +16,7 @@ class EmailSentDialog extends StatelessWidget {
       title: new Text(_dialogTitle),
       content: new Text(_dialogContent),
       actions: <Widget>[
-        new FlatButton(
+        new TextButton(
           child: new Text(S.current.goToLogin),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -24,7 +24,7 @@ class EmailSentDialog extends StatelessWidget {
             }));
           },
         ),
-        new FlatButton(
+        new TextButton(
           child: new Text(S.current.openEmailApp),
           onPressed: () async {
             var result = await OpenMailApp.openMailApp();
@@ -59,7 +59,7 @@ class EmailSentDialog extends StatelessWidget {
           title: Text(S.current.openEmailApp),
           content: Text(S.current.noMailApp),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text(S.current.ok),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {

@@ -23,9 +23,9 @@ List<BadgesInfo> badges = [
       name: 'Zasłużony Honorowy Dawca Krwi 3 º',
       iconImage: 'assets/images/brazowaOdznaka.png',
       description:
-          "Otrzmuje dawcy krwi: \n1) kobiecie, która oddała w dowolnym okresie co najmniej 5 litrów krwi lub odpowiadającą tej objętości ilość jej składników, \n2) mężczyźnie, który oddał w dowolnym okresie co najmniej 6 litrów krwi lub odpowiadającą tej objętości ilość jej składników\n– przysługuje tytuł „Zasłużony Honorowy Dawca Krwi III stopnia” i brązowa odznaka honorowa „Zasłużony Honorowy Dawca Krwi III stopnia”." +
-              "Otrzmuje dawcy krwi: \n1) kobiecie, która oddała w dowolnym okresie co najmniej 5 litrów krwi lub odpowiadającą tej objętości ilość jej składników, \n2) mężczyźnie, który oddał w dowolnym okresie co najmniej 6 litrów krwi lub odpowiadającą tej objętości ilość jej składników\n– przysługuje tytuł „Zasłużony Honorowy Dawca Krwi III stopnia” i brązowa odznaka honorowa „Zasłużony Honorowy Dawca Krwi III stopnia”." +
-              "Otrzmuje dawcy krwi: \n1) kobiecie, która oddała w dowolnym okresie co najmniej 5 litrów krwi lub odpowiadającą tej objętości ilość jej składników, \n2) mężczyźnie, który oddał w dowolnym okresie co najmniej 6 litrów krwi lub odpowiadającą tej objętości ilość jej składników\n– przysługuje tytuł „Zasłużony Honorowy Dawca Krwi III stopnia” i brązowa odznaka honorowa „Zasłużony Honorowy Dawca Krwi III stopnia”.",
+          "Tytuł „Zasłużony Honorowy Dawca Krwi III stopnia” i brązowa odznaka honorowa „Zasłużony Honorowy Dawca Krwi III stopnia” przysługuje:"
+          "\n1) kobiecie, która oddała w dowolnym okresie co najmniej 5 litrów krwi lub odpowiadającą tej objętości ilość jej składników, "
+          "\n2) mężczyźnie, który oddał w dowolnym okresie co najmniej 6 litrów krwi lub odpowiadającą tej objętości ilość jej składników.",
       minBloodForMale: 6000,
       maxBloodForMale: 11999,
       minBloodForFemale: 5000,
@@ -34,7 +34,9 @@ List<BadgesInfo> badges = [
       name: 'Zasłużony Honorowy Dawca Krwi 2 º',
       iconImage: 'assets/images/srebrnaOdznaka.png',
       description:
-          "Dawcy krwi:\n1) kobiecie, która oddała w dowolnym okresie co najmniej 10 litrów krwi lub odpowiadającą tej objętości ilość jej składników,\n2) mężczyźnie, który oddał w dowolnym okresie co najmniej 12 litrów krwi lub odpowiadającą tej objętości ilość jej składników\n– przysługuje tytuł „Zasłużony Honorowy Dawca Krwi II stopnia” i srebrna odznaka honorowa „Zasłużony Honorowy Dawca Krwi II stopnia”.",
+          "Tytuł „Zasłużony Honorowy Dawca Krwi II stopnia” i srebrna odznaka honorowa „Zasłużony Honorowy Dawca Krwi II stopnia” przysługuje:"
+          "\n1) kobiecie, która oddała w dowolnym okresie co najmniej 10 litrów krwi lub odpowiadającą tej objętości ilość jej składników,"
+          "\n2) mężczyźnie, który oddał w dowolnym okresie co najmniej 12 litrów krwi lub odpowiadającą tej objętości ilość jej składników.",
       minBloodForMale: 12000,
       maxBloodForMale: 17999,
       minBloodForFemale: 10000,
@@ -43,7 +45,9 @@ List<BadgesInfo> badges = [
       name: 'Zasłużony Honorowy Dawca Krwi 1 º',
       iconImage: 'assets/images/zlotaOdznaka.png',
       description:
-          "Dawcy krwi:\n1) kobiecie, która oddała w dowolnym okresie co najmniej 15 litrów krwi lub odpowiadającą tej objętości ilość jej składników,\n2) mężczyźnie, który oddał w dowolnym okresie co najmniej 18 litrów krwi lub odpowiadającą tej objętości ilość jej składników\n– przysługuje tytuł „Zasłużony Honorowy Dawca Krwi I stopnia” i złota odznaka honorowa „Zasłużony Honorowy Dawca Krwi I stopnia”.",
+          "Tytuł „Zasłużony Honorowy Dawca Krwi I stopnia” i złota odznaka honorowa „Zasłużony Honorowy Dawca Krwi I stopnia” przysługuje:"
+          "\n1) kobiecie, która oddała w dowolnym okresie co najmniej 15 litrów krwi lub odpowiadającą tej objętości ilość jej składników,"
+          "\n2) mężczyźnie, który oddał w dowolnym okresie co najmniej 18 litrów krwi lub odpowiadającą tej objętości ilość jej składników.",
       minBloodForMale: 18000,
       maxBloodForMale: -1,
       minBloodForFemale: 15000,

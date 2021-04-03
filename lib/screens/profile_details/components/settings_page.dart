@@ -159,10 +159,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   height: 50,
                 ),
                 Center(
-                  child: RaisedButton(
-                    padding: EdgeInsets.symmetric(horizontal: 40),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 40),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      primary: Colors.red
                     ),
                     onPressed: () async {
                       String fcmToken =
@@ -180,7 +183,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     builder: (context) => WelcomeScreen()))
                           });
                     },
-                    color: Colors.red,
+
                     child: Text(S.current.signOutUpperCase,
                         style: TextStyle(
                           fontSize: 16,
@@ -275,7 +278,7 @@ class _SettingsPageState extends State<SettingsPage> {
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  RaisedButton(
+                  ElevatedButton(
                     onPressed: () {
                       setState(() {
                         S.load(Locale('pl', 'PL'));
@@ -287,7 +290,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     },
                     child: Text(S.current.polish),
                   ),
-                  RaisedButton(
+                  ElevatedButton(
                     onPressed: () {
                       setState(() {
                         S.load(Locale('en', 'EN'));

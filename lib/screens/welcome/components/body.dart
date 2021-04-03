@@ -17,19 +17,19 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
-    checkInternet().checkConnection(context);
+    CheckInternet().checkConnection(context);
   }
 
   @override
   void dispose() {
-    checkInternet().listener.cancel();
+    CheckInternet().listener.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    //this size provide us total heigh and width of our screen
+    //this size provide us total height and width of our screen
     return Background(
       child: SingleChildScrollView(
         child: Column(

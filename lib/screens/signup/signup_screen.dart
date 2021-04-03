@@ -18,7 +18,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  //final _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
 
   String _email;
@@ -73,7 +72,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      //key: _scaffoldKey,
       body: Background(
         child: SingleChildScrollView(
           child: Form(
@@ -167,27 +165,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
-
- /* void _showVerifyEmailSentDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text(S.current.verifyEmailDialogTitle),
-          content: new Text(S.current.verifyEmailDialogTitle),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Text(S.current.dismiss),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return LoginScreen();
-                }));
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }*/
 }

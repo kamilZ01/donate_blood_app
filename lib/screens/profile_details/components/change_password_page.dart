@@ -101,7 +101,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                                 title: new Text(S.current.changePassword),
                                                 content: new Text(S.current.changedPassword),
                                                 actions: <Widget>[
-                                                  new FlatButton(
+                                                  new TextButton(
                                                     child: new Text(S.current.goToLogin),
                                                     onPressed: () {
                                                       Navigator.push(context, MaterialPageRoute(builder: (context) {
